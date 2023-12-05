@@ -1,0 +1,277 @@
+/* ===== Menu for cards ===== */
+
+.sort-buttons .selected-sort{
+    background-color: rgb(var(--buttonHover));
+}
+.sort-buttons.hide{
+    display: none;
+}
+.sort-buttons{
+    right: 0px;
+}
+#elements-container{
+    width: 100%;
+}
+section{
+    position: relative;
+}
+button{
+    background-color:rgb(var(--buttonColor));
+    margin: 5px;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+    border-color:rgb(100,100,100);
+}
+button:disabled {
+  cursor: default;
+}
+.fully-loaded .slider-buttons:hover, .fully-loaded .card:hover,button:hover{
+    background-color: rgb(var(--buttonHover)); 
+}
+#elements-container .slider-buttons:active,button:active{
+    background-color: rgb(var(--buttonActive));
+}
+
+#topLine h2{
+    margin: 0 10px;
+    
+}
+
+#bottomLine{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 2;
+}
+
+/* ===== Slider card ===== */
+.slider{
+    width: 100%;
+    height: var(--blogCardHeight)+20px;
+    display: flex;
+    flex-wrap: nowrap;
+}
+.slider{
+  position: relative;
+}
+.display-section{
+    padding:10px 0 40px 0;
+    position: relative;
+}
+.slider-buttons {
+  position: absolute;
+  cursor: pointer;
+  height: 55%;
+  width: 30px;
+  top: 20%
+}
+.slider .card{
+  width:150px;
+}
+.right-slider {
+  left: var(--bodyMaxWidth);
+  border-radius:0 100px 100px 0;
+}
+.left-slider {
+  border-radius: 100px 0 0 100px;
+  right: var(--bodyMaxWidth);
+}
+.slider .hidden-slider {display: none;}
+
+@media only screen and (max-width:899px){
+  .slider-buttons{
+    display: none;
+  }
+  .slider{
+    overflow: hidden;
+  }
+    #elements-container{
+    width: 100%;
+    justify-content: center;
+}
+}
+@media only screen and (min-width:900px){
+    .slider .card{
+        flex: 1 1 0;
+    }
+}
+/* ===== General card ===== */
+.card{
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px;
+    align-items: center;
+}
+.small-card,.wide-blog-card{
+    color:var(--cardTextColor);
+    background-color: rgb(var(--cardBGColor));
+}
+.card h6{
+    padding:5px;
+    margin-top:0;
+    margin-bottom:5px;
+}
+.small-card, .wide-blog-card{cursor: pointer;}
+.big-card,.big-card a{
+    color: var(--generalTextColor);
+}
+
+#loadMoreButton{
+  padding: 10px;
+  margin: 0;
+}
+.small-card,.small-card a{
+  color: white;
+}
+/* ===== Product card ===== */
+
+.product-card{
+    width: 200px;
+    height: 100px; 
+}
+.product-card > div{
+    width: 50%;
+    height: 100%;
+}
+.product-card .info-text{
+    margin-left: 10px;
+}
+.product-card .info-text span{
+    font-size: 0.7rem;
+}
+.big-card .grid1{
+    height: 150px;
+}
+.big-card h6{
+    margin: 5px;
+    font-size: large;
+}
+.big-card .top-part{
+    width: 100%;
+}
+
+
+.big-card .scroll-box{
+    width: 100%;
+    height: 100%;
+    border:0px;
+    padding:0px;
+    background:none;
+}
+@media only screen and (min-width:700px){
+    .big-card .top-part{
+        height: 200px;
+        display: grid; 
+        gap:1rem;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-areas:
+        'grid1 grid2 grid3';
+    }  
+    .big-card .bottom-part .scroll{
+        height: 200px;
+    }
+}
+@media only screen and (max-width:699px){
+    .grid3{
+        margin: 0 auto;
+    }
+    .big-card .top-part{
+        
+        display: grid; 
+        gap:1rem;
+        grid-template-areas:
+        'grid1 grid2'
+        'grid3 grid2';
+    }  
+     .big-card .bottom-part .scroll{
+        height: 100px;
+    }
+}
+/* ===== Blog cards ===== */
+.blog-card{
+    height: var(--blogCardHeight);
+}
+.blog-card .contain-image,.wide-blog-card .contain-image{
+    height: 90%;
+    width: 100%;
+}
+.product-card .contain-image{
+    width: 40%;
+}
+
+.blog-card > div{
+    height: 50%;
+}
+.wide-blog-card .overflow-hidden{
+    position: relative;
+    height: 180px;
+}
+
+.wide-blog-card .text{
+    overflow: hidden;
+    height: 90%;
+    font-size: 1rem;
+    margin-top: -10px;
+}
+.wide-blog-card .content{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+}
+
+
+@media only screen and (min-width:900px){
+    .small-card{width: calc(20% - 20px);}   
+    .product-card{width: calc(25% - 20px);}
+    .pc .sort-buttons{
+        position: absolute;
+        top:0px;
+        right: 10px;
+        z-index: 2;
+    }
+    .card:hover{
+        padding:8px;
+        margin:2px
+    }
+}
+@media only screen and (max-width:899px){
+    .small-card{width: calc(33% - 20px);}   
+    
+}
+@media only screen and (max-width:599px){
+    .small-card{width: calc(50% - 20px);}
+    
+}
+@media only screen and (max-width:315px){
+    .small-card{width: calc(100% - 20px);}
+}
+.wide-blog-card{
+    width: calc(100% - 20px);
+    height: 200px;
+}
+.big-card{
+    width: 100%;
+}
+
+/* ===== Cards functions and extras ===== */
+div.scroll {
+    margin:4px, 4px;
+    padding:10px;
+    background-color: none;
+    width: calc(100% - 30px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align:justify;
+    /*scrollbar-color: white grey;*/
+    scrollbar-width: thin;
+}
+.loading-card{
+    animation: loadingAnimation 2s infinite ;
+    opacity: 0.5;
+}
+@keyframes loadingAnimation {
+    0%{opacity: 0.5;}
+    50%{opacity: 0.9;}
+    100%{opacity: 0.5;}
+}
