@@ -38,7 +38,7 @@ async function getApi(url, endUrlInfo, maxRetries = 1) {
   window.addEventListener('beforeunload', () => {
     controller.abort();
   });
-  console.log(url + endUrl)
+
   let retryCount = 0;
   while (retryCount <= maxRetries) {
     try {
@@ -145,6 +145,7 @@ function updateSlider(adjust, items,maxElements) {
   }
 }
 function addModalClick(item){ 
+
   item.forEach(element => {
     element.addEventListener("click", (element)=>{
       displayModal(element)
@@ -152,13 +153,12 @@ function addModalClick(item){
   });
 }
 function displayModal(element){
-  const modal = document.querySelector("#modal")
+    const modal = document.querySelector("#modal")
   if(modal){
+    modal.addEventListener("click",()=>modal.classList.add("hide-modal"));
     document.querySelector("#modal-image").innerHTML=`${element.target.outerHTML}`
     modal.classList.remove("hide-modal")
-    modal.querySelector("#modal-background").addEventListener("click",()=>{
-      modal.classList.add("hide-modal")
-    });
+    
   }
 }
 function cleanData(data){

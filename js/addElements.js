@@ -297,7 +297,7 @@ function addAttributes(type,element){
                 newHtml+=`${element.terms[0].name+end}`
             }
             if(type==="time"){
-                if(!element.terms[1].name){
+                if(!element.terms[1]){
                     end = ` min`
                 }else{
                     end = `-${element.terms[1].name} min`
