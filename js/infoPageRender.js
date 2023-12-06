@@ -24,15 +24,16 @@ async function infoPageRender(place,type){
     }else if(type==="product"){
       template = productPageTemplate(element);
     }
+    
     renderPage(place,template)
     function renderPage(place,template){
     document.querySelector(`#${place}`).innerHTML=`${template}`;
 
-    loadComments(id)
-    document.querySelector(`#${place}`).innerHTML+=`
-    <div id="new">
-      <button onclick='newComment("new")'> New comment </button>
-    </div>`
+    // loadComments(id)
+    // document.querySelector(`#${place}`).innerHTML+=`
+    // <div id="new">
+    //   <button onclick='newComment("new")'> New comment </button>
+    // </div>`
     opacityBlur = document.querySelector(".opacityBlur")
       if(opacityBlur){opacityBlur.addEventListener("click",()=>toggleText())}
       addModalClick(document.querySelectorAll(".image"))

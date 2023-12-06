@@ -58,8 +58,8 @@ function productTemplate(element){return `
     <div class="contain-image" style="background-image: url('${element.images[0].src}')"></div>
     <div class="flex-column info-text">
       <div>${element.name}</div>
-      <span>${addAttributes("pc",element)} </span>
-      <span>${addAttributes("pt",element)} </span>
+      <span>${addAttributes("players",element)} </span>
+      <span>${addAttributes("time",element)} </span>
       
     </div>
   `;}
@@ -91,9 +91,9 @@ function quickViewTemplateBackup (element){return `
         </div>
         <div class="grid2">
           <h6>${element.name}</h6>
-          <h6>${addAttributes("dg",element)}</h6>
-          <h6>${addAttributes("pc",element)} </h6>
-          <h6>${addAttributes("pt",element)} </h6>
+          <h6>${addAttributes("designers",element)}</h6>
+          <h6>${addAttributes("players",element)} </h6>
+          <h6>${addAttributes("time",element)} </h6>
           
         </div>
         <div class="grid3">
@@ -106,13 +106,24 @@ function quickViewTemplateBackup (element){return `
     `;}
 
 function productPageTemplate(element){return `
+  <section class="flex-column">
     <div class="flex-row">
       <div class="contain-image blog-image image" style="background-image: url('${element.images[0].src}')"></div>  
-      <h1>${element.name}</h1>
+      <div class="flex-column">
+        <h1>${element.name}</h1>
+        <span>${addAttributes("designers",element)}</span>
+        <span>${addAttributes("players",element)} </span>
+        <span>${addAttributes("time",element)} </span>
+      </div>
+      <span>${addAttributes("bgg",element)}</span>
+    </div>
+    <div id="imageContainer" class="flex-row">
+      ${addAttributes("otherImages",element)}
     </div>
     <p>
       ${cleanData(element.description)}
     </p>
+  <section>
   `;}
 
 /* ==== Blogs ==== */

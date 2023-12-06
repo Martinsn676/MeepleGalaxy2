@@ -38,7 +38,7 @@ async function getApi(url, endUrlInfo, maxRetries = 1) {
   window.addEventListener('beforeunload', () => {
     controller.abort();
   });
-
+  console.log(url + endUrl)
   let retryCount = 0;
   while (retryCount <= maxRetries) {
     try {

@@ -283,12 +283,12 @@ function resizeCheck(changeFrom,width){
         location.reload();
     }
 }
-desginere = ["Martin","Tonje"]
+
 function addAttributes(type,element){
     let newHtml = "" 
     element.attributes.forEach(element => {
-        if(element.name.toLowerCase()===type){
-            if(type==="pc"){
+        if(element.name===type){
+            if(type==="players"){
                 if(!element.terms[1].name){
                     end = ` player`
                 }else{
@@ -296,35 +296,51 @@ function addAttributes(type,element){
                 }
                 newHtml+=`${element.terms[0].name+end}`
             }
-            if(type==="pt"){
-                    if(!element.terms[1].name){
+            if(type==="time"){
+                if(!element.terms[1].name){
                     end = ` min`
                 }else{
                     end = `-${element.terms[1].name} min`
                 }
                 newHtml+=`${element.terms[0].name+end}`
             }
-            if(type==="dg"){
+            if(type==="designers"){
                 newHtml="Designers: "
+                console.log(element.terms)
                 element.terms.forEach(element => {
                     DGname=element.name
-                    desginere.forEach(element=>{
-                    if(DGname===element){
-                        newHtml+=`<a href="#${DGname}">${DGname}</a> `
-                    }else{
-                        
-                    }
-                    });
                     
+                    newHtml+=`<a href="#${DGname}">${DGname}</a> `
                 });
             }
             if(type==="bgg"){
                 newHtml=`<a href='${element.terms[0].name}' target='_blank'><img class="link-logo" src='https://prototype.meeplegalaxy.com/wp-content/uploads/2023/11/BoardGameGeek_Logo.svg_.png'></a>`
             }
+            if((type==="otherImages")){
+                element.terms.forEach(element=>{
+                    newHtml+=`
+                        <div class="contain-image blog-image image" style="background-image: url('${element.name}')"></div>  
+
+                    `
+                })
+            }
+
         }
     });
+    
     return newHtml;
 }
+// function addAttributePC(element){
+//     let newHtml=""
+//     if(!element.terms[1].name){
+//         end = ` player`
+//     }else{
+//         end = `-${element.terms[1].name} players`
+//     }
+//     newHtml+=`${element.terms[0].name+end}`
+
+//     return newHtml
+// }
 function quickView(element) {
     const quickViewContainer = document.querySelector(".quickView-container")
     if(quickViewContainer){
