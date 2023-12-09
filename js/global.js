@@ -124,7 +124,8 @@ function checkSlider(id,maxElements,slideJump) {
 function updateSlider(adjust, items,maxElements) {
   const realQuantiy = items.length-maxElements;
   let count = 0;
-  let maxShow = window.innerWidth/150;
+  let maxShow = 4;
+  console.log(maxShow)
   showNumber += adjust;
   if(showNumber<0){
     showNumber += realQuantiy
@@ -132,8 +133,8 @@ function updateSlider(adjust, items,maxElements) {
   if(showNumber>=realQuantiy){
     showNumber-=realQuantiy;
   }
- 
-  if(maxShow>maxElements){
+ console.log(showNumber)
+  if(maxShow>=maxElements){
     for (let i = 0; i < items.length; i++) {
       items[i].classList.add("hidden-slider");
       if(i > showNumber-1 && count<maxShow && count < maxElements){
@@ -175,8 +176,10 @@ function cleanData(data){
       cleanData = cleanDataDivs
   }
 cleanData.forEach(element => {
-      const innerHtmlWithBr = element.innerHTML.replace(/<\/?br\s*[/]?>/g, '<br>');
+    if(element.innerText.length>3){
     returnData += `<p>${element.innerText}</p>`
+
+    }
   });
   return returnData;
 }
@@ -192,6 +195,7 @@ function handleFocus(element) {
 function sortButtonClick(param1, param2, param3, param4, param5, order) {
   const scrollPosition = window.scrollY;
   addElements(param1, param2, param3, param4, param5, [order]);
+  showNumber=0
   window.scrollTo(0, scrollPosition);
 }
 function toggleText(){

@@ -140,6 +140,10 @@ button:disabled {
 .product-card .info-text span{
     font-size: 0.7rem;
 }
+.product-card .info-text .title{
+    font-size: 0.8rem;
+    height: 50%;
+}
 .big-card .grid1{
     height: 150px;
 }

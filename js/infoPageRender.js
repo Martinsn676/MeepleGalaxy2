@@ -29,19 +29,29 @@ async function infoPageRender(place,type){
     function renderPage(place,template){
     document.querySelector(`#${place}`).innerHTML=`${template}`;
 
-    // loadComments(id)
+    
+    opacityBlur = document.querySelector(".opacityBlur")
+      if(opacityBlur){opacityBlur.addEventListener("click",()=>toggleText())}
+      addModalClick(document.querySelectorAll(".image"),"bgImg")
+      addModalClick(document.querySelectorAll("img"),"img")
+    }
+    const imagesAll = document.querySelectorAll("img")
+    imagesAll.forEach(element => {
+element.onerror = function() {
+    console.log("Error loading image:", element.src);
+    element.style.display="none"
+    // You can perform additional actions here, such as replacing the image with a placeholder
+    // element.src = 'placeholder-image.jpg';
+  };
+    });
+  }
+}
+
+// loadComments(id)
     // document.querySelector(`#${place}`).innerHTML+=`
     // <div id="new">
     //   <button onclick='newComment("new")'> New comment </button>
     // </div>`
-    opacityBlur = document.querySelector(".opacityBlur")
-      if(opacityBlur){opacityBlur.addEventListener("click",()=>toggleText())}
-      addModalClick(document.querySelectorAll(".image"))
-    }
-  }
-}
-
-
 async function loadComments(id){
   comments = await getApi(commentUrl+id)
   let html =""

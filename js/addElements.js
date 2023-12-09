@@ -147,7 +147,6 @@ async function addElements(place,headline,itemType,displayQuantity,type,order) {
             searchResultContainer.innerHTML=""
         }
         if(search){
-            console.log("re")
             inSearch = true
             addNumber=0
             searchResultContainer = document.querySelector("#search-container")
@@ -156,7 +155,7 @@ async function addElements(place,headline,itemType,displayQuantity,type,order) {
             quantity=quantity+prevCount
         }        
         for (let i = addNumber; i < quantity   ; i++) {
-            if(slider && addNumber===elements.length){
+            if(!inSearch && slider && addNumber===elements.length){
                 addNumber = 0;
             }
             const element = elements[addNumber];
@@ -288,6 +287,7 @@ function addAttributes(type,element){
     let newHtml = "" 
     element.attributes.forEach(element => {
         if(element.name===type){
+
             if(type==="players"){
                 if(!element.terms[1].name){
                     end = ` player`
@@ -306,7 +306,6 @@ function addAttributes(type,element){
             }
             if(type==="designers"){
                 newHtml="Designers: "
-                console.log(element.terms)
                 element.terms.forEach(element => {
                     DGname=element.name
                     
@@ -316,20 +315,27 @@ function addAttributes(type,element){
             if(type==="bgg"){
                 newHtml=`<a href='${element.terms[0].name}' target='_blank'><img class="link-logo" src='https://prototype.meeplegalaxy.com/wp-content/uploads/2023/11/BoardGameGeek_Logo.svg_.png'></a>`
             }
-            if((type==="otherImages")){
+            if(type==="otherImages"){
                 element.terms.forEach(element=>{
                     newHtml+=`
-                        <div class="contain-image blog-image image" style="background-image: url('${element.name}')"></div>  
-
+                        <img class="image" src='${element.name}'> 
                     `
-                })
+                });
+                    
             }
+            if(type==="mechanics"){
+                element.terms.forEach(element=>{
+                    newHtml+=`<li>${element.name}</li>`
+                });
+            }
+
 
         }
     });
     
     return newHtml;
 }
+//style="background-image: url('${element.name}')
 // function addAttributePC(element){
 //     let newHtml=""
 //     if(!element.terms[1].name){

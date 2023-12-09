@@ -169,24 +169,24 @@ header a.active{
   height:100vh;
   display: block;
   background-color: grey;
-  opacity: 0.4;
+  opacity: 0.5;
+  z-index: 3;
+}
+
+#modal .image{
+position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
   z-index: 3;
 }
 #modal .contain-image{
-  height: var(--modalImageSize);
-  width: var(--modalImageSize);
-  position: fixed;
-  left: calc(50vw - var(--modalImageSize)/2);
-  top:calc(50vh - var(--modalImageSize)/2);
-  opacity:1;
-  z-index: 4;
+  height: 100%;
 }
-@media only screen and (max-width:500px){ 
-  #modal .contain-image{
-    height: 80vw;
+@media only screen and (max-width:600px){ 
+  #modal .image{
     width: 80vw;
-    left: calc(50vw - 80vw / 2);
-    top:calc(50vh - 80vw / 2);
   }
 }
 #modal.hide-modal{
@@ -285,7 +285,10 @@ textarea{
   font-size:15px;
   margin: 10px;
 }
-#imageContainer > div{
+#imageContainer{
   height: 100px;
+}
+#imageContainer img{
+  height: 100%;
   margin: 10px;
 }

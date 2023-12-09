@@ -12,17 +12,6 @@
     <script src="js/templates.js"></script>
     <script src="js/addElements.js"></script>
     <script defer src="js/header&footer.js"></script>
-   <!-- Hotjar Tracking Code for Meeple Galaxy 2.0 -->
-    <script>
-        (function(h,o,t,j,a,r){
-            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:3756737,hjsv:6};
-            a=o.getElementsByTagName('head')[0];
-            r=o.createElement('script');r.async=1;
-            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-            a.appendChild(r);
-        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-    </script>
 
 </head>
 <body>
@@ -32,9 +21,8 @@
     <h1>Our store</h1>
     <section id="search" class="flex-column"></section>
     <section class="quickView-container flex-row flex-wrap"></section> 
-
     <section id="products-container"></section> 
-    <section id="products-container2"></section> 
+    <section id="pc"></section> 
 <section id="modal-container"></section>
 </section>
 </main>
@@ -42,7 +30,7 @@
 </footer>
 <script>
     //addElements("products-container","All items","products",5,["slider",15],["titleAsc"])
-    addElements("products-container","All items","products",15,["loadMore",15],["titleAsc"])
+    addElements("pc","Latest Titles","products",3,["slider",15,3],["dateDesc"])
     //  addElements("products-container2","All items","products",6,["loadMore",15],["titleAsc"])
   
 </script>

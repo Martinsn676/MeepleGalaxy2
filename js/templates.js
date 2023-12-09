@@ -57,7 +57,7 @@ function productMainClasses(){return `
 function productTemplate(element){return `
     <div class="contain-image" style="background-image: url('${element.images[0].src}')"></div>
     <div class="flex-column info-text">
-      <div>${element.name}</div>
+      <span class="title">${element.name}</span>
       <span>${addAttributes("players",element)} </span>
       <span>${addAttributes("time",element)} </span>
       
@@ -68,15 +68,16 @@ function quickViewTemplate (element){return `
       <div class="top-part">
         <div class="contain-image image grid1" style="background-image: url('${element.images[0].src}')">
         </div>
-        <div class="grid2">
+        <div class="grid2 flex-column" >
           <h6>${element.name}</h6>
-          <h6>${addAttributes("dg",element)}</h6>
-          <h6>${addAttributes("pc",element)} </h6>
-          <h6>${addAttributes("pt",element)} </h6>
+          <span>${addAttributes("designers",element)}</span>
+          <span>${addAttributes("players",element)} </span>
+          <span>${addAttributes("time",element)} </span>
         </div>
         <div class="grid3">
           ${addAttributes("bgg",element)}
         </div>
+      
       </div>
       <div class="bottom-part">
         <div class="scroll">
@@ -85,25 +86,7 @@ function quickViewTemplate (element){return `
       </div>
     </div>
     `;}
-function quickViewTemplateBackup (element){return `
-    <div class="card big-card">
-        <div class="contain-image image grid1" style="background-image: url('${element.images[0].src}')">
-        </div>
-        <div class="grid2">
-          <h6>${element.name}</h6>
-          <h6>${addAttributes("designers",element)}</h6>
-          <h6>${addAttributes("players",element)} </h6>
-          <h6>${addAttributes("time",element)} </h6>
-          
-        </div>
-        <div class="grid3">
-          ${addAttributes("bgg",element)}
-        </div>
-        <div class="scroll grid4">
-          ${element.description}  
-        </div>
-    </div>
-    `;}
+
 
 function productPageTemplate(element){return `
   <section class="flex-column">
@@ -115,14 +98,17 @@ function productPageTemplate(element){return `
         <span>${addAttributes("players",element)} </span>
         <span>${addAttributes("time",element)} </span>
       </div>
-      <span>${addAttributes("bgg",element)}</span>
+      </div>
     </div>
     <div id="imageContainer" class="flex-row">
       ${addAttributes("otherImages",element)}
     </div>
-    <p>
-      ${cleanData(element.description)}
-    </p>
+    
+    ${cleanData(element.description)}
+    
+    <ul>
+      ${addAttributes("mechanics",element)}
+    </ul>
   <section>
   `;}
 
@@ -192,7 +178,7 @@ function modalTemplate(){return`
 function addSortButtonTemplate(log, order) {
     let output = ""
     order.forEach(element => {
-     output+=`<button type="button" disabled="true" id='${element[0]}' onclick="sortButtonClick('${log[0]}', '${log[1]}', '${log[2]}', ${log[3]}, ['${log[4][0]}', ${log[4][1]}, ${log[4][2]}], '${element[0]}')">${element[1]}</button>`
+      output+=`<button type="button" disabled="true" id='${element[0]}' onclick="sortButtonClick('${log[0]}', '${log[1]}', '${log[2]}', ${log[3]}, ['${log[4][0]}', ${log[4][1]}, ${log[4][2]}], '${element[0]}')">${element[1]}</button>`
     });
     return output
 }
