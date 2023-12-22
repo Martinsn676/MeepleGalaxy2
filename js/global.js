@@ -15,21 +15,25 @@ let showNumber = 0;
 const blogWidth = 150
 const productWidth = 180
 
-async function getApi(url, endUrlInfo, maxRetries = 1) {
-  let endUrl = "";
-
-  if (endUrlInfo) {
-    for (let i = 0; i < endUrlInfo.length; i++) {
-      if(endUrlInfo[i]===""){
-        continue;
-      }
-      if (i === 0) {
-        endUrl += "?" + endUrlInfo[i];
-      } else {
+async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
+  let endUrl = ""
+  console.log(pageCount,endUrlInfo)
+  if(pageCount){
+ 
+    endUrl += "?per_page="+pageCount;
+    if (endUrlInfo) {
+      for (let i = 0; i < endUrlInfo.length; i++) {
+        if(endUrlInfo[i]===""){
+          continue;
+        }
         endUrl += "&" + endUrlInfo[i];
       }
     }
+  
   }
+
+
+  console.log(url,endUrl)
   // Create an AbortController and an AbortSignal.
   const controller = new AbortController();
   const signal = controller.signal;

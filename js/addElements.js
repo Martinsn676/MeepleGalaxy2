@@ -1,6 +1,20 @@
 let clickFlag
 let displaySize 
-async function addElements(place,headline,itemType,displayQuantity,type,order) {   
+
+async function addBanner(id,addEndUrl){
+    const mainContainer = document.querySelector(`#${id}`)
+    const elements = await getApi('https://prototype.meeplegalaxy.com/wp-json/wc/store/products',10,addEndUrl)
+    console.log(elements)
+    for(let i=0;i<10;i++){
+        if(elements[i]){
+        mainContainer.innerHTML+=bannerImageTemplate(elements[i],i)
+
+        }
+    }
+    
+
+}
+async function addElements(place,headline,itemType,displayQuantity,type,addEndUrl) {   
 
     let apiUrl
     let urlOrder
@@ -14,7 +28,7 @@ async function addElements(place,headline,itemType,displayQuantity,type,order) {
     let slider = false;
     let loadMore = false;
     let selectedSort
-    let additionalUrl = ""
+    let additionalUrl = []
     let amountPerLine
     if(itemType==="products"){products=true;}
     if(itemType==="blogs"){blogs=true;}
@@ -24,9 +38,9 @@ async function addElements(place,headline,itemType,displayQuantity,type,order) {
 
     //missing info and errorhandling
     if(!type){type=["",999,999]}
-    if(!order){order=["",""]}
+    if(!addEndUrl){addEndUrl=["",""]}
   
-    const functionLog = [place,headline,itemType,displayQuantity,type,order]
+    const functionLog = [place,headline,itemType,displayQuantity,type,addEndUrl]
     const  mainContainer = document.querySelector(`#${place}`)
     mainContainer.innerHTML = `${cardSection(functionLog)}`;
     const container = mainContainer.querySelector("#elements-container")
@@ -56,7 +70,7 @@ async function addElements(place,headline,itemType,displayQuantity,type,order) {
         apiUrl = productsUrl;
     }else{
         apiUrl = blogsUrl;
-        additionalUrl = "_embed"
+        additionalUrl.push("_embed")
     }
     if(blogs){
         mainTemplate = blogMainClasses();
@@ -67,15 +81,16 @@ async function addElements(place,headline,itemType,displayQuantity,type,order) {
     mainContainer.querySelector("#sortButtonsID").innerHTML+=`
         ${addSortButtonTemplate(functionLog,[['titleAsc','Title Az'],['titleDesc','Title Za'],['dateDesc','Newest'],['dateAsc','Oldest']])}
     `;
-    if(!order[0]){
-        order[0]=standardSort
+    console.log(addEndUrl[1])
+    if(!addEndUrl[0][0]){
+        addEndUrl[0][0]=standardSort
     }
-    selectedSort = mainContainer.querySelector(`#${order[0]}`)
+    selectedSort = mainContainer.querySelector(`#${addEndUrl[0][0]}`)
     if(!selectedSort){
         orderName = standardSort
         selectedSort = mainContainer.querySelector(`#${orderName}`)
     }else{
-        orderName=order[0]
+        orderName=addEndUrl[0][0]
     }
     selectedSort.classList.add("selected-sort")
     if(orderName === "titleAsc"){
@@ -89,7 +104,7 @@ async function addElements(place,headline,itemType,displayQuantity,type,order) {
     else if(orderName ==="dateDesc"){
         urlOrder = dateDesc
     }
-    if(order[1]==="hide"){
+    if(addEndUrl[0][1]==="hide"){
         mainContainer.querySelector(".sort-buttons").classList.add("hide")
     }
     if(displaySize==="pc"){
@@ -115,12 +130,15 @@ async function addElements(place,headline,itemType,displayQuantity,type,order) {
     //     loadMore=true;
     //     displayQuantity=2
     // }
-    
+    additionalUrl.push(urlOrder)
+    if(addEndUrl[1]){
+      additionalUrl.push(addEndUrl[1])  
+    }
     for(let i = 0 ; i < displayQuantity ; i++){
             container.innerHTML+=`<div class="loading-card ${mainTemplate}"></div>`;
         }
     // api call what is first viewed
-    const elements = await getApi(apiUrl,[perPage+displayQuantity,urlOrder,additionalUrl]);
+    const elements = await getApi(apiUrl,displayQuantity,additionalUrl);
     if(elements){
         // reset container ebfore adding the real data
         if(slider){
@@ -230,15 +248,14 @@ async function addElements(place,headline,itemType,displayQuantity,type,order) {
     async function addFunctions(){
        
         if(slider){
-            allElements = await getApi(apiUrl,[perPage+type[1],urlOrder]);
+            allElements = await getApi(apiUrl,secondLoadNumber,additionalUrl);
             renderElements(allElements,(allElements.length),itemType)
             checkSlider(mainContainer.id,displayQuantity,type[2])
         }
         if(loadMore){  
             const loadMoreContainer = mainContainer.querySelector("#loadMoreContainer")
-            allElements = await getApi(apiUrl,[perPage+secondLoadNumber,urlOrder]);
+            allElements = await getApi(apiUrl,secondLoadNumber,additionalUrl);
             if(allElements.length>addNumber){
-                const skipNumber = addNumber
                 loadMoreContainer.innerHTML=""
                 loadMoreContainer.innerHTML=`<button id="loadMoreButton" >load more</button> `
                 mainContainer.querySelector("#loadMoreButton").addEventListener("click",()=>renderElements(allElements,addNumber*2,itemType))
@@ -320,16 +337,13 @@ function addAttributes(type,element){
                     newHtml+=`
                         <img class="image" src='${element.name}'> 
                     `
-                });
-                    
+                });         
             }
             if(type==="mechanics"){
                 element.terms.forEach(element=>{
                     newHtml+=`<li>${element.name}</li>`
                 });
             }
-
-
         }
     });
     

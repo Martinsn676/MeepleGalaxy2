@@ -13,11 +13,12 @@ async function infoPageRender(place,type){
     element = speedLoadElement
   }else{
     if(type==="blog"){
-      element = await getApi(blogsUrl+"/"+id,["_embed"]);
+      element = await getApi(blogsUrl+"/"+id);
     }else if(type==="product"){
-      element = await getApi(productsUrl+"/"+id,["_embed"]);
+      element = await getApi(productsUrl+"/"+id);
     }
   }
+  console.log(element)
   if(element){
     if(type==="blog"){
       template = blogPageTemplate(element)

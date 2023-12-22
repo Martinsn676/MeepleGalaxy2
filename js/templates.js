@@ -30,6 +30,14 @@ function footerTemplate(){return `
   </div>
 `
 }
+function bannerImageTemplate(element,number){return `
+  <a class="banner-image number${number}" href='productPage.html?id=${element.id}'>
+    <img  src='${element.images[0].src}' alt='${element.name}'>
+    <span class='hover-box'>${element.name}</span>
+  </a>
+
+`
+};
 function cardSection(functionLog){
   return `
     <div id="topLine">

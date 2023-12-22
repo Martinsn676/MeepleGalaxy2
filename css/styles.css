@@ -21,6 +21,51 @@ body{
     margin: 0 auto;
 }
 .hideThis{display:none;}
+.banner-image,.banner-image img{
+  height: 100px;
+  position: relative;
+  font-size: 0px;
+}
+.banner-image .hover-box{
+  position: absolute;
+  z-index:2;
+  left: 5px;
+
+  background-color: beige;
+  display: none;
+  font-size: 10px;
+}
+.banner-image:hover .hover-box{
+  display: block;
+}
+/* Styles for the first banner image */
+.banner-image.number1 img{
+
+
+  transform: rotate(-15deg);
+}
+
+/* Styles for the second banner image */
+.banner-image.number2 img {
+
+
+  transform: rotate(20deg);
+}
+
+/* Styles for the third banner image */
+.banner-image.number3 img {
+
+  transform: rotate(-3deg);
+}
+.banner-image.number4 img {
+
+  transform: rotate(14deg);
+}
+.banner-image.number5 img {
+
+  transform: rotate(29deg);
+}
+
 
 .contain-image{
     background-size:contain;
