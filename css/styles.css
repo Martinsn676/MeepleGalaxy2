@@ -20,6 +20,9 @@ body{
     max-width: var(--bodyMaxWidth);
     margin: 0 auto;
 }
+header{
+  min-height: 75px;
+}
 .hideThis{display:none;}
 .banner-image,.banner-image img{
   height: 100px;
