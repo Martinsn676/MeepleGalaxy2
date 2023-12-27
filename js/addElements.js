@@ -1,34 +1,119 @@
 let clickFlag
 let displaySize 
 
-async function addBanner(id,addEndUrl){
+async function addBanner(id,target){
+    let urlInfo
+    if(target[0]==="category"){
+        urlInfo="category="+target[1]
+    }
     const mainContainer = document.querySelector(`#${id}`)
-    const elements = await getApi(productsUrl,10,addEndUrl)
-
+    const elements = await getApi(productsUrl,10,urlInfo)
     for(let i=0;i<10;i++){
         if(elements[i]){
         mainContainer.innerHTML+=bannerImageTemplate(elements[i],i)
-
         }
     }
-    
+}
+function goToPage(element){
+    localStorage.setItem('speedLoad', JSON.stringify(element));
+
+        quickView(element)
 
 }
-async function addElements(place,headline,displayQuantity,type,addEndUrl) {   
+function resizeCheck(changeFrom,width){
+    if(changeFrom==="mobile" && width>900){
+        displaySize="pc"
+        location.reload();
+    }
+    if(changeFrom==="pc" && width<900){
+        displaySize="mobile"
+        location.reload();
+    }
+}
+function addAttributes(type,element){
+    let newHtml = "" 
+    element.attributes.forEach(element => {
+        if(element.name===type){
 
+            if(type==="players"){
+                if(!element.terms[1].name){
+                    end = ` player`
+                }else{
+                    end = `-${element.terms[1].name} players`
+                }
+                newHtml+=`${element.terms[0].name+end}`
+            }
+            if(type==="time"){
+                if(!element.terms[1]){
+                    end = ` min`
+                }else{
+                    end = `-${element.terms[1].name} min`
+                }
+                newHtml+=`${element.terms[0].name+end}`
+            }
+            if(type==="designers"){
+                newHtml="Designers: "
+                element.terms.forEach(element => {
+                    DGname=element.name
+                    newHtml+=`<a href="#${DGname}">${DGname}</a> `
+                });
+            }
+            if(type==="bgg"){
+                newHtml=`<a href='${element.terms[0].name}' target='_blank'><img class="link-logo" src='https://prototype.meeplegalaxy.com/wp-content/uploads/2023/11/BoardGameGeek_Logo.svg_.png'></a>`
+            }
+            if(type==="otherImages"){
+                element.terms.forEach(element=>{
+                    newHtml+=`
+                        <img class="image" src='${element.name}'> 
+                    `
+                });         
+            }
+            if(type==="mechanics"){
+                let customStyle=""
+                if(element.terms.length>9){
+                    customStyle='font-size: 10px;'
+                }
+                element.terms.forEach(element=>{
+                    newHtml+=`<li style='${customStyle}'>${element.name} </li>`
+                });
+            }
+        }
+    });
+    
+    return newHtml;
+}
+function quickView(element) {
+    const quickViewContainer = document.querySelector(".quickView-container")
+    if(quickViewContainer){
+        
+        quickViewContainer.innerHTML = `${quickViewTemplate(element)}`;
+        quickViewContainer.scrollIntoView({
+            behavior: 'smooth'
+          });
+        addModalClick(document.querySelectorAll(".big-card .image"))
+    }else{
+        location.href=`productPage.html?id=${element.id}`;
+    }
 
+}
+function searchSkipCheck(elementName,search){
+    if(elementName.toLowerCase().includes(search.trim().toLowerCase())){
+        return false;
+    }else{
+        return true;
+    }
+}
+async function addElements(place,headline,displayQuantity,type,addEndUrl) {
     let urlOrder
-    let orderName
     let addNumber
-    let secondLoadNumber
+    let secondLoadNumber= type[1];
     let allElements
-
     let slider = false;
     let loadMore = false;
     let selectedSort
     let additionalUrl = []
     let amountPerLine
-
+    const sortOptions = [['titleAsc','Title Az'],['titleDesc','Title Za'],['dateDesc','Newest'],['dateAsc','Oldest']]
     if(type[0]==="slider"){slider=true;}
     if(type[0]==="loadMore"){loadMore=true;}
 
@@ -41,7 +126,9 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
     const  mainContainer = document.querySelector(`#${place}`)
     mainContainer.innerHTML = `${cardSection(functionLog)}`;
     const container = mainContainer.querySelector("#elements-container")
-    
+    mainContainer.querySelector("#sortButtonsID").innerHTML+=`
+        ${addSortButtonTemplate(functionLog,sortOptions)}
+    `;
 
     // alpha, mobile version instead
     if(window.innerWidth<900){
@@ -62,30 +149,17 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
         mainContainer.classList.add("display-section","pc")
     }
 
-    // handling template absed on product type
-  
-        mainTemplate = productMainClasses();
-     
-
-    mainContainer.querySelector("#sortButtonsID").innerHTML+=`
-        ${addSortButtonTemplate(functionLog,[['titleAsc','Title Az'],['titleDesc','Title Za'],['dateDesc','Newest'],['dateAsc','Oldest']])}
-    `;
-    console.log(addEndUrl)
-    if(!addEndUrl[0]){
-        addEndUrl[0]=standardSort
-    }else{
-        
-    }
-    selectedSort = mainContainer.querySelector(`#${addEndUrl[0]}`)
-    if(!selectedSort){
-        orderName = standardSort
-
-        selectedSort = mainContainer.querySelector(`#${orderName}`)
-    }else{
-        selectedSort.classList.add("selected-sort")
-        orderName=addEndUrl[0]
-    }
-
+    let orderName = standardSort
+    addEndUrl.forEach(element => {
+        if(element[0]==="sort"){
+            orderName = element[1]
+            if(element[2] && element[2]==="hide"){
+                mainContainer.querySelector(".sort-buttons").classList.add("hide")
+            }
+        }
+    });
+    selectedSort = mainContainer.querySelector(`#${orderName}`)
+    selectedSort.classList.add("selected-sort")
     if(orderName === "titleAsc"){
         urlOrder = titleAsc
     }else if(orderName ==="titleDesc"){
@@ -96,9 +170,6 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
     }
     else if(orderName ==="dateDesc"){
         urlOrder = dateDesc
-    }
-    if(addEndUrl[0][1]==="hide"){
-        mainContainer.querySelector(".sort-buttons").classList.add("hide")
     }
     if(displaySize==="pc"){
         if(slider){
@@ -111,21 +182,14 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
             displayQuantity = (Math.ceil(displayQuantity/amountPerLine)*amountPerLine)
         }
     }
-    if(loadMore){
-        secondLoadNumber = type[1];
-    }
-
-    //     slider=true;
-    // }else{
-    //     loadMore=true;
-    //     displayQuantity=2
-    // }
+   
     additionalUrl.push(urlOrder)
     if(addEndUrl[1]){
       additionalUrl.push(addEndUrl[1])  
     }
+
     for(let i = 0 ; i < displayQuantity ; i++){
-            container.innerHTML+=`<div class="loading-card ${mainTemplate}"></div>`;
+            container.innerHTML+=`<div class="loading-card ${productMainClasses()}"></div>`;
         }
     // api call what is first viewed
     const elements = await getApi(productsUrl,displayQuantity,additionalUrl);
@@ -259,106 +323,4 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
         }
     }
 
-}
-function goToPage(element){
-    localStorage.setItem('speedLoad', JSON.stringify(element));
-
-        quickView(element)
-
-}
-function resizeCheck(changeFrom,width){
-    if(changeFrom==="mobile" && width>900){
-        displaySize="pc"
-        location.reload();
-    }
-    if(changeFrom==="pc" && width<900){
-        displaySize="mobile"
-        location.reload();
-    }
-}
-
-function addAttributes(type,element){
-    let newHtml = "" 
-    element.attributes.forEach(element => {
-        if(element.name===type){
-
-            if(type==="players"){
-                if(!element.terms[1].name){
-                    end = ` player`
-                }else{
-                    end = `-${element.terms[1].name} players`
-                }
-                newHtml+=`${element.terms[0].name+end}`
-            }
-            if(type==="time"){
-                if(!element.terms[1]){
-                    end = ` min`
-                }else{
-                    end = `-${element.terms[1].name} min`
-                }
-                newHtml+=`${element.terms[0].name+end}`
-            }
-            if(type==="designers"){
-                newHtml="Designers: "
-                element.terms.forEach(element => {
-                    DGname=element.name
-                    newHtml+=`<a href="#${DGname}">${DGname}</a> `
-                });
-            }
-            if(type==="bgg"){
-                newHtml=`<a href='${element.terms[0].name}' target='_blank'><img class="link-logo" src='https://prototype.meeplegalaxy.com/wp-content/uploads/2023/11/BoardGameGeek_Logo.svg_.png'></a>`
-            }
-            if(type==="otherImages"){
-                element.terms.forEach(element=>{
-                    newHtml+=`
-                        <img class="image" src='${element.name}'> 
-                    `
-                });         
-            }
-            if(type==="mechanics"){
-                let customStyle=""
-                if(element.terms.length>5){
-                    customStyle='font-size: 10px;'
-                }
-                element.terms.forEach(element=>{
-                    newHtml+=`<li style='${customStyle}'>${element.name} </li>`
-                });
-            }
-        }
-    });
-    
-    return newHtml;
-}
-//style="background-image: url('${element.name}')
-// function addAttributePC(element){
-//     let newHtml=""
-//     if(!element.terms[1].name){
-//         end = ` player`
-//     }else{
-//         end = `-${element.terms[1].name} players`
-//     }
-//     newHtml+=`${element.terms[0].name+end}`
-
-//     return newHtml
-// }
-function quickView(element) {
-    const quickViewContainer = document.querySelector(".quickView-container")
-    if(quickViewContainer){
-        
-        quickViewContainer.innerHTML = `${quickViewTemplate(element)}`;
-        quickViewContainer.scrollIntoView({
-            behavior: 'smooth'
-          });
-        addModalClick(document.querySelectorAll(".big-card .image"))
-    }else{
-        location.href=`productPage.html?id=${element.id}`;
-    }
-
-}
-function searchSkipCheck(elementName,search){
-    if(elementName.toLowerCase().includes(search.trim().toLowerCase())){
-        return false;
-    }else{
-        return true;
-    }
 }

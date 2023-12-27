@@ -5,7 +5,6 @@
   --headerColor: rgb(70,70,70);
   --generalTextColor: rgb(70,70,70);
 
-
   --buttonColor: 100,100,100;
   --buttonHover: 70,70,70;
   --buttonActive: 30,30,30;
@@ -16,14 +15,21 @@
   --bodyMaxWidth:800px;
   --modalImageSize:500px;
 }
+h1, h2{
+  color: var(--headerColor);
+}
+p{
+  color: var(--pColor);
+}
+
+footer {
+  margin: 50px auto;
+}
 body{
     max-width: var(--bodyMaxWidth);
     margin: 0 auto;
 }
-header{
-  min-height: 75px;
-}
-.hideThis{display:none;}
+/* ===== Banner ===== */
 .banner-image,.banner-image img{
   height: 100px;
   position: relative;
@@ -33,7 +39,6 @@ header{
   position: absolute;
   z-index:2;
   left: 5px;
-
   background-color: beige;
   display: none;
   font-size: 10px;
@@ -41,31 +46,19 @@ header{
 .banner-image:hover .hover-box{
   display: block;
 }
-/* Styles for the first banner image */
 .banner-image.number1 img{
-
-
   transform: rotate(-15deg);
 }
-
-/* Styles for the second banner image */
 .banner-image.number2 img {
-
-
   transform: rotate(20deg);
 }
-
-/* Styles for the third banner image */
 .banner-image.number3 img {
-
   transform: rotate(-3deg);
 }
 .banner-image.number4 img {
-
   transform: rotate(14deg);
 }
 .banner-image.number5 img {
-
   transform: rotate(29deg);
 }
 
@@ -75,71 +68,15 @@ header{
     background-repeat: no-repeat;
     background-position: center;
 }
-.opacityBlur{
-    display: none;
-}
-.comment{
-  background-color: rgb(200,200,200);
-  padding: 5px;
-  margin: 5px;
-}
-.comment-reply{
-  background-color: rgb(220,220,220);
-  margin-left: 60px;
-  padding: 5px;
 
-}
-#comments-container #new{
-  margin:10px;
-}
-header{
-  margin-top: 30px;
-}
-footer {
-  margin: 50px auto;
-}
-.reply-container button{
-  width: 50%;
-}
-.comment p{
-  margin-left: 20px;
-}
-.overflow-hidden .text{
-  position: relative;
-}
-.opacityBlur{
-  background-image: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
-}
-
-.card .opacityBlur{
-  background-image: linear-gradient(to bottom, rgba(var(--cardBGColor),0), rgba(var(--cardBGColor),1));
-}
-.card:hover .opacityBlur{
-  background-image: linear-gradient(to bottom, rgba(var(--buttonHover),0), rgba(var(--buttonHover),1));
-}
-
-.overflow-hidden .opacityBlur{
-    display: block;
-    position: absolute;
-    height: 20%;
-    width: 100%;
-    top: 80%;
-    z-index:2;
-}
-h1, h2{
-  color: var(--headerColor);
-}
-p{
-  color: var(--pColor);
-}
-
+/* ===== About us ===== */
 #aboutPage img{
   width:400px
 }
-
 #aboutPage{
   margin: 20px;
 }
+
 /* ===== Search ===== */
 #search{
   display: flex;
@@ -164,6 +101,10 @@ p{
   }
 }
 /* ===== Header ===== */
+header{
+  margin-top: 30px;
+  min-height: 75px;
+}
 header a,footer a{
     margin: 10px;
     text-decoration:none;
@@ -290,7 +231,10 @@ textarea{
 }
 
 /* ===== Info pages ===== */
-
+.mechanics{
+  min-width: 30%;
+  padding: 10px;
+}
 .info-page .top-line{
   display: flex;
   flex-direction: row;
@@ -339,4 +283,28 @@ textarea{
 #imageContainer img{
   height: 100%;
   margin: 10px;
+}
+
+
+
+
+.opacityBlur{
+    display: none;
+}
+.opacityBlur{
+  background-image: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+}
+.card .opacityBlur{
+  background-image: linear-gradient(to bottom, rgba(var(--cardBGColor),0), rgba(var(--cardBGColor),1));
+}
+.card:hover .opacityBlur{
+  background-image: linear-gradient(to bottom, rgba(var(--buttonHover),0), rgba(var(--buttonHover),1));
+}
+.overflow-hidden .opacityBlur{
+    display: block;
+    position: absolute;
+    height: 20%;
+    width: 100%;
+    top: 80%;
+    z-index:2;
 }

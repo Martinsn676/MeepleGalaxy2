@@ -35,8 +35,7 @@
 .grid-row-50{
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: 10px;
-}
+    gap: 10px;}
 /*========= Simple Grid =========*/
 
 .grid1{grid-area: grid1;}
@@ -50,3 +49,4 @@
 .grid9{grid-area: grid9;}
 
 
+.hideThis{display:none;}

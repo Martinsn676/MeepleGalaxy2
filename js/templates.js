@@ -20,7 +20,8 @@ function headerTemplate(){return `
     <a class="contactLink" href="contact.html">Contact</a>
   </div>
 </div>
-  `;}
+  `
+;}
 function footerTemplate(){return `
   <div id="footer" class="links-passive flex-column align-column">
     <div>
@@ -29,15 +30,14 @@ function footerTemplate(){return `
     </div>
   </div>
 `
-}
+;}
 function bannerImageTemplate(element,number){return `
   <a class="banner-image number${number}" href='productPage.html?id=${element.id}'>
     <img  src='${element.images[0].src}' alt='${element.name}'>
     <span class='hover-box'>${element.name}</span>
   </a>
-
 `
-};
+;}
 function cardSection(functionLog){
   return `
     <div id="topLine">
@@ -47,10 +47,8 @@ function cardSection(functionLog){
       <div id="sortButtonsID" class="sort-buttons">
       </div>
     </div>
-
     <section id='elements-container' class='flex-row flex-wrap'>
     </section>
-
     <div id="bottomLine">
         <div id="showingInfo">
         </div>
@@ -58,7 +56,7 @@ function cardSection(functionLog){
         </div>  
     </div>
   `
-}
+;}
 /* ==== Products ==== */
 function productMainClasses(){return `
   card small-card product-card flex-row`;}
@@ -70,7 +68,8 @@ function productTemplate(element){return `
       <span>${addAttributes("time",element)} </span>
       
     </div>
-  `;}
+`
+;}
 function quickViewTemplate (element){return `
     <div class="card big-card">
       <div class="top-part">
@@ -98,98 +97,50 @@ function quickViewTemplate (element){return `
 
 function productPageTemplate(element){return `
   <section class="flex-column">
-    <div class="flex-row">
-      <div class="contain-image blog-image image" style="background-image: url('${element.images[0].src}')"></div>  
+    <section class="flex-row top-section">
+      <div class="contain-image blog-image image" style="background-image: url('${element.images[0].src}')">
+      </div>  
       <div class="flex-column">
         <h1>${element.name}</h1>
         <span>${addAttributes("designers",element)}</span>
         <span>${addAttributes("players",element)} </span>
         <span>${addAttributes("time",element)} </span>
       </div>
-      <ul>
-      ${addAttributes("mechanics",element)}
-    </ul>
-      </div>
-    </div>
-    <div id="imageContainer" class="flex-row">
-      ${addAttributes("otherImages",element)}
-    </div>
-    
-    ${cleanData(element.description)}
-    
-    
-  <section>
-  `;}
-
-/* ==== Blogs ==== */
-function blogMainClasses(){return`
-  card small-card blog-card flex-column`;}
-function blogTemplate(element){return `
-    <div>
-      <h6>${cleanTime(element.date)}</h6>
-      <h6>${element.title.rendered}</h6>
-    </div>
-      <div class="contain-image" style="background-image: url('${element.jetpack_featured_media_url}')">
-    </div>
-  `;}
-
-function wideBlogMainClasses(){return`
-  card wide-blog-card flex-column`;}
-function wideBlogTemplate(element){return`
-    <div class="title flex-row">
-      <h6>${element.title.rendered}</h6><h6>(${cleanTime(element.date)})</h6>
-    </div>
-    <div class="content">
-      <div class="contain-image image" style="background-image: url('${element.jetpack_featured_media_url}')"></div>
-      <div class="overflow-hidden">
-        <div class="text"> 
-          ${cleanData(element.content.rendered)}
-          <div class="opacityBlur"></div>
-        </div>
-      </div>   
-    </div>
-  `;}
-
-function blogPageTemplate(element){return `
-    <div class="top-line">
-      <div class="contain-image blog-image image" style="background-image: url('${element.jetpack_featured_media_url}')"></div>  
-      <div class="flex-colum">
-        <h2>Posted: ${cleanTime(element.date)}</h2>
-        <h2>Written by: ${element._embedded.author[0].name}</h2>
-        <h1>${element.title.rendered}</h1>
-      </div>
-    </div>
-    <div class="text-box overflow-hidden flex-column align-column">
-      <div class="text">
-        ${cleanData(element.content.rendered)}
-        <div class="opacityBlur"></div>
-      </div>
-      <button id="show-button" onclick="toggleText()">Show more</button>
-      <button id="hide-button" onclick="toggleText()">Show less</button>
-    </div>
-    <section>
-      <h2>Comments</h2>
-      <div id="comments-container"></div>
     </section>
-    
-  `;}
+    <section id="imageContainer" class="flex-row middle-section">
+        ${addAttributes("otherImages",element)}
+    </section>
+    <section class="flex-row bottom-section">
+      <div class="mechanics">
+        <ul>
+          ${addAttributes("mechanics",element)}
+        </ul>
+      </div>
+      <div>
+        ${cleanData(element.description)}
+      </div>
+    </section>
+  <section>
+`
+;}
 function sliderButtonsTemplate(){return`
     <button class="left-slider slider-buttons"></button>
     <button class="right-slider slider-buttons"></button>
-  `;}
+  `
+;}
 
 function modalTemplate(){return`
     <div id="modal" class="hide-modal">
     <div id="modal-background"></div>
     <div id="modal-image"></div>
     </div>
-  `}
+  `
+;}
 function addSortButtonTemplate(log, order) {
     let output = "";
     order.forEach(element => {
-        output += `<button type="button" disabled="true" id='${element[0]}' onclick="sortButtonClick('${log[0]}', '${log[1]}', ${log[2]}, ['${log[3][0]}',${log[3][1]},${log[3][2]}], '${element[0]}')">${element[1]}</button>`;
+        output += `<button type="button" disabled="true" id='${element[0]}' onclick="sortButtonClick('${log[0]}', '${log[1]}', ${log[2]}, ['${log[3][0]}',${log[3][1]},${log[3][2]}], ['sort','${element[0]}'])">${element[1]}</button>`;
     });
-
     return output;
-}
+;}
 
