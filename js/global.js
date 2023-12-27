@@ -3,8 +3,6 @@ const maxSliderElements  = 5
 const productsUrl = "https://prototype.meeplegalaxy.com/wp-json/wc/store/products";
 const perPage = "per_page="
 
-const blogsUrl = "https://prototype.meeplegalaxy.com/wp-json/wp/v2/posts";
-const commentUrl = "https://prototype.meeplegalaxy.com/wp-json/wp/v2/comments?post="
 
 let titleAsc = 'orderby=title&order=asc'
 let titleDesc = 'orderby=title&order=desc';
@@ -12,12 +10,12 @@ let dateAsc = 'orderby=date&order=asc';
 let dateDesc = 'orderby=date&order=desc';
 let standardSort = `titleAsc`;
 let showNumber = 0;
-const blogWidth = 150
+
 const productWidth = 180
 
 async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
   let endUrl = ""
-  console.log(pageCount,endUrlInfo)
+
   if(pageCount){
  
     endUrl += "?per_page="+pageCount;
@@ -33,7 +31,6 @@ async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
   }
 
 
-  console.log(url,endUrl)
   // Create an AbortController and an AbortSignal.
   const controller = new AbortController();
   const signal = controller.signal;
@@ -78,35 +75,8 @@ async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
     controller.abort();
   });
 }
-// chat gpt attempt at post (disabled)
-async function postApi(){
-  const apiUrl = 'https://prototype.meeplegalaxy.com/wp-json/wp/v2/posts';
 
-const postData = {
-  title: 'Your Post Title',
-  content: 'Your post content goes here.',
-  status: 'publish', // You can set the post status (publish, draft, etc.)
-};
 
-const requestOptions = {
-  method: 'POST',
-  headers: {
-
-  },
-  body: JSON.stringify(postData),
-};
-
-fetch(apiUrl, requestOptions)
-  .then(response => response.json())
-  .then(data => {
-    console.log('Post created successfully:', data);
-    // You can handle the response data here
-  })
-  .catch(error => {
-    console.error('Error creating post:', error);
-    // Handle errors here
-  });
-}
 function checkSlider(id,maxElements,slideJump) {
 
   if(!slideJump){slideJump=1;}
@@ -129,7 +99,7 @@ function updateSlider(adjust, items,maxElements) {
   const realQuantiy = items.length-maxElements;
   let count = 0;
   let maxShow = 4;
-  console.log(maxShow)
+
   showNumber += adjust;
   if(showNumber<0){
     showNumber += realQuantiy
@@ -137,7 +107,7 @@ function updateSlider(adjust, items,maxElements) {
   if(showNumber>=realQuantiy){
     showNumber-=realQuantiy;
   }
- console.log(showNumber)
+
   if(maxShow>=maxElements){
     for (let i = 0; i < items.length; i++) {
       items[i].classList.add("hidden-slider");
@@ -196,9 +166,9 @@ function handleFocus(element) {
       quickView(element);
       // You can do additional actions or apply styles here
 }
-function sortButtonClick(param1, param2, param3, param4, param5, order) {
+function sortButtonClick(param1, param2, param3, param4, order) {
   const scrollPosition = window.scrollY;
-  addElements(param1, param2, param3, param4, param5, [order]);
+   addElements(param1,param2, param3, param4, [order]);
   showNumber=0
   window.scrollTo(0, scrollPosition);
 }

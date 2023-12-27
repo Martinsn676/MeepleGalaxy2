@@ -3,8 +3,8 @@ let displaySize
 
 async function addBanner(id,addEndUrl){
     const mainContainer = document.querySelector(`#${id}`)
-    const elements = await getApi('https://prototype.meeplegalaxy.com/wp-json/wc/store/products',10,addEndUrl)
-    console.log(elements)
+    const elements = await getApi(productsUrl,10,addEndUrl)
+
     for(let i=0;i<10;i++){
         if(elements[i]){
         mainContainer.innerHTML+=bannerImageTemplate(elements[i],i)
@@ -14,25 +14,21 @@ async function addBanner(id,addEndUrl){
     
 
 }
-async function addElements(place,headline,itemType,displayQuantity,type,addEndUrl) {   
+async function addElements(place,headline,displayQuantity,type,addEndUrl) {   
 
-    let apiUrl
+
     let urlOrder
     let orderName
     let addNumber
     let secondLoadNumber
     let allElements
-    let products = false;
-    let blogs = false;
-    let wideBlogs = false;
+
     let slider = false;
     let loadMore = false;
     let selectedSort
     let additionalUrl = []
     let amountPerLine
-    if(itemType==="products"){products=true;}
-    if(itemType==="blogs"){blogs=true;}
-    if(itemType==="wide-blogs"){wideBlogs=true;}
+
     if(type[0]==="slider"){slider=true;}
     if(type[0]==="loadMore"){loadMore=true;}
 
@@ -40,11 +36,13 @@ async function addElements(place,headline,itemType,displayQuantity,type,addEndUr
     if(!type){type=["",999,999]}
     if(!addEndUrl){addEndUrl=["",""]}
   
-    const functionLog = [place,headline,itemType,displayQuantity,type,addEndUrl]
+    const functionLog = [place,headline,displayQuantity,type,addEndUrl]
+    console.log(functionLog)
     const  mainContainer = document.querySelector(`#${place}`)
     mainContainer.innerHTML = `${cardSection(functionLog)}`;
     const container = mainContainer.querySelector("#elements-container")
     
+
     // alpha, mobile version instead
     if(window.innerWidth<900){
         if(slider){
@@ -65,34 +63,29 @@ async function addElements(place,headline,itemType,displayQuantity,type,addEndUr
     }
 
     // handling template absed on product type
-    if(products){
+  
         mainTemplate = productMainClasses();
-        apiUrl = productsUrl;
-    }else{
-        apiUrl = blogsUrl;
-        additionalUrl.push("_embed")
-    }
-    if(blogs){
-        mainTemplate = blogMainClasses();
-    }
-    if(wideBlogs){
-        mainTemplate = wideBlogMainClasses();
-    }
+     
+
     mainContainer.querySelector("#sortButtonsID").innerHTML+=`
         ${addSortButtonTemplate(functionLog,[['titleAsc','Title Az'],['titleDesc','Title Za'],['dateDesc','Newest'],['dateAsc','Oldest']])}
     `;
-    console.log(addEndUrl[1])
-    if(!addEndUrl[0][0]){
-        addEndUrl[0][0]=standardSort
+    console.log(addEndUrl)
+    if(!addEndUrl[0]){
+        addEndUrl[0]=standardSort
+    }else{
+        
     }
-    selectedSort = mainContainer.querySelector(`#${addEndUrl[0][0]}`)
+    selectedSort = mainContainer.querySelector(`#${addEndUrl[0]}`)
     if(!selectedSort){
         orderName = standardSort
+
         selectedSort = mainContainer.querySelector(`#${orderName}`)
     }else{
-        orderName=addEndUrl[0][0]
+        selectedSort.classList.add("selected-sort")
+        orderName=addEndUrl[0]
     }
-    selectedSort.classList.add("selected-sort")
+
     if(orderName === "titleAsc"){
         urlOrder = titleAsc
     }else if(orderName ==="titleDesc"){
@@ -112,12 +105,9 @@ async function addElements(place,headline,itemType,displayQuantity,type,addEndUr
             container.classList.add("slider")
         }
         if(loadMore){
-            if(products){
-                amountPerLine= Math.floor(document.body.clientWidth/productWidth)
-                
-            }else{
-                amountPerLine= Math.floor(document.body.clientWidth/blogWidth)
-            }
+
+            amountPerLine= Math.floor(document.body.clientWidth/productWidth)
+
             displayQuantity = (Math.ceil(displayQuantity/amountPerLine)*amountPerLine)
         }
     }
@@ -138,7 +128,7 @@ async function addElements(place,headline,itemType,displayQuantity,type,addEndUr
             container.innerHTML+=`<div class="loading-card ${mainTemplate}"></div>`;
         }
     // api call what is first viewed
-    const elements = await getApi(apiUrl,displayQuantity,additionalUrl);
+    const elements = await getApi(productsUrl,displayQuantity,additionalUrl);
     if(elements){
         // reset container ebfore adding the real data
         if(slider){
@@ -146,7 +136,7 @@ async function addElements(place,headline,itemType,displayQuantity,type,addEndUr
         }else{
             container.innerHTML=""
         } 
-        renderElements(elements,(elements.length),itemType)
+        renderElements(elements,(elements.length))
 
         // add slider funcitons and load more button, including loading extra elements
         addFunctions()
@@ -155,7 +145,7 @@ async function addElements(place,headline,itemType,displayQuantity,type,addEndUr
         mainContainer.classList.add("fully-loaded")
     }
     
-    async function renderElements(elements,quantity,itemType,search){
+    async function renderElements(elements,quantity,search){
         let inSearch = false;
         let elementName
         const prevCount = container.querySelectorAll(".small-card").length
@@ -185,11 +175,9 @@ async function addElements(place,headline,itemType,displayQuantity,type,addEndUr
                     searchResultContainer.innerHTML=""
                     break;
                 }
-                if(products){
+                
                         elementName = element.name
-                    }else{
-                        elementName = element.title.rendered
-                    }
+                
                 
                 if(searchSkipCheck(elementName,search)){
                     addNumber++
@@ -197,27 +185,19 @@ async function addElements(place,headline,itemType,displayQuantity,type,addEndUr
                 }
             }
             const card = document.createElement('div');
-            if(products){
+           
                 card.className = productMainClasses();
                 card.innerHTML = productTemplate(element)
-            }
-            if(blogs){
-                card.className = blogMainClasses();
-                card.innerHTML = blogTemplate(element)
-            }
-            if(wideBlogs){
-                card.className = wideBlogMainClasses();
-                card.innerHTML = wideBlogTemplate(element);
-                
-            }
+            
+
             // add mouse click function
-            card.addEventListener('click',()=>goToPage(itemType,element))
+            card.addEventListener('click',()=>goToPage(element))
             // add keyboard click
             card.setAttribute('tabindex', '0');
 
             card.addEventListener('keydown', function (event) {
                 if (event.keyCode === 13) {
-                    goToPage(itemType,element)
+                    goToPage(element)
                 }
             });
             card.addEventListener('mousedown',()=>clickFlag=true);
@@ -248,17 +228,17 @@ async function addElements(place,headline,itemType,displayQuantity,type,addEndUr
     async function addFunctions(){
        
         if(slider){
-            allElements = await getApi(apiUrl,secondLoadNumber,additionalUrl);
-            renderElements(allElements,(allElements.length),itemType)
+            allElements = await getApi(productsUrl,secondLoadNumber,additionalUrl);
+            renderElements(allElements,(allElements.length))
             checkSlider(mainContainer.id,displayQuantity,type[2])
         }
         if(loadMore){  
             const loadMoreContainer = mainContainer.querySelector("#loadMoreContainer")
-            allElements = await getApi(apiUrl,secondLoadNumber,additionalUrl);
+            allElements = await getApi(productsUrl,secondLoadNumber,additionalUrl);
             if(allElements.length>addNumber){
                 loadMoreContainer.innerHTML=""
                 loadMoreContainer.innerHTML=`<button id="loadMoreButton" >load more</button> `
-                mainContainer.querySelector("#loadMoreButton").addEventListener("click",()=>renderElements(allElements,addNumber*2,itemType))
+                mainContainer.querySelector("#loadMoreButton").addEventListener("click",()=>renderElements(allElements,addNumber*2))
             }
         }
         //To keep sort buttons disabled to after load
@@ -269,7 +249,7 @@ async function addElements(place,headline,itemType,displayQuantity,type,addEndUr
          
         if(searchField){
             function updateSearch(allElements,search){
-                renderElements(allElements,allElements.length,itemType,search)
+                renderElements(allElements,allElements.length,search)
             }  
             document.querySelector("#search-input").addEventListener('keyup', function (){
                 const scrollPosition = window.scrollY;
@@ -280,14 +260,11 @@ async function addElements(place,headline,itemType,displayQuantity,type,addEndUr
     }
 
 }
-function goToPage(itemType,element){
+function goToPage(element){
     localStorage.setItem('speedLoad', JSON.stringify(element));
-    if(itemType=="blogs" || itemType=="wide-blogs"){  
-        location.href=`blogPage.html?id=${element.id}`;
-    }else if(itemType=="products"){
+
         quickView(element)
 
-    }
 }
 function resizeCheck(changeFrom,width){
     if(changeFrom==="mobile" && width>900){
@@ -325,7 +302,6 @@ function addAttributes(type,element){
                 newHtml="Designers: "
                 element.terms.forEach(element => {
                     DGname=element.name
-                    
                     newHtml+=`<a href="#${DGname}">${DGname}</a> `
                 });
             }
@@ -340,8 +316,12 @@ function addAttributes(type,element){
                 });         
             }
             if(type==="mechanics"){
+                let customStyle=""
+                if(element.terms.length>5){
+                    customStyle='font-size: 10px;'
+                }
                 element.terms.forEach(element=>{
-                    newHtml+=`<li>${element.name}</li>`
+                    newHtml+=`<li style='${customStyle}'>${element.name} </li>`
                 });
             }
         }

@@ -106,6 +106,9 @@ function productPageTemplate(element){return `
         <span>${addAttributes("players",element)} </span>
         <span>${addAttributes("time",element)} </span>
       </div>
+      <ul>
+      ${addAttributes("mechanics",element)}
+    </ul>
       </div>
     </div>
     <div id="imageContainer" class="flex-row">
@@ -114,9 +117,7 @@ function productPageTemplate(element){return `
     
     ${cleanData(element.description)}
     
-    <ul>
-      ${addAttributes("mechanics",element)}
-    </ul>
+    
   <section>
   `;}
 
@@ -184,10 +185,11 @@ function modalTemplate(){return`
     </div>
   `}
 function addSortButtonTemplate(log, order) {
-    let output = ""
+    let output = "";
     order.forEach(element => {
-      output+=`<button type="button" disabled="true" id='${element[0]}' onclick="sortButtonClick('${log[0]}', '${log[1]}', '${log[2]}', ${log[3]}, ['${log[4][0]}', ${log[4][1]}, ${log[4][2]}], '${element[0]}')">${element[1]}</button>`
+        output += `<button type="button" disabled="true" id='${element[0]}' onclick="sortButtonClick('${log[0]}', '${log[1]}', ${log[2]}, ['${log[3][0]}',${log[3][1]},${log[3][2]}], '${element[0]}')">${element[1]}</button>`;
     });
-    return output
+
+    return output;
 }
 
