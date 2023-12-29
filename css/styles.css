@@ -283,10 +283,10 @@ textarea{
   margin: 10px;
 }
 #imageContainer{
-  height: 120px;
+  height: 100px;
 }
 #imageContainer img{
-  height: calc(100%-20px);
+  height: 80%;
   margin: 10px;
 }
 
