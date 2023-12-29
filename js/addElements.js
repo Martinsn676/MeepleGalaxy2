@@ -30,11 +30,21 @@ function resizeCheck(changeFrom,width){
         location.reload();
     }
 }
+function addSleeves(sleeveSize,count){
+    console.log(sleeveSize,count)
+}
 function addAttributes(type,element){
     let newHtml = "" 
+
     element.attributes.forEach(element => {
         if(element.name===type){
-
+            if(type==="sleeves"){
+                element.terms.forEach(element => {
+                    const splitted = element.name.split(' ');
+                    newHtml+=`<button onclick="addSleeves('${splitted[0]}','${splitted[1]}')">${splitted[0]} (${splitted[1]})</button>`
+                });
+              
+            }
             if(type==="players"){
                 if(!element.terms[1].name){
                     end = ` player`
@@ -59,7 +69,7 @@ function addAttributes(type,element){
                 });
             }
             if(type==="bgg"){
-                newHtml=`<a href='${element.terms[0].name}' target='_blank'><img class="link-logo" src='https://prototype.meeplegalaxy.com/wp-content/uploads/2023/11/BoardGameGeek_Logo.svg_.png'></a>`
+                newHtml= element.terms[0].name
             }
             if(type==="otherImages"){
                 element.terms.forEach(element=>{
@@ -70,9 +80,9 @@ function addAttributes(type,element){
             }
             if(type==="mechanics"){
                 let customStyle=""
-                if(element.terms.length>9){
-                    customStyle='font-size: 10px;'
-                }
+                // if(element.terms.length>9){
+                //     customStyle='font-size: 10px;'
+                // }
                 element.terms.forEach(element=>{
                     newHtml+=`<li style='${customStyle}'>${element.name} </li>`
                 });
@@ -323,4 +333,98 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
         }
     }
 
+}
+function checkList(id,elements){
+    let inList = false
+    const numericId = parseInt(id, 10);
+    
+    for(let i = 0; i<elements.length; i++){
+        if(elements[i]===numericId){
+            elements.splice(i,1)
+            inList = true
+            i--
+        }
+
+    }
+    return inList
+}
+async function updateTracker(type){
+
+    items = await JSON.parse(localStorage.getItem(type)) || []
+    const counter = document.querySelector(`#${type}Number`)
+    if(counter){
+        counter.innerHTML=items.length
+    }
+    checkForButtons(items,type)
+
+}
+function checkForButtons(items,type){
+    if(items){
+        if(type==='cart'){
+            const buyButton = document.querySelector("#addToCartButton")
+            if(buyButton){
+                if(checkList(getUrlId(),items)){
+                    buyButton.innerHTML="In cart"
+                }else{
+                    buyButton.innerHTML="Add to cart"
+                }
+            }
+        }
+        if(type==='favs'){
+            const favsButton = document.querySelector("#addToFavsButton")
+            if(favsButton){
+                if(checkList(getUrlId(),items)){
+                    favsButton.innerHTML="In favorites"
+                }else{
+                    favsButton.innerHTML="Add to favorites"
+                }
+            }
+        }        
+    }
+}
+async function addListContent(type){
+    const list = await JSON.parse(localStorage.getItem(type))
+    const target = document.querySelector(`#list-container`)
+    const html = await createListContent(list,type)
+    target.innerHTML=html
+}
+async function createListContent(list,type){
+    let newHtml = ""
+    if(list && list.length>0){
+        elements = await getApi(productsUrl)
+        elements.forEach(element => {
+            list.forEach(listContent => {
+                if(element.id===listContent){
+                    if(type==='cart'){
+                        newHtml+=cartContentTemplate(element)
+                    }
+                    if(type==='favs'){
+                        newHtml+=favsContentTemplate(element)
+                    }
+
+                }
+            });
+        });
+    }
+    if(newHtml===""){
+        newHtml="nothing here"
+    }
+    
+    return newHtml
+}
+async function toggleList(id,type){
+    elements = await JSON.parse(localStorage.getItem(type))
+    if(elements){
+        if(!checkList(id,elements)){
+            elements.push(id)
+        }
+    }else{
+        elements = [id]
+    }
+    
+    localStorage.setItem(type, JSON.stringify(elements));
+    updateTracker(type)
+    if(document.title==="Cart page"){
+        addListContent('cart')
+    }
 }

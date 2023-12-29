@@ -231,18 +231,23 @@ textarea{
 }
 
 /* ===== Info pages ===== */
-.mechanics{
+.info-page .mechanics{
+  margin: 5px;
   min-width: 30%;
-  padding: 10px;
+  background-color: rgb(240,240,240);
+
+}
+.info-page .text{
+    margin: 5px;
+  background-color: rgb(240,240,240);
+}
+.info-page .text p{
+  margin: 5px;
 }
 .info-page .top-line{
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-.info-page .overflow-hidden .text{
-  overflow: hidden;
-  height: 200px;
 }
 
 @media only screen and (max-width:500px){ 
@@ -265,7 +270,7 @@ textarea{
 #main-content{
   margin: 10px;
 }
-.blog-image{
+.main-image{
   height: 200px;
   width: 200px;
 }
@@ -278,15 +283,20 @@ textarea{
   margin: 10px;
 }
 #imageContainer{
-  height: 100px;
+  height: 120px;
 }
 #imageContainer img{
-  height: 100%;
+  height: 100%-20px;
   margin: 10px;
 }
 
 
+.info-page .overflow-hidden .text{
+  overflow: hidden;
+  height: 200px;
+}
 
+/* ===== Opacity ===== */
 
 .opacityBlur{
     display: none;
@@ -307,4 +317,29 @@ textarea{
     width: 100%;
     top: 80%;
     z-index:2;
+}
+
+
+/* ===== Cart page ===== */
+#cartContent{
+  max-width: 400px;
+}
+.cart-element{
+  padding: 5px;
+}
+.cart-element .image{
+  width: 100px;
+  height: 100px;
+}
+
+.cart-element .name{
+  margin-left: 10px;
+}
+.cart-element .price{
+  position: absolute;
+  right: 0;
+}
+#list-container .image{
+  width: 100px;
+  height: 100px;
 }

@@ -1,5 +1,5 @@
 document.querySelector("header").innerHTML=`${headerTemplate()}`
-document.querySelector("footer").innerHTML=`${footerTemplate()}`
+document.querySelector("footer").innerHTML=`${footerTemplate()}${modalTemplate()}`
 if(document.title==="Store"){
     document.querySelector(".pc .storeLink").classList.add("active")
     document.querySelector(".mobile .storeLink").classList.add("active")
@@ -17,13 +17,8 @@ if(document.title==="Contact us"){
     document.querySelector(".mobile .contactLink").classList.add("active")
 }
 
-const modal = document.querySelector("#modal-container")
 
-if(modal){
-    modal.innerHTML=`${modalTemplate()}`
-}
-
- const searchField = document.querySelector('#search')
+const searchField = document.querySelector('#search')
 
 if(searchField){
     searchField.innerHTML= `
@@ -32,9 +27,6 @@ if(searchField){
         <section id="search-container" class="flex-row flex-wrap"></section> 
     </div>
     `;
-searchContainer = document.querySelector("#search-container")
-searchContainer.innerHTML =""
-searchInput = document.querySelector("#search-input")
 }
 
 document.querySelector("#headerLinkButton").addEventListener("click",()=>{
@@ -53,3 +45,5 @@ window.addEventListener("scroll",()=>{
   }
 });
 
+updateTracker('cart')
+updateTracker('favs')
