@@ -32,6 +32,10 @@
     text-align: center;}
 .lazy-margin *{
     margin:10px;}
+.shift-rigth{
+  position: absolute;
+  right: 0;
+}
 .grid-row-50{
     display: grid;
     grid-template-columns: 1fr 2fr;

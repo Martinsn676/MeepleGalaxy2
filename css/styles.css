@@ -335,11 +335,16 @@ textarea{
 .cart-element .name{
   margin-left: 10px;
 }
-.cart-element .price{
-  position: absolute;
-  right: 0;
-}
+
 #list-container .image{
   width: 100px;
   height: 100px;
+}
+#list-container .small-list .image{
+  width: 50px;
+  height: 50px;
+}
+#list-container .small-list{
+  font-size: 10px;
+  margin: 5px;
 }

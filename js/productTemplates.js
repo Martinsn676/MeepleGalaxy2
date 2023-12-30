@@ -12,26 +12,26 @@ function productTemplate(element){return `
 ;}
 function quickViewTemplate (element){return `
     <div class="card big-card">
-      <div class="top-part">
-        <div class="contain-image image grid1" style="background-image: url('${element.images[0].src}')">
+        <div class="top-part">
+            <div class="contain-image image grid1" style="background-image: url('${element.images[0].src}')">
+            </div>
+            <div class="grid2 flex-column" >
+            <h6>${element.name}</h6>
+            <span>${addAttributes("designers",element)}</span>
+            <span>${addAttributes("players",element)} </span>
+            <span>${addAttributes("time",element)} </span>
+            </div>
         </div>
-        <div class="grid2 flex-column" >
-          <h6>${element.name}</h6>
-          <span>${addAttributes("designers",element)}</span>
-          <span>${addAttributes("players",element)} </span>
-          <span>${addAttributes("time",element)} </span>
+        <div class="flex-row">
+            <button id="addToCartButton" onclick="toggleList(${element.id},'cart')">Add to cart</button>
+            <button id="addToFavsButton" onclick="toggleList(${element.id},'favs')">Add to favorites</button>
+            <a target="_blank" href='${addAttributes("bgg",element)};'"><button>BGG</button></a>
         </div>
-
-<div class="flex-row">
-        <button onclick="toggleList(${element.id},'cart')">Add to cart</button>
-        <button onclick="toggleList(${element.id},'favs')">Add to favorites</button>
-        <a target="_blank" href='${addAttributes("bgg",element)};'"><button>BGG</button></a>
-      </div>
-      <div class="bottom-part">
-        <div class="scroll">
-          ${element.description}  
+        <div class="bottom-part">
+            <div class="scroll">
+            ${element.description}  
+            </div>
         </div>
-      </div>
     </div>
     `;}
 
@@ -46,7 +46,7 @@ function productPageTemplate(element){return `
         <span>${addAttributes("designers",element)}</span>
         <span>${addAttributes("players",element)} </span>
         <span>${addAttributes("time",element)} </span>
-        <span>${addAttributes("sleeves",element)} </span>
+        <span>${addAttributes("sleeves",element,element.id)} </span>
       </div>
     </section>
     <section class="flex-column middle-section">
@@ -73,23 +73,52 @@ function productPageTemplate(element){return `
   <section>
 `
 ;}
-function cartContentTemplate(element){return `
-  <div class="cart-element flex-row">
-      <div class="image contain-image" style="background-image: url('${element.images[0].src}')"></div>
-      <div class="flex-column">
-        <span class="name">${element.name}</span>
-        <button onclick="toggleList(${element.id},'cart')">Remove</button>
-      </div>
-      <span class="price">${element.prices.price} kr</span>
-      
+function cartContentTemplate(element,quantity){return `
+  <div id="productID${element.id}" class="cart-element flex-row">
+    <a href="productPage.html?id=${element.id}">
+        <div class="image contain-image" style="background-image: url('${element.images[0].src}')"></div>
+    </a>  
+        <div class="flex-column">
+            <span class="name">${element.name}</span>
+            <div class="container"></div>
+
+        </div>
+        <div class="shift-rigth flex-column">
+            <div>
+                <span>${quantity} x ${element.prices.price} kr</span>
+                <span>${quantity*element.prices.price} kr</span>
+            </div>
+            <div>
+                <button onclick="toggleList(${element.id},'cart','subtract')">-</button>
+                <button onclick="toggleList(${element.id},'cart','add')">+</button>
+                <button onclick="toggleList(${element.id},'cart')">Delete</button>
+            </div>
+        </div>
+
+        
   </div>
   `
 }
+function smallCartContentTemplate(element,quantity){return`
+      <div class="small-list flex-row">
+        <div class="image contain-image" style="background-image: url('${element.images[0].src}')"></div>
+        <div class="flex-column name">
+            <span>${element.name}</span>
+            <span>${quantity} x ${element.prices.price} kr</span>
+            <span>${quantity*element.prices.price} kr</span>
+        </div>        
+  </div>
+  `
+
+}
 
 function favsContentTemplate(element){return `
-    <a href="productPage.html?id=${element.id}">
-       <div class="image contain-image" style="background-image: url('${element.images[0].src}')">
-        </div>
-    </a>
+    <div class="flex-column">
+        <a href="productPage.html?id=${element.id}">
+        <div class="image contain-image" style="background-image: url('${element.images[0].src}')">
+            </div>
+        </a>
+        <button onclick="toggleList(${element.id},'favs')">Del</button>
+    </div>
   `
 }

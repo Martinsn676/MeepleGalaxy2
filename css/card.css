@@ -32,7 +32,9 @@ button:disabled {
 #elements-container .slider-buttons:active,button:active{
     background-color: rgb(var(--buttonActive));
 }
-
+button.posButton{
+    background-color: green;
+}
 #topLine h2{
     margin: 0 10px;
     

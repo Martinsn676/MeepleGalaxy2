@@ -18,8 +18,8 @@ async function infoPageRender(place){
 
     function renderPage(place,template){
       document.querySelector(`#${place}`).innerHTML=`${template}`;
-      updateTracker('cart')
-      updateTracker('favs')
+      updateTracker()
+
 
       addModalClick(document.querySelectorAll(".image"))
 
@@ -41,9 +41,3 @@ async function infoPageRender(place){
       //   if(opacityBlur){opacityBlur.addEventListener("click",()=>toggleText())}
 }
 
-function getUrlId(){
-  const queryString = document.location.search;
-  const params = new URLSearchParams(queryString);
-  const id = params.get("id");
-  return id
-}
