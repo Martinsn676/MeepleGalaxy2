@@ -80,13 +80,12 @@ function cartContentTemplate(element,quantity){return `
     </a>  
         <div class="flex-column">
             <span class="name">${element.name}</span>
-            <div class="container"></div>
+            <div class="container flex-row"></div>
 
         </div>
         <div class="shift-rigth flex-column">
             <div>
-                <span>${quantity} x ${element.prices.price} kr</span>
-                <span>${quantity*element.prices.price} kr</span>
+                ${priceDisplay(quantity,element)}
             </div>
             <div>
                 <button onclick="toggleList(${element.id},'cart','subtract')">-</button>
@@ -100,18 +99,22 @@ function cartContentTemplate(element,quantity){return `
   `
 }
 function smallCartContentTemplate(element,quantity){return`
-      <div class="small-list flex-row">
-        <div class="image contain-image" style="background-image: url('${element.images[0].src}')"></div>
-        <div class="flex-column name">
-            <span>${element.name}</span>
-            <span>${quantity} x ${element.prices.price} kr</span>
-            <span>${quantity*element.prices.price} kr</span>
-        </div>        
-  </div>
+    <div class="small-list flex-column align-column">
+        <div class="image contain-image" style="background-image: url('${element.images[0].src}')">
+        </div>
+        <span class="name">${element.name}</span>
+        <span class="name">${quantity} packs</span>
+    </div>
   `
 
 }
+function priceDisplay(quantity,product){
+    const price = product.prices.price
+    return`
+        <span>${quantity} x ${price} kr ${quantity*price} kr</span>
+`
 
+}
 function favsContentTemplate(element){return `
     <div class="flex-column">
         <a href="productPage.html?id=${element.id}">

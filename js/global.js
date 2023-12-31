@@ -75,8 +75,6 @@ async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
     controller.abort();
   });
 }
-
-
 function checkSlider(id,maxElements,slideJump) {
 
   if(!slideJump){slideJump=1;}
@@ -120,7 +118,6 @@ function updateSlider(adjust, items,maxElements) {
   }
 }
 function addModalClick(item){ 
-
   item.forEach(element => {
     element.addEventListener("click", (element)=>{
       displayModal(element)

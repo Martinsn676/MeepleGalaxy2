@@ -46,8 +46,11 @@ body{
 .banner-image:hover .hover-box{
   display: block;
 }
+.banner-image.number0 img {
+  transform: rotate(-8deg);
+}
 .banner-image.number1 img{
-  transform: rotate(-15deg);
+  transform: rotate(7deg);
 }
 .banner-image.number2 img {
   transform: rotate(20deg);
@@ -60,6 +63,18 @@ body{
 }
 .banner-image.number5 img {
   transform: rotate(29deg);
+}
+.banner-image.number6 img {
+  transform: rotate(-7deg);
+}
+.banner-image.number7 img {
+  transform: rotate(-2deg);
+}
+.banner-image.number8 img {
+  transform: rotate(15deg);
+}
+.banner-image.number9 img {
+  transform: rotate(-10deg);
 }
 
 

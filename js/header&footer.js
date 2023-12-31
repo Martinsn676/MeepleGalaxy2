@@ -40,7 +40,6 @@ window.addEventListener("scroll",()=>{
     mobileMenu =document.querySelector("#header .mobile")
     if(mobileMenu){
       mobileMenu.classList.add("hide")        
-
     }
   }
 });

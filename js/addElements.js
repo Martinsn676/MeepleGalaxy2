@@ -350,8 +350,13 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
 function checkList(id,elements,forced){
     let inList = false
     const numericId = parseInt(id, 10);
+    
     for(let i = 0; i<elements.length; i++){
-        if(elements[i][0]===numericId){
+        let testElement=elements[i][0]
+        if(elements[i][2]){
+            testElement=elements[i][2]
+        }
+        if(testElement===numericId){
             if(forced==='add'){
                 elements[i]=[id,elements[i][1]+1]
             }else if(forced==='subtract' && elements[i][1]>1){
@@ -404,6 +409,12 @@ function checkForButtons(items,type){
                     buyButton.innerHTML="Add to cart"
                 }
             }
+            const sleeveButtons = document.querySelector(".sleeveButton")
+            if(sleeveButtons){
+                sleeveButtons.forEach(element => {
+                    element.classList
+                });
+            }
         }
         if(type==='favs'){
             const favsButton = document.querySelector("#addToFavsButton")
@@ -431,7 +442,6 @@ async function createListContent(list,type,target){
     let productCost
     let secondAdd = []
     if(list && list.length>0){
-
         elements = await getApi(productsUrl)
         elements.forEach(element => {
             list.forEach(listContent => {
@@ -441,10 +451,11 @@ async function createListContent(list,type,target){
                         totalPrice+=productCost*listContent[1]
                         if(listContent[2]){
                             secondAdd.push([element,listContent])
-                        }
+                        }else{
                             newHtml+=cartContentTemplate(element,listContent[1])
-                        
-                        
+
+                        }
+
                     }
                     if(type==='favs'){
                         newHtml+=favsContentTemplate(element)
@@ -457,18 +468,39 @@ async function createListContent(list,type,target){
     if(newHtml===""){
         newHtml="nothing here, go away"
     }
-    newHtml+=`<span class="shift-rigth">Total cost: ${totalPrice}</span>`
+
     target.innerHTML=newHtml
+    let collectedSleeves = []
     secondAdd.forEach(element => {
-        console.log(element)
         addToTarget = target.querySelector(`#productID${element[1][2]} .container`)
-        console.log(addToTarget)
-        addToTarget.innerHTML=smallCartContentTemplate(element[0],element[1][1])
+        addToTarget.innerHTML+=smallCartContentTemplate(element[0],element[1][1])
+        collectArray(element[0],element[1],collectedSleeves)
     });
+    console.log(collectedSleeves)
+    collectedSleeves.forEach(element => {
+        target.innerHTML+=`
+            <span>${element[2].name}</span>
+            <span class="shift-rigth">
+                ${priceDisplay(element[1],element[2])}
+            `
+    });
+    //target.innerHTML+=`<span class="shift-rigth">Total cost: ${totalPrice}</span>`
+    
 
 }
-function secondAddCart(){
 
+function collectArray(details,item,collection){
+    let inCollection = false
+    for(let i = 0; i < collection.length; i++){
+        if(collection[i][0]===item[0]){
+            collection[i][1]+=item[1]
+            inCollection=true
+        }
+    }
+    if(!inCollection){
+        collection.push([item[0],item[1],details])
+    }
+    return collection
 }
 async function toggleList(id,type,forced){
     elements = await JSON.parse(localStorage.getItem(type))
