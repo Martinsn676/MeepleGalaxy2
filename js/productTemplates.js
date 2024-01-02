@@ -103,7 +103,7 @@ function smallCartContentTemplate(element,quantity){return`
         <div class="image contain-image" style="background-image: url('${element.images[0].src}')">
         </div>
         <span class="name">${element.name}</span>
-        <span class="name">${quantity} packs</span>
+        <span class="name">${quantity} cards</span>
     </div>
   `
 

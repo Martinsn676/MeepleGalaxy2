@@ -30,13 +30,22 @@ function resizeCheck(changeFrom,width){
         location.reload();
     }
 }
-async function addSleeves(sleeveSize,count,originID){
-    elements = await JSON.parse(localStorage.getItem('cart'))
-    elements.push([250,5,originID])
-    localStorage.setItem('cart', JSON.stringify(elements));
-    updateTracker()
+async function addSleeves(size,count,originID){
+    const numericCount = parseInt(count, 10);
+    toggleList([sleeveTransform(size),1,originID,numericCount],'cart')
+}
+function sleeveTransform(size){
+    let id
+    if(size==="57x87"){
+        id=248
+    }
+    if(size==="44x68"){
+        id=250
+    }
+    return id
 }
 function addAttributes(type,element,id){
+
     let newHtml = "" 
 
     element.attributes.forEach(element => {
@@ -44,7 +53,7 @@ function addAttributes(type,element,id){
             if(type==="sleeves"){
                 element.terms.forEach(element => {
                     const splitted = element.name.split(' ');
-                    newHtml+=`<button onclick="addSleeves('${splitted[0]}','${splitted[1]}',${id})">${splitted[0]} (${splitted[1]})</button>`
+                    newHtml+=`<button id="sleeve${sleeveTransform(splitted[0])}" onclick="addSleeves('${splitted[0]}','${splitted[1]}',${id})">${splitted[0]} (${splitted[1]})</button>`
                 });
               
             }
@@ -145,7 +154,6 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
     if(!addEndUrl){addEndUrl=["",""]}
   
     const functionLog = [place,headline,displayQuantity,type,addEndUrl]
-    console.log(functionLog)
     const  mainContainer = document.querySelector(`#${place}`)
     mainContainer.innerHTML = `${cardSection(functionLog)}`;
     const container = mainContainer.querySelector("#elements-container")
@@ -347,28 +355,53 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
     }
 
 }
-function checkList(id,elements,forced){
-    let inList = false
-    const numericId = parseInt(id, 10);
-    
-    for(let i = 0; i<elements.length; i++){
-        let testElement=elements[i][0]
-        if(elements[i][2]){
-            testElement=elements[i][2]
+function checkList(id,list,forced){  
+    let child=false
+    let inList=false
+    let modify = []
+    if (Array.isArray(id)) {
+        checkID = id[0]
+        child=true;
+    }else{
+        checkID = parseInt(id, 10);
+    }
+    for(let i = 0; i<list.length; i++){
+        if(list[i][0]===checkID){
+
+            modify.push([i])
+            inList=true
         }
-        if(testElement===numericId){
-            if(forced==='add'){
-                elements[i]=[id,elements[i][1]+1]
-            }else if(forced==='subtract' && elements[i][1]>1){
-                elements[i]=[id,elements[i][1]-1]
-            }else{
-                elements.splice(i,1)
-                i--
-            }
-            inList = true
+        if(list[i][2] && list[i][2]===checkID){
+            modify.push([i])
+            inList=true
         }
     }
-    return inList
+    console.log(modify)
+    if(inList){
+        for(let i = 0; i<list.length; i++){
+            console.log(i)
+            modify.forEach(element => {
+                console.log(element,element[i])
+                if(element[i]===element){
+                    if(forced==='add'){                
+                        list[i][1]+=1
+                    }else if(forced==='subtract' && list[i][1]>1){
+                        list[i][1]-=1
+                    }else{
+                        list.splice(i,1)  
+                    }
+                }
+            });
+
+        }  
+    }else{
+        if(child){
+            list.push(id)
+        }else{
+            list.push([id,1])
+    }
+}
+return list
 }
 async function updateTracker(type){
     if(!type){
@@ -380,7 +413,7 @@ async function updateTracker(type){
     if(counter){
         counter.innerHTML=items.length
     }
-    checkForButtons(items,type)
+    //checkForButtons(items,type)
     if(document.title==="Cart page"){
         addListContent('cart')
     }
@@ -393,7 +426,6 @@ function getUrlId(){
   const queryString = document.location.search;
   const params = new URLSearchParams(queryString);
   const id = params.get("id");
-console.log(id)
   return id
 }
 function checkForButtons(items,type){
@@ -473,22 +505,34 @@ async function createListContent(list,type,target){
     let collectedSleeves = []
     secondAdd.forEach(element => {
         addToTarget = target.querySelector(`#productID${element[1][2]} .container`)
-        addToTarget.innerHTML+=smallCartContentTemplate(element[0],element[1][1])
-        collectArray(element[0],element[1],collectedSleeves)
+        if(addToTarget){
+            addToTarget.innerHTML+=smallCartContentTemplate(element[0],element[1][3])
+            collectArray(element[0],element[1],collectedSleeves)
+
+        }
     });
-    console.log(collectedSleeves)
     collectedSleeves.forEach(element => {
+        const sleevesNeeded = element[0][3]
+        const setsWanted = element[0][1]
+        const totalNeeded = sleevesNeeded*setsWanted
+        const packsNeeded = Math.ceil(totalNeeded/55)
+
         target.innerHTML+=`
-            <span>${element[2].name}</span>
-            <span class="shift-rigth">
-                ${priceDisplay(element[1],element[2])}
+          
+            <div id="sleeve-list" class="flex-column">
+                <span>${element[1].name}</span>
+                <span class="shift-rigth">
+                ${priceDisplay(packsNeeded,element[1])}
+            </span>
+                <span> ${totalNeeded} sleeves (${packsNeeded*55-totalNeeded} spare)</span>
+            </div>
+  
             `
     });
     //target.innerHTML+=`<span class="shift-rigth">Total cost: ${totalPrice}</span>`
     
 
 }
-
 function collectArray(details,item,collection){
     let inCollection = false
     for(let i = 0; i < collection.length; i++){
@@ -498,21 +542,20 @@ function collectArray(details,item,collection){
         }
     }
     if(!inCollection){
-        collection.push([item[0],item[1],details])
+        collection.push([item,details])
     }
     return collection
 }
 async function toggleList(id,type,forced){
-    elements = await JSON.parse(localStorage.getItem(type))
-    if(elements){
-        if(!checkList(id,elements,forced)){
-            elements.push([id,1])
-        }
+    list = await JSON.parse(localStorage.getItem(type))
+
+    let updatedList
+    if(!list || list.length<1){
+        updatedList = [[id,1]]
     }else{
-        elements = [id,1]
+        updatedList=checkList(id,list,forced)
     }
-    
-    localStorage.setItem(type, JSON.stringify(elements));
+    localStorage.setItem(type, JSON.stringify(updatedList));
     updateTracker(type)
 
     
