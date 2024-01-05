@@ -10,6 +10,8 @@ let dateAsc = 'orderby=date&order=asc';
 let dateDesc = 'orderby=date&order=desc';
 let standardSort = `titleAsc`;
 let showNumber = 0;
+let sleevesIDs = [250,248,327,329,331]
+let accessorieID= [[258,225]]
 
 const productWidth = 180
 
@@ -171,4 +173,56 @@ function sortButtonClick(param1, param2, param3, param4, order) {
 }
 function toggleText(){
   document.querySelector(".text-box").classList.toggle("overflow-hidden")
+}
+function getUrlId(){
+  const queryString = document.location.search;
+  const params = new URLSearchParams(queryString);
+  const id = params.get("id");
+  const numberID = parseInt(id, 10);
+  return numberID
+}
+async function getList(type){
+    list = await JSON.parse(localStorage.getItem(type))
+    return list
+}
+function quickView(element) {
+    const quickViewContainer = document.querySelector(".quickView-container")
+    if(quickViewContainer){
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams();
+
+    // Set the 'id' parameter to 222
+    params.set('id', element.id);
+
+    // Replace the entire query string with the new parameters
+    url.search = params.toString();
+    updateTracker()
+    // Update the URL without triggering a page reload
+    history.pushState({}, '', url.toString());
+        quickViewContainer.innerHTML = `${quickViewTemplate(element)}`;
+        quickViewContainer.scrollIntoView({
+            behavior: 'smooth'
+          });
+        addModalClick(document.querySelectorAll(".big-card .image"))
+    }else{
+        location.href=`productPage.html?id=${element.id}`;
+    }
+
+}
+async function addBanner(id,target){
+    let urlInfo
+    if(target[0]==="category"){
+        urlInfo="category="+target[1]
+    }
+    const mainContainer = document.querySelector(`#${id}`)
+    const elements = await getApi(productsUrl,10,urlInfo)
+    for(let i=0;i<10;i++){
+        if(elements[i]){
+        mainContainer.innerHTML+=bannerImageTemplate(elements[i],i)
+        }
+    }
+}
+function goToPage(element){
+    localStorage.setItem('speedLoad', JSON.stringify(element));
+    quickView(element)
 }

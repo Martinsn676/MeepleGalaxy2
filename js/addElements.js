@@ -1,24 +1,11 @@
 let clickFlag
 let displaySize 
-
-async function addBanner(id,target){
-    let urlInfo
-    if(target[0]==="category"){
-        urlInfo="category="+target[1]
-    }
-    const mainContainer = document.querySelector(`#${id}`)
-    const elements = await getApi(productsUrl,10,urlInfo)
-    for(let i=0;i<10;i++){
-        if(elements[i]){
-        mainContainer.innerHTML+=bannerImageTemplate(elements[i],i)
-        }
-    }
-}
-function goToPage(element){
-    localStorage.setItem('speedLoad', JSON.stringify(element));
-
-        quickView(element)
-
+async function testAddToCart(type){
+//[217,1],[214,1] [[225,1],[221,1],[214,1],[250,1,225,40],[248,1,225,50],[250,1,221,40],[248,1,221,50]]
+    testingGames = [[225,1],[217,1],[214,1],[250,1,225,40],[319,1,318],[318,1]]
+    elements=testingGames
+    localStorage.setItem(type, JSON.stringify(elements));
+    updateTracker(type)
 }
 function resizeCheck(changeFrom,width){
     if(changeFrom==="mobile" && width>900){
@@ -32,28 +19,53 @@ function resizeCheck(changeFrom,width){
 }
 async function addSleeves(size,count,originID){
     const numericCount = parseInt(count, 10);
-    toggleList([sleeveTransform(size),1,originID,numericCount],'cart')
+    toggleList([sleeveTransform(size),1,originID,numericCount],'cart',0)
 }
 function sleeveTransform(size){
-    let id
+    let id 
+    console.log(size)
+    if(size==="41x63"){
+        id=331
+    }
+    if(size==="59x91"){
+        id=329
+    }
     if(size==="57x87"){
         id=248
     }
-    if(size==="44x68"){
+    if(size==="44x68" || size==="44x67"){
         id=250
     }
     return id
 }
-function addAttributes(type,element,id){
-
-    let newHtml = "" 
-
+function addAttributes(type,element,test){
+    let reply = "" 
     element.attributes.forEach(element => {
-        if(element.name===type){
+        if(element.name===type){  
+            if(type==="year"){
+                reply=`(${element.terms[0].name})`
+            }
+            if(type==="Age"){
+                reply=element.terms[0].name+"+ years"
+            }
+            if(type==="child"){
+                reply=[]
+                element.terms.forEach(element => {
+                    reply.push(parseInt(element.name, 10))
+                });
+                
+            }
+            if(type==="parent"){
+                if(element.terms[0]){
+                    reply=element.terms[0].name
+                }
+
+            }
             if(type==="sleeves"){
                 element.terms.forEach(element => {
+                    console.log(element.name)
                     const splitted = element.name.split(' ');
-                    newHtml+=`<button id="sleeve${sleeveTransform(splitted[0])}" onclick="addSleeves('${splitted[0]}','${splitted[1]}',${id})">${splitted[0]} (${splitted[1]})</button>`
+                    reply+=`<button id="${sleeveTransform(splitted[0])}" onclick="addSleeves('${splitted[0]}','${splitted[1]}',${getUrlId()})">${splitted[0]} (${splitted[1]})</button>`
                 });
               
             }
@@ -63,7 +75,7 @@ function addAttributes(type,element,id){
                 }else{
                     end = `-${element.terms[1].name} players`
                 }
-                newHtml+=`${element.terms[0].name+end}`
+                reply+=`${element.terms[0].name+end}`
             }
             if(type==="time"){
                 if(!element.terms[1]){
@@ -71,21 +83,21 @@ function addAttributes(type,element,id){
                 }else{
                     end = `-${element.terms[1].name} min`
                 }
-                newHtml+=`${element.terms[0].name+end}`
+                reply+=`${element.terms[0].name+end}`
             }
             if(type==="designers"){
-                newHtml="Designers: "
+                reply="Designers: "
                 element.terms.forEach(element => {
                     DGname=element.name
-                    newHtml+=`<a href="#${DGname}">${DGname}</a> `
+                    reply+=`<a href="#${DGname}">${DGname}</a> `
                 });
             }
             if(type==="bgg"){
-                newHtml= element.terms[0].name
+                reply= element.terms[0].name
             }
             if(type==="otherImages"){
                 element.terms.forEach(element=>{
-                    newHtml+=`
+                    reply+=`
                         <img class="image" src='${element.name}'> 
                     `
                 });         
@@ -96,37 +108,19 @@ function addAttributes(type,element,id){
                 //     customStyle='font-size: 10px;'
                 // }
                 element.terms.forEach(element=>{
-                    newHtml+=`<li style='${customStyle}'>${element.name} </li>`
+                    reply+=`<li style='${customStyle}'>${element.name} </li>`
                 });
             }
         }
     });
-    
-    return newHtml;
-}
-function quickView(element) {
-    const quickViewContainer = document.querySelector(".quickView-container")
-    if(quickViewContainer){
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams();
-
-    // Set the 'id' parameter to 222
-    params.set('id', element.id);
-
-    // Replace the entire query string with the new parameters
-    url.search = params.toString();
-    updateTracker()
-    // Update the URL without triggering a page reload
-    history.pushState({}, '', url.toString());
-        quickViewContainer.innerHTML = `${quickViewTemplate(element)}`;
-        quickViewContainer.scrollIntoView({
-            behavior: 'smooth'
-          });
-        addModalClick(document.querySelectorAll(".big-card .image"))
-    }else{
-        location.href=`productPage.html?id=${element.id}`;
+    if(test===true){
+        if(reply.length>0){
+            reply=true;
+        }else{
+            reply=false;
+        }
     }
-
+    return reply;
 }
 function searchSkipCheck(elementName,search){
     if(elementName.toLowerCase().includes(search.trim().toLowerCase())){
@@ -207,9 +201,7 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
             container.classList.add("slider")
         }
         if(loadMore){
-
             amountPerLine= Math.floor(document.body.clientWidth/productWidth)
-
             displayQuantity = (Math.ceil(displayQuantity/amountPerLine)*amountPerLine)
         }
     }
@@ -355,215 +347,334 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
     }
 
 }
-function checkList(id,list,forced){  
-    let child=false
-    let inList=false
-    let modify = []
-    if (Array.isArray(id)) {
-        checkID = id[0]
-        child=true;
-    }else{
-        checkID = parseInt(id, 10);
-    }
-    for(let i = 0; i<list.length; i++){
-        if(list[i][0]===checkID){
-
-            modify.push([i])
-            inList=true
-        }
-        if(list[i][2] && list[i][2]===checkID){
-            modify.push([i])
-            inList=true
-        }
-    }
-    console.log(modify)
-    if(inList){
-        for(let i = 0; i<list.length; i++){
-            console.log(i)
-            modify.forEach(element => {
-                console.log(element,element[i])
-                if(element[i]===element){
-                    if(forced==='add'){                
-                        list[i][1]+=1
-                    }else if(forced==='subtract' && list[i][1]>1){
-                        list[i][1]-=1
-                    }else{
-                        list.splice(i,1)  
-                    }
-                }
-            });
-
-        }  
-    }else{
-        if(child){
-            list.push(id)
-        }else{
-            list.push([id,1])
-    }
-}
-return list
-}
-async function updateTracker(type){
-    if(!type){
-        updateTracker('cart')
-        updateTracker('favs')
-    }
-    items = await JSON.parse(localStorage.getItem(type)) || []
-    const counter = document.querySelector(`#${type}Number`)
-    if(counter){
-        counter.innerHTML=items.length
-    }
-    //checkForButtons(items,type)
-    if(document.title==="Cart page"){
-        addListContent('cart')
-    }
-    if(document.title==="Favorites page"){
-        addListContent('favs')
-    }
-
-}
-function getUrlId(){
-  const queryString = document.location.search;
-  const params = new URLSearchParams(queryString);
-  const id = params.get("id");
-  return id
-}
-function checkForButtons(items,type){
-    if(items){
-        if(type==='cart'){
-            const buyButton = document.querySelector("#addToCartButton")
-            if(buyButton){
-                if(checkList(getUrlId(),items)){
-                    buyButton.classList.add('posButton')
-                    buyButton.innerHTML="In cart"
-                }else{
-                    buyButton.classList.remove('posButton')
-                    buyButton.innerHTML="Add to cart"
-                }
-            }
-            const sleeveButtons = document.querySelector(".sleeveButton")
-            if(sleeveButtons){
-                sleeveButtons.forEach(element => {
-                    element.classList
-                });
-            }
-        }
-        if(type==='favs'){
-            const favsButton = document.querySelector("#addToFavsButton")
-            if(favsButton){
-                if(checkList(getUrlId(),items)){
-                    favsButton.classList.add('posButton')
-                    favsButton.innerHTML="In favorites"
-                }else{
-                    favsButton.classList.remove('posButton')
-                    favsButton.innerHTML="Add to favorites"
-                }
-            }
-        }        
-    }
-}
 async function addListContent(type){
     const list = await JSON.parse(localStorage.getItem(type))
     const target = document.querySelector(`#list-container`)
     createListContent(list,type,target)
-    
 }
 async function createListContent(list,type,target){
     let newHtml = ""
     let totalPrice = 0
     let productCost
-    let secondAdd = []
+    let sleevesCollection = []
+    let accessorieCollection = []
+    console.log(list)
     if(list && list.length>0){
-        elements = await getApi(productsUrl)
+        elements = await getApi(productsUrl,100)
         elements.forEach(element => {
             list.forEach(listContent => {
                 if(element.id===listContent[0]){
                     if(type==='cart'){ 
                         productCost = parseInt(element.prices.price, 10);
-                        totalPrice+=productCost*listContent[1]
-                        if(listContent[2]){
-                            secondAdd.push([element,listContent])
+                        if(productTypeCheck(listContent[0],sleevesIDs)){
+                            sleevesCollection.push([element,listContent])
+                            console.log("sleeves")
                         }else{
-                            newHtml+=cartContentTemplate(element,listContent[1])
+                            totalPrice+=productCost*listContent[1]
+                            if(listContent[2]){
 
+                                accessorieCollection.push([element,listContent])
+                            }else{
+                                let children = addAttributes("child",element)
+                                if(children.length>0){
+                                    children.forEach(child => {
+
+                                        accessorieCollection.push(["",[child,0,element.id]])
+                                    });
+                                    
+                                }
+                                newHtml+=cartContentTemplate(element,listContent[1])
+                            }
                         }
-
-                    }
                     if(type==='favs'){
                         newHtml+=favsContentTemplate(element)
-                    }
+        }   }   }   }); });
+    accessorieCollection.forEach(listContent => {
+        elements.forEach(elements => {
+            if(listContent[0]===""){
+
+            if(elements.id===listContent[1][0]){
+
+                listContent[0]=elements
+
+            }
+            
+
+            }
+
+        });
+    });
+
+     }
+    if(newHtml===""){
+        newHtml="nothing here, go away"
+    }   
+    
+    target.innerHTML=newHtml
+    console.log(sleevesCollection)
+    sleevesCollection.forEach(element => {
+        let addToTarget = target.querySelector(`#productID${element[1][2]} .sleevesContainer`);
+        if (addToTarget) {
+            addToTarget.innerHTML += sleeveContentTemplate(element[0], element[1][3] * element[1][1]);
+        }
+    });
+    accessorieCollection=compressAccessories(accessorieCollection)
+    accessorieCollection.sort(compareByValue)
+    if(accessorieCollection.length>0){
+        console.log(accessorieCollection)
+        accessorieCollection.forEach(element => {
+            totalPrice+=element[0].prices.price*element[1][1]
+            let addToTarget = target.querySelector(`#productID${element[1][2]}`)
+            if (addToTarget) {
+                console.log(element[0].id)
+                addToTarget.classList.add('accessorieExpanded')
+                let container = addToTarget.querySelector(".accessories .container")
+                console.log(element[1][1])
+                if(element[1][1]===0){
+                    container.innerHTML += accessorieContentTemplate(element[0],false)
+                }else{
+                    container.innerHTML += accessorieContentTemplate(element[0],true)
+                }
+            }
+        });
+    }
+    sleevesCollection=compressSleeves(sleevesCollection)
+    bottomPartCart(sleevesCollection,target,totalPrice)
+}
+function bottomPartCart(sleevesCollection,target,totalPrice){
+    sleevesCollection.forEach(element => {
+        const sleevesNeeded = element[1][3]
+        const setsWanted =element[1][1]
+        const leftover=setsWanted*55-sleevesNeeded
+        totalPrice+=element[0].prices.price*setsWanted
+        if(leftover>0){
+            leftoverMessage=leftover+" spare"
+        }else{
+            leftoverMessage=leftover+" missing"
+        }
+        target.innerHTML+=`
+            <div id="sleeve-list" class="flex-column">
+                <span>${element[0].name}</span>
+                <span> ${sleevesNeeded} sleeves (${leftoverMessage})</span>
+                <span class="shift-rigth">
+                    ${priceDisplay(setsWanted,element[0])}
+                </span>
+            </div>
+            `
+    });
+    target.innerHTML+=`<span class="shift-rigth">Total cost: ${totalPrice}</span>`
+
+}
+function compareByValue(a,b){
+      // Convert the values to numbers for comparison
+  const valueA = Number(a[1][0]);
+  const valueB = Number(b[1][0]);
+  // Compare the numeric values
+  if (valueA < valueB) {
+    return -1;
+  }
+  if (valueA > valueB) {
+    return 1;
+  }
+  // If values are equal, no change in order
+  return 0;
+}
+function compressAccessories(list){
+    let newList = []
+    list.forEach(list => {
+        let inList=false
+        newList.forEach(newList => {
+            if(newList[1][0]===list[1][0]){
+                inList=true
+                newList[1][1]+=list[1][1]
+            }
+        });
+        if(!inList){
+            newList.push(list)
+        }
+    });
+    return newList
+}
+function compressSleeves(list){
+    let newList = []
+    list.forEach(list => {
+        let inList=false
+        newList.forEach(newList => {
+            if(newList[1][0]===list[1][0]){
+                inList=true
+                newList[1][3]+=list[1][3]*list[1][1]
+                newList[1][1]=Math.ceil(newList[1][3]/55)
+            }
+        });
+        if(!inList){
+            list[1][3]=list[1][3]*list[1][1]
+            list[1][1]=Math.ceil(list[1][3]/55)
+            newList.push(list)
+        }
+    });
+    return newList
+}
+function productTypeCheck(testObject,testCollection){
+    let reply = false
+    if(testObject){
+        testCollection.forEach(element => {
+            let testObject2=element
+            if(Array.isArray(element)){
+                testObject2=element[0]
+            }
+            if(testObject===testObject2){
+                reply=true
+            }
+        });
+    }
+    return reply
+}
+function changeSleeves(element,adjust){
+   toggleList([element[0],1,0,55],'cart',adjust,true)
+}
+async function toggleList(id,type,forced){
+    const list = await getList(type)
+    console.log(id,type,forced)
+    if(!forced){
+      forced=0
+    }
+    let updatedList = []
+    if(!list || list.length<1){
+        if(Array.isArray(id)){
+            updatedList.push(id)
+        }else{
+            updatedList.push([id,1])
+        }
+    }else{
+        await updateList(id,list,forced)
+        updatedList=list
+    }
+    localStorage.setItem(type, JSON.stringify(updatedList));
+    updateTracker(type)  
+}
+async function updateList(id, list,forced) {
+    let modify = [];
+    if (await inListCheck(id,list,modify)) {
+        const listLength = list.length;
+        for (let i = listLength - 1; i >= 0; i--) {
+            if (modify.includes(i)) {
+                if (forced) {
+                    if (forced === 0) {
+    console.log("forced delete")
+                        list[i][1] = 0;
+                    } else {
+                        list[i][1] += forced;
+                }   }
+                if (!forced || list[i][1] < 1) {
+                    list.splice(i, 1);
+        }   }   }
+    } else {
+        console.log(id)
+        if (Array.isArray(id)){
+            list.push(id);
+        } else {
+            list.push([id, 1]);
+    }   }
+    return
+}
+async function inListCheck(id,list,modify) {
+    let found = false;
+    let anArray = false
+    let checkID = id
+    let checkID2 = []
+    if(Array.isArray(checkID)){
+        checkID=id[0]
+        checkID2=id[2]
+        anArray=true
+    }
+    for (let i = 0; i < list.length; i++) {
+        if(anArray){
+            if(list[i][2] && list[i][0]===checkID && list[i][2] === checkID2){
+                found = true;
+                if (modify) {
+                    modify.push(i);
+                }
+            }
+            if (!checkID2 && list[i][0] === checkID) {
+                if (modify) {
+                    modify.push(i);
+                }
+                found = true;
+            }
+        }else{
+            if (list[i][0] === checkID) {
+                if (modify) {
+                    modify.push(i);
+                }
+                found = true;
+            }
+            if (list[i][2] && list[i][2] === checkID) {
+                if (modify) {
+                    modify.push(i);
+                }
+                found = true;
+    }   }   }
+    return found;
+}
+async function updateTracker(type){
+    if(!type){
+        updateTracker('cart')
+        updateTracker('favs')
+    }else{
+        const items = await getList(type) || []
+        const counter = document.querySelector(`#${type}Number`)
+        if(counter){
+            counter.innerHTML=items.length
+        }
+        checkForButtons(items,type)
+        if(document.title==="Cart page" && type==='cart'){
+           addListContent('cart')
+        }
+        if(document.title==="Favorites page" && type==='favs'){
+           addListContent('favs')
+        }
+    }
+    
+
+}
+async function checkForButtons(list, type) {
+    
+    if (list) {
+        if (type === 'cart') {
+            const buyButton = document.querySelector("#addToCartButton");
+            if (buyButton) {
+                if (await inListCheck([getUrlId()], list)) {
+                    buyButton.classList.add('posButton');
+                    buyButton.innerHTML = "In cart";
+                } else {
+                    buyButton.classList.remove('posButton');
+                    buyButton.innerHTML = "Add to cart";
+                }
+            }
+            const addonButtons = document.querySelectorAll(".top-section button");
+            addonButtons.forEach(async (element) => {
+                const id = parseInt(element.id.replace(/\D/g, ''), 10);
+                if (await inListCheck([id,1,getUrlId()], list)) {
+                    element.classList.add('posButton');
+
+                } else {
+                    element.classList.remove('posButton');
 
                 }
             });
-        });
-    }
-    if(newHtml===""){
-        newHtml="nothing here, go away"
-    }
-
-    target.innerHTML=newHtml
-    let collectedSleeves = []
-    secondAdd.forEach(element => {
-        addToTarget = target.querySelector(`#productID${element[1][2]} .container`)
-        if(addToTarget){
-            addToTarget.innerHTML+=smallCartContentTemplate(element[0],element[1][3])
-            collectArray(element[0],element[1],collectedSleeves)
 
         }
-    });
-    collectedSleeves.forEach(element => {
-        const sleevesNeeded = element[0][3]
-        const setsWanted = element[0][1]
-        const totalNeeded = sleevesNeeded*setsWanted
-        const packsNeeded = Math.ceil(totalNeeded/55)
-
-        target.innerHTML+=`
-          
-            <div id="sleeve-list" class="flex-column">
-                <span>${element[1].name}</span>
-                <span class="shift-rigth">
-                ${priceDisplay(packsNeeded,element[1])}
-            </span>
-                <span> ${totalNeeded} sleeves (${packsNeeded*55-totalNeeded} spare)</span>
-            </div>
-  
-            `
-    });
-    //target.innerHTML+=`<span class="shift-rigth">Total cost: ${totalPrice}</span>`
-    
-
-}
-function collectArray(details,item,collection){
-    let inCollection = false
-    for(let i = 0; i < collection.length; i++){
-        if(collection[i][0]===item[0]){
-            collection[i][1]+=item[1]
-            inCollection=true
+        if (type === 'favs') {
+            const favsButton = document.querySelector("#addToFavsButton");
+            if (favsButton) {
+                if (await inListCheck([getUrlId()], list)) {
+                    favsButton.classList.add('posButton');
+                    favsButton.innerHTML = "In favorites";
+                } else {
+                    favsButton.classList.remove('posButton');
+                    favsButton.innerHTML = "Add to favorites";
+                }
+            }
         }
     }
-    if(!inCollection){
-        collection.push([item,details])
-    }
-    return collection
-}
-async function toggleList(id,type,forced){
-    list = await JSON.parse(localStorage.getItem(type))
-
-    let updatedList
-    if(!list || list.length<1){
-        updatedList = [[id,1]]
-    }else{
-        updatedList=checkList(id,list,forced)
-    }
-    localStorage.setItem(type, JSON.stringify(updatedList));
-    updateTracker(type)
-
-    
-}
-async function testAddToCart(type){
-
-    testingGames = [[225,1],[221,1],[223,1],[217,1],[214,1]]
-    elements=testingGames
-    localStorage.setItem(type, JSON.stringify(elements));
-    updateTracker(type)
 }

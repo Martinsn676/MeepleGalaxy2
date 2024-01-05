@@ -2,7 +2,6 @@ async function infoPageRender(place){
   const id=getUrlId()
   let element;
   let template;
-  
   let speedLoadElement = []
   speedLoadElement = await JSON.parse(localStorage.getItem('speedLoad'))
   document.querySelector(`#${place}`).classList.add("info-page")
@@ -13,16 +12,16 @@ async function infoPageRender(place){
       element = await getApi(productsUrl+"/"+id);
   }
   if(element){
+    document.title+=" - "+element.name
     template = productPageTemplate(element);
     renderPage(place,template)
+
+
 
     function renderPage(place,template){
       document.querySelector(`#${place}`).innerHTML=`${template}`;
       updateTracker()
-
-
       addModalClick(document.querySelectorAll(".image"))
-
       const imagesAll = document.querySelectorAll("img")
       if(imagesAll){
         addModalClick(imagesAll,"img")

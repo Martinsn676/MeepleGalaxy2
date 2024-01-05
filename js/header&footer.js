@@ -19,7 +19,6 @@ if(document.title==="Contact us"){
 
 
 const searchField = document.querySelector('#search')
-
 if(searchField){
     searchField.innerHTML= `
     <div class="flex-column">
@@ -44,5 +43,4 @@ window.addEventListener("scroll",()=>{
   }
 });
 
-updateTracker('cart')
-updateTracker('favs')
+updateTracker()
