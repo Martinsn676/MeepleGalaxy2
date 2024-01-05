@@ -31,17 +31,13 @@ async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
     }
   
   }
-
-
   // Create an AbortController and an AbortSignal.
   const controller = new AbortController();
   const signal = controller.signal;
-
   // Add an event listener to handle the page unload.
   window.addEventListener('beforeunload', () => {
     controller.abort();
   });
-
   let retryCount = 0;
   while (retryCount <= maxRetries) {
     try {
@@ -76,6 +72,87 @@ async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
   window.removeEventListener('beforeunload', () => {
     controller.abort();
   });
+}
+function resizeCheck(changeFrom,width){
+    if(changeFrom==="mobile" && width>900){
+        displaySize="pc"
+        location.reload();
+    }
+    if(changeFrom==="pc" && width<900){
+        displaySize="mobile"
+        location.reload();
+    }
+}
+async function addSleeves(size,count,originID){
+    const numericCount = parseInt(count, 10);
+    toggleList([sleeveTransform(size),1,originID,numericCount],'cart',0)
+}
+function sleeveTransform(size){
+    let id 
+
+    if(size==="41x63"){
+        id=331
+    }
+    if(size==="59x91"){
+        id=329
+    }
+    if(size==="57x87"){
+        id=248
+    }
+    if(size==="44x68" || size==="44x67"){
+        id=250
+    }
+    return id
+}
+function compressAccessories(list){
+    let newList = []
+    list.forEach(list => {
+        let inList=false
+        newList.forEach(newList => {
+            if(newList[1][0]===list[1][0]){
+                inList=true
+                newList[1][1]+=list[1][1]
+            }
+        });
+        if(!inList){
+            newList.push(list)
+        }
+    });
+    return newList
+}
+function compressSleeves(list){
+    let newList = []
+    list.forEach(list => {
+        let inList=false
+        newList.forEach(newList => {
+            if(newList[1][0]===list[1][0]){
+                inList=true
+                newList[1][3]+=list[1][3]*list[1][1]
+                newList[1][1]=Math.ceil(newList[1][3]/55)
+            }
+        });
+        if(!inList){
+            list[1][3]=list[1][3]*list[1][1]
+            list[1][1]=Math.ceil(list[1][3]/55)
+            newList.push(list)
+        }
+    });
+    return newList
+}
+function productTypeCheck(testObject,testCollection){
+    let reply = false
+    if(testObject){
+        testCollection.forEach(element => {
+            let testObject2=element
+            if(Array.isArray(element)){
+                testObject2=element[0]
+            }
+            if(testObject===testObject2){
+                reply=true
+            }
+        });
+    }
+    return reply
 }
 function checkSlider(id,maxElements,slideJump) {
 
@@ -187,25 +264,27 @@ async function getList(type){
 }
 function quickView(element) {
     const quickViewContainer = document.querySelector(".quickView-container")
+    const scrollTop  = document.querySelector("#search")
     if(quickViewContainer){
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams();
+      const url = new URL(window.location.href);
+      const params = new URLSearchParams();
 
-    // Set the 'id' parameter to 222
-    params.set('id', element.id);
+      // Set the 'id' parameter to 222
+      params.set('id', element.id);
 
-    // Replace the entire query string with the new parameters
-    url.search = params.toString();
-    updateTracker()
-    // Update the URL without triggering a page reload
-    history.pushState({}, '', url.toString());
-        quickViewContainer.innerHTML = `${quickViewTemplate(element)}`;
-        quickViewContainer.scrollIntoView({
-            behavior: 'smooth'
-          });
-        addModalClick(document.querySelectorAll(".big-card .image"))
+      // Replace the entire query string with the new parameters
+      url.search = params.toString();
+      updateTracker()
+      // Update the URL without triggering a page reload
+      history.pushState({}, '', url.toString());
+      quickViewContainer.innerHTML = `${quickViewTemplate(element)}`;
+      scrollTop.scrollIntoView({
+          behavior: 'smooth'
+        });
+      addModalClick(document.querySelectorAll(".big-card .image"))
     }else{
-        location.href=`productPage.html?id=${element.id}`;
+      localStorage.setItem('speedLoad', JSON.stringify(element));
+      location.href=`productPage.html?id=${element.id}`;
     }
 
 }
@@ -215,7 +294,7 @@ async function addBanner(id,target){
         urlInfo="category="+target[1]
     }
     const mainContainer = document.querySelector(`#${id}`)
-    const elements = await getApi(productsUrl,10,urlInfo)
+    const elements = await getApi(productsUrl,10,[urlInfo])
     for(let i=0;i<10;i++){
         if(elements[i]){
         mainContainer.innerHTML+=bannerImageTemplate(elements[i],i)
@@ -223,6 +302,8 @@ async function addBanner(id,target){
     }
 }
 function goToPage(element){
-    localStorage.setItem('speedLoad', JSON.stringify(element));
+
+    
     quickView(element)
+    
 }

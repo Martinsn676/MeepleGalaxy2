@@ -32,6 +32,9 @@ body{
     margin: 0 auto;
 }
 /* ===== Banner ===== */
+#testBanner{
+  min-height: 207px;
+}
 .productBanner{
   margin: 2px;
 }
@@ -356,8 +359,8 @@ textarea{
 .cart-element .name{
   margin-left: 10px;
 }
-.cart-element .sleevesContainer{
-  margin-top: 20px;
+.cart-element .cart-sleeves-button{
+  margin-left:20px;
 }
 #list-container .image{
   width: 100px;

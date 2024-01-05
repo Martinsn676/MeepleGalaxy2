@@ -48,7 +48,7 @@ return `
         <span>${addAttributes("players",element)} </span>
         <span>${addAttributes("time",element)} </span>
         <span>${element.prices.price} kr</span>
-        <span>${addAttributes("Age",element)}</span>
+        <span>${addAttributes("age",element)}</span>
         
         
       </div>
@@ -86,7 +86,11 @@ function cartContentTemplate(element,quantity){return `
         <div class="image contain-image" style="background-image: url('${element.images[0].src}')"></div>
     </a>  
       <div class="flex-column">
+        <div class="flex-row top-section">
           <span class="name">${element.name}</span>
+          <span class="cart-sleeves-button">${addAttributes("sleeves",element,element.id)} </span>
+        </div>
+
           <div class="sleevesContainer flex-row"></div>
 
       </div>
@@ -133,12 +137,14 @@ function cartID(element){
   return reply
 }
 function sleeveContentTemplate(element,quantity){return`
-  <a href="productPage.html?id=${element.id}" class="small-list sleeve-list flex-column align-column">
-      <div class="image contain-image" style="background-image: url('${element.images[0].src}')">
-      </div>
-      <span class="name">${element.name}</span>
-      <span class="name">${quantity} cards</span>
-  </a>
+  <div class="small-list sleeve-list flex-column align-column">
+    <a href="productPage.html?id=${element.id}">
+        <div class="image contain-image" style="background-image: url('${element.images[0].src}')">
+        </div>
+    </a>
+    <span class="name">${element.name}</span>
+    <span class="name">${quantity} cards</span>
+  </div>
 `
 
 }
@@ -159,7 +165,7 @@ function accessorieContentTemplate(element,cartStatus){
 
     <span class="name">${element.name}</span>
     <span class="name">${element.prices.price} kr</span>
-      <button onclick="toggleList([${cartID(element)}],'cart',0)">${buttonText}</button>
+    <button onclick="toggleList([${cartID(element)}],'cart',0)">${buttonText}</button>
 
   </div>
 `

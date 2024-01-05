@@ -5,7 +5,8 @@ async function infoPageRender(place){
   let speedLoadElement = []
   speedLoadElement = await JSON.parse(localStorage.getItem('speedLoad'))
   document.querySelector(`#${place}`).classList.add("info-page")
-  if(speedLoadElement && id===JSON.stringify(speedLoadElement.id)){
+  console.log(speedLoadElement.id,id)
+  if(speedLoadElement && id===speedLoadElement.id){
     console.log('speedLoad')
     element = speedLoadElement
   }else{
