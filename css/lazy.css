@@ -11,21 +11,25 @@
 .flex-row-reverse,.group-flex-row-reverse > div{
     display: flex;
     flex-direction: row-reverse;}
+
 .flex-wrap{
     flex-wrap: wrap;}
 .no-wrap {
     flex-wrap: nowrap ;}
 .noMargin-group >*{
     margin: 0px;}
-.align-column{
+.flex-column.align{
     align-items: center;
     justify-content: center;}
-.align-row{
+.flex-column.align-top{
     align-items: center;}
-.align-top{
+.flex-row.align{
+    align-items: center;}
+.align-start{
     align-items:flex-start;}
-.align-bottom{
+.align-end{
     align-items: flex-end;}
+
 .text-right{
     text-align: right;}
 .text-center{

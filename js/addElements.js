@@ -15,80 +15,120 @@ async function testAddToCart(type){
     localStorage.setItem(type, JSON.stringify(elements));
     updateTracker(type)
 }
+function addOtherImages(element){
+  const images = element.images
+  let reply = ""
+  for(let i = 1; i<images.length; i++){
+      reply+=`
+          <img class="image" src='${images[i].src}'> 
+      `   
+  }
+  return reply
+}
+async function addChilds(place,children){
+    let childrenInfo = []
+    let reply = ""
+    for (const childElement of children) {
+        childrenInfo.push(await getApi(productsUrl+"/"+childElement))
+    }
+    const resolvedChildrenInfo = await Promise.all(childrenInfo); 
+    for (const child of resolvedChildrenInfo) {
+        reply+=`<div class="card small-card product-card flex-row">${productTemplate(child)}</div>`
+    }
+    const target = document.querySelector(`#${place} #childSection`)
+    target.innerHTML=reply
+    return 
+}
+function addAttributes(type, mainElement, test) {
+    let reply = "";
 
-function addAttributes(type,mainElement,test){
-    let reply = "" 
-    mainElement.attributes.forEach(element => {
-        if(element.name===type){  
-            if(type==="year"){
-                reply=`(${element.terms[0].name})`
-            }
-            if(type==="age"){
-                reply=element.terms[0].name+"+ years"
-            }
-            if(type==="child"){
-                reply=[]
-                element.terms.forEach(element => {
-                    reply.push(parseInt(element.name, 10))
-                });
+    for (const element of mainElement.attributes) {
+        if (element.name.includes(type)) {
+            if (element.terms[0]) {
+                if (type === "year") {
+                    reply = `(${element.terms[0].name})`;
+                }
+                if (type === "age") {
+                    reply = `${element.terms[0].name}+ years`;
+                }
+                if(type === "parent"){
+                    if(element.terms[0]){
+                        reply=element.terms[0].name
+                    }
+                }
+                if (type === "child") {
+                    const children = [];
+                    for (const childElement of element.terms) {
+                        children.push(parseInt(childElement.name, 10));
+                    }
+                    reply=children
+                }
+                if(type==="sleeves"){
+                    element.terms.forEach(element => {
+                        const splitted = element.name.split(' ');
+                        reply+=`<button id="${sleeveTransform(splitted[0])}" onclick="addSleeves('${splitted[0]}','${splitted[1]}',${mainElement.id})">${splitted[0]} (${splitted[1]})</button>`
+                    });
+                }
+                if(type==="players"){
+                    if(!element.terms[1]){
+                        end = ` player`
+                    }else{
+                        end = `-${element.terms[1].name} players`
+                    }
+                    reply+=`${element.terms[0].name+end}`
                 
-            }
-            if(type==="parent"){
-                if(element.terms[0]){
-                    reply=element.terms[0].name
+                    
                 }
-            }
-            if(type==="sleeves"){
-                element.terms.forEach(element => {
-                    const splitted = element.name.split(' ');
-                    reply+=`<button id="${sleeveTransform(splitted[0])}" onclick="addSleeves('${splitted[0]}','${splitted[1]}',${mainElement.id})">${splitted[0]} (${splitted[1]})</button>`
-                });
-              
-            }
-            if(type==="players"){
-                if(!element.terms[1].name){
-                    end = ` player`
-                }else{
-                    end = `-${element.terms[1].name} players`
+                if(type==="time"){
+                    if(!element.terms[1]){
+                        end = ` min`
+                    }else{
+                        end = `-${element.terms[1].name} min`
+                    }
+                    reply+=`${element.terms[0].name+end}`
                 }
-                reply+=`${element.terms[0].name+end}`
-            }
-            if(type==="time"){
-                if(!element.terms[1]){
-                    end = ` min`
-                }else{
-                    end = `-${element.terms[1].name} min`
+                if(type==="designers"){
+                    reply="Designers: "
+                    element.terms.forEach(element => {
+                        if(element.name!="David Digby"){
+                            DGname=element.name
+                            reply+=`<a href="#${DGname}">${DGname}</a> `
+                        }
+                        
+                    });
                 }
-                reply+=`${element.terms[0].name+end}`
-            }
-            if(type==="designers"){
-                reply="Designers: "
-                element.terms.forEach(element => {
-                    DGname=element.name
-                    reply+=`<a href="#${DGname}">${DGname}</a> `
-                });
-            }
-            if(type==="bgg"){
-                reply= element.terms[0].name
-            }
-            if(type==="otherImages"){
-                element.terms.forEach(element=>{
-                    reply+=`
-                        <img class="image" src='${element.name}'> 
-                    `
-                });         
-            }
-            if(type==="mechanics"){
-                let customStyle=""
-                // if(element.terms.length>9){
-                //     customStyle='font-size: 10px;'
-                // }
-                element.terms.forEach(element=>{
-                    reply+=`<li style='${customStyle}'>${element.name} </li>`
-                });
+                if(type==="publisher"){
+                    reply="Designers: "
+                    element.terms.forEach(element => {
+                        if(element.name!="David Digby"){
+                            DGname=element.name
+                            reply+=`<a href="#${DGname}">${DGname}</a> `
+                        }
+                        
+                    });
+                }
+                if(type==="bgg"){
+                    reply= element.terms[0].name
+                }
+                if(type==="otherImages"){
+                    element.terms.forEach(element=>{
+                        reply+=`
+                            <img class="image" src='${element.name}'> 
+                        `
+                    });         
+                }
+                if(type==="mechanics"){
+                    let customStyle=""
+                    // if(element.terms.length>9){
+                    //     customStyle='font-size: 10px;'
+                    // }
+                    element.terms.forEach(element=>{
+                        reply+=`<li style='${customStyle}'>${element.name} </li>`
+                    });
+                }
             }
         }
-    });
+    }
     if(test===true){
         if(reply.length>0){
             reply=true;
@@ -295,15 +335,16 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
             renderElements(allElements,(allElements.length))
             checkSlider(mainContainer.id,displayQuantity,type[2])
         }
-        if(loadMore){  
-            const loadMoreContainer = mainContainer.querySelector("#loadMoreContainer")
-            allElements = await getApi(productsUrl,secondLoadNumber,additionalUrl);
-            if(allElements.length>addNumber){
-                loadMoreContainer.innerHTML=""
-                loadMoreContainer.innerHTML=`<button id="loadMoreButton" >load more</button> `
-                mainContainer.querySelector("#loadMoreButton").addEventListener("click",()=>renderElements(allElements,addNumber*2))
-            }
-        }
+        if (loadMore) {  
+    const loadMoreContainer = mainContainer.querySelector("#loadMoreContainer");
+    allElements = await getApi(productsUrl, secondLoadNumber, additionalUrl);
+    if (allElements.length > addNumber) {
+        loadMoreContainer.innerHTML = "";
+        loadMoreContainer.innerHTML = `<button id="loadMoreButton">load more</button>`;
+        mainContainer.querySelector("#loadMoreButton").addEventListener("click", () => renderElements(allElements, addNumber * 2));
+    }
+}
+
         //To keep sort buttons disabled to after load
         allButons = mainContainer.querySelectorAll("button");
         allButons.forEach(element => {
@@ -328,87 +369,129 @@ async function addListContent(type){
     const target = document.querySelector(`#list-container`)
     createListContent(list,type,target)
 }
-async function createListContent(list,type,target){
+async function addCheckoutListContent(type){
+    const list = await JSON.parse(localStorage.getItem('finalCart'))
+    const target = document.querySelector(`#list-container`)
+    createListContent(list,type,target,"simple")
+}
+async function createListContent(list,type,target,version){
     let newHtml = ""
     let totalPrice = 0
     let productCost
+    let normalCollection = []
     let sleevesCollection = []
     let accessorieCollection = []
     if(list && list.length>0){
-        elements = await getApi(productsUrl,100)
-        elements.forEach(element => {
+        allProducts = await getApi(productsUrl,100)
+        allProducts.forEach(element => {
             list.forEach(listContent => {
                 if(element.id===listContent[0]){
                     if(type==='cart'){ 
-                        productCost = parseInt(element.prices.price, 10);
-                        if(productTypeCheck(listContent[0],sleevesIDs)){
-                            sleevesCollection.push([element,listContent])
-                        }else{
+                        console.log("a",listContent[0])
+                        productCost = parseInt(element.prices.price, 10)
+                        if(version && version==="simple"){
+                             newHtml+=cartContentTemplate(element,listContent[1],"simple")
                             totalPrice+=productCost*listContent[1]
-                            if(listContent[2]){
+                        console.log("b1")
 
-                                accessorieCollection.push([element,listContent])
+                        }else{
+                        console.log("b2")
+
+                            if(productTypeCheck(listContent[0],sleevesIDs)){
+                                sleevesCollection.push([element,listContent])
+                        console.log("c1")
+
                             }else{
-                                let children = addAttributes("child",element)
-                                if(children.length>0){
-                                    children.forEach(child => {
-                                        accessorieCollection.push(["",[child,0,element.id]])
-                                    });
-                                    
+                        console.log("c2")
+
+                                totalPrice+=productCost*listContent[1]
+                                if(listContent[2]){
+                        console.log("d1")
+
+                                    accessorieCollection.push([element,listContent])
+                                }else{
+                        console.log("d2")
+
+                                    let children = addAttributes("child",element)
+                                    if(children.length>0){
+                                        children.forEach(child => {
+                                            accessorieCollection.push(["",[child,0,element.id]])
+                                        });
+                                        
+                                    }
+                                    normalCollection.push(listContent)
+                                    newHtml+=cartContentTemplate(element,listContent[1])
                                 }
-                                newHtml+=cartContentTemplate(element,listContent[1])
                             }
+
                         }
+                        
                     }
                     if(type==='favs'){
                         newHtml+=favsContentTemplate(element)
            }   }   }); });
-    accessorieCollection.forEach(listContent => {
-        elements.forEach(elements => {
-            if(listContent[0]===""){
-                if(elements.id===listContent[1][0]){
-                    listContent[0]=elements
+        accessorieCollection.forEach(listContent => {
+            allProducts.forEach(elements => {
+                if(listContent[0]===""){
+                    if(elements.id===listContent[1][0]){
+                        listContent[0]=elements
+                    }
                 }
-            }
+            });
         });
-    });
-
-     }
+    }
     if(newHtml===""){
         newHtml="nothing here, go away"
     }   
     
     target.innerHTML=newHtml
 
-    sleevesCollection.forEach(element => {
-        let addToTarget = target.querySelector(`#productID${element[1][2]} .sleevesContainer`);
-        if (addToTarget) {
-            addToTarget.innerHTML += sleeveContentTemplate(element[0], element[1][3] * element[1][1]);
-        }else{
-            console.log(element[0].name,"not found for",element[1][2])
-        }
-    });
+
     accessorieCollection=compressAccessories(accessorieCollection)
     accessorieCollection.sort(compareByValue)
     if(accessorieCollection.length>0){
-
         accessorieCollection.forEach(element => {
             totalPrice+=element[0].prices.price*element[1][1]
             let addToTarget = target.querySelector(`#productID${element[1][2]}`)
             if (addToTarget) {
-
                 addToTarget.classList.add('accessorieExpanded')
                 let container = addToTarget.querySelector(".accessories .container")
-
                 if(element[1][1]===0){
                     container.innerHTML += accessorieContentTemplate(element[0],false)
                 }else{
                     container.innerHTML += accessorieContentTemplate(element[0],true)
                 }
+            }else{
+                target.innerHTML+= `<div>${cartContentTemplate(element[0],element[1][1])}</div>`
             }
         });
     }
+    sleevesCollection.forEach(element => {
+        let addToTarget = target.querySelector(`#productID${element[1][2]} .sleevesContainer`);
+        if (addToTarget) {
+            addToTarget.innerHTML += sleeveContentTemplate(element[0], element[1][3] * element[1][1]);
+        }else{
+            target.innerHTML+=cartContentTemplate(element[0], Math.ceil(element[1][3] * element[1][1] /55))
+        }
+    });
     sleevesCollection=compressSleeves(sleevesCollection)
+    let finalCartCollection = []
+    sleevesCollection.forEach(element => {
+        finalCartCollection.push([element[1][0],element[1][1]])
+    });
+    normalCollection.forEach(element => {
+        finalCartCollection.push(element)
+
+    });
+    accessorieCollection.forEach(element => {
+        if(element[1][1]>0){
+            finalCartCollection.push([element[1][0],element[1][1]])
+        }
+    });
+    if(!version){
+        localStorage.setItem('finalCart', JSON.stringify(finalCartCollection));
+    }
+    console.log(finalCartCollection)
     bottomPartCart(sleevesCollection,target,totalPrice)
 }
 function bottomPartCart(sleevesCollection,target,totalPrice){
@@ -434,23 +517,6 @@ function bottomPartCart(sleevesCollection,target,totalPrice){
     });
     target.innerHTML+=`<span class="shift-rigth">Total cost: ${totalPrice}</span>`
 
-}
-function compareByValue(a,b){
-      // Convert the values to numbers for comparison
-  const valueA = Number(a[1][0]);
-  const valueB = Number(b[1][0]);
-  // Compare the numeric values
-  if (valueA < valueB) {
-    return -1;
-  }
-  if (valueA > valueB) {
-    return 1;
-  }
-  // If values are equal, no change in order
-  return 0;
-}
-function changeSleeves(element,adjust){
-   toggleList([element[0],1,0,55],'cart',adjust,true)
 }
 async function toggleList(id,type,forced){
     const list = await getList(type)
@@ -523,7 +589,6 @@ async function inListCheck(id,list,modify) {
             }
             if(productTypeCheck(list[i][0],sleevesIDs) && !checkID2){
                 if (list[i][2]===checkID) {
-                    console.log("c")
                     if (modify) {
                         modify.push(i);
                     }
@@ -564,8 +629,6 @@ async function updateTracker(type){
            addListContent('favs')
         }
     }
-    
-
 }
 async function checkForButtons(list, type) {
     

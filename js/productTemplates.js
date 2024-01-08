@@ -62,7 +62,7 @@ return `
         <a target="_blank" href='${addAttributes("bgg",element)};'"><button>Boardgamegeek</button></a>
       </div>  
       <div id="imageContainer" class="flex-row">
-        ${addAttributes("otherImages",element)}
+        ${addOtherImages(element)}
       </div>
   </section>
     <section class="flex-row bottom-section">
@@ -73,13 +73,22 @@ return `
         </ul>
       </div>
       <div class="text">
-        ${cleanData(element.description)}
+        ${element.description}
       </div>
     </section>
+  <section id="childSection" class="flex-row">
+  </section>
   <section>
 `
 ;}
-function cartContentTemplate(element,quantity){return `
+function cartContentTemplate(element,quantity,version){
+  let sleevesButton = ""
+  let buttons = ""
+  if(!version){
+    sleevesButton = `<span class="cart-sleeves-button">${addAttributes("sleeves",element,element.id)} </span>`
+    buttons=`${createCartButtons(element).join(' ')}`
+  }
+return `
   <section id="productID${element.id}" class="cart-element flex-column">
     <div class=" flex-row">
     <a href="productPage.html?id=${element.id}">
@@ -88,9 +97,8 @@ function cartContentTemplate(element,quantity){return `
       <div class="flex-column">
         <div class="flex-row top-section">
           <span class="name">${element.name}</span>
-          <span class="cart-sleeves-button">${addAttributes("sleeves",element,element.id)} </span>
         </div>
-
+          ${sleevesButton}
           <div class="sleevesContainer flex-row"></div>
 
       </div>
@@ -99,7 +107,7 @@ function cartContentTemplate(element,quantity){return `
               ${priceDisplay(quantity,element)}
           </div>
           <div>
-              ${createCartButtons(element).join(' ')}
+              ${buttons}
           </div>
       </div>
     </div>
@@ -137,7 +145,7 @@ function cartID(element){
   return reply
 }
 function sleeveContentTemplate(element,quantity){return`
-  <div class="small-list sleeve-list flex-column align-column">
+  <div class="small-list sleeve-list flex-column align">
     <a href="productPage.html?id=${element.id}">
         <div class="image contain-image" style="background-image: url('${element.images[0].src}')">
         </div>
@@ -157,7 +165,7 @@ function accessorieContentTemplate(element,cartStatus){
     buttonText="Add"
   }
   return`
-  <div class="small-list accessorie-list flex-column align-column">
+  <div class="small-list accessorie-list flex-column align-top">
     <a class="${classes}" href="productPage.html?id=${element.id}">
       <div class="image contain-image" style="background-image: url('${element.images[0].src}')">
       </div>

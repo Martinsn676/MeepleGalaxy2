@@ -11,6 +11,7 @@ function headerTemplate(){return `
     <a class="homeLink" href="index.html">Home</a>
     <a class="storeLink" href="store.html">Store</a>
     <a class="contactLink" href="contact.html">Contact</a>
+    <a class="checkoutLink" href="checkout.html">Checkout</a>
   </div>
   <a href='cartPage.html'>
     <span>Cart</cart>

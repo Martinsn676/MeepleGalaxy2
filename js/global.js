@@ -10,7 +10,7 @@ let dateAsc = 'orderby=date&order=asc';
 let dateDesc = 'orderby=date&order=desc';
 let standardSort = `titleAsc`;
 let showNumber = 0;
-let sleevesIDs = [250,248,327,329,331]
+let sleevesIDs = [250,248,327,329,331,407]
 let accessorieID= [[258,225]]
 
 const productWidth = 180
@@ -88,7 +88,7 @@ async function addSleeves(size,count,originID){
     toggleList([sleeveTransform(size),1,originID,numericCount],'cart',0)
 }
 function sleeveTransform(size){
-    let id 
+    let id = ""
 
     if(size==="41x63"){
         id=331
@@ -99,8 +99,15 @@ function sleeveTransform(size){
     if(size==="57x87"){
         id=248
     }
+    if(size==="63.5x88"){
+        id=407
+    }
     if(size==="44x68" || size==="44x67"){
         id=250
+    }
+    if(id===""){
+      console.log("Sleeve size "+size+" not found, using recplacement")
+      id=250
     }
     return id
 }
@@ -212,25 +219,36 @@ function displayModal(element){
     
   }
 }
-function cleanData(data){
-  
+function cleanData(data) {
   const div = document.createElement('div');
-  div.innerHTML=data;
-  let cleanData
+  div.innerHTML = data;
+  console.log(data)
   const cleanDataSpans = div.querySelectorAll("span");
   const cleanDataDivs = div.querySelectorAll("p");
-  let returnData = ""
-  if(cleanDataSpans.length>cleanDataDivs.length){
-      cleanData = cleanDataSpans
-    }else{
-      cleanData = cleanDataDivs
-  }
-cleanData.forEach(element => {
-    if(element.innerText.length>3){
-    returnData += `<p>${element.innerText}</p>`
+  const cleanDataBreaks = div.querySelectorAll("br");
 
+  let returnData = "";
+
+  // Concatenate the inner text of <span> and <p> elements
+  cleanDataSpans.forEach(span => {
+    const innerText = span.innerText.trim();
+    if (innerText.length > 3) {
+      returnData += `<p>${innerText}</p>`;
     }
   });
+
+  cleanDataDivs.forEach(p => {
+    const innerText = p.innerText.trim();
+    if (innerText.length > 3) {
+      returnData += `<p>${innerText}</p>`;
+    }
+  });
+
+  // Append breaks to the result
+  cleanDataBreaks.forEach(br => {
+    returnData += "<br>";
+  });
+
   return returnData;
 }
 function cleanTime(date){
@@ -306,4 +324,21 @@ function goToPage(element){
     
     quickView(element)
     
+}
+function compareByValue(a,b){
+      // Convert the values to numbers for comparison
+  const valueA = Number(a[1][0]);
+  const valueB = Number(b[1][0]);
+  // Compare the numeric values
+  if (valueA < valueB) {
+    return -1;
+  }
+  if (valueA > valueB) {
+    return 1;
+  }
+  // If values are equal, no change in order
+  return 0;
+}
+function changeSleeves(element,adjust){
+   toggleList([element[0],1,0,55],'cart',adjust,true)
 }

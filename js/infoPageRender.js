@@ -5,7 +5,6 @@ async function infoPageRender(place){
   let speedLoadElement = []
   speedLoadElement = await JSON.parse(localStorage.getItem('speedLoad'))
   document.querySelector(`#${place}`).classList.add("info-page")
-  console.log(speedLoadElement.id,id)
   if(speedLoadElement && id===speedLoadElement.id){
     console.log('speedLoad')
     element = speedLoadElement
@@ -16,9 +15,7 @@ async function infoPageRender(place){
     document.title+=" - "+element.name
     template = productPageTemplate(element);
     renderPage(place,template)
-
-
-
+    addChilds(place,addAttributes("child",element))
     function renderPage(place,template){
       document.querySelector(`#${place}`).innerHTML=`${template}`;
       updateTracker()
