@@ -31,6 +31,7 @@ async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
     }
   
   }
+
   // Create an AbortController and an AbortSignal.
   const controller = new AbortController();
   const signal = controller.signal;
@@ -39,6 +40,7 @@ async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
     controller.abort();
   });
   let retryCount = 0;
+  console.log(url + endUrl)
   while (retryCount <= maxRetries) {
     try {
       // Make the fetch request with the signal option.
@@ -165,7 +167,7 @@ function checkSlider(id,maxElements,slideJump) {
 
   if(!slideJump){slideJump=1;}
   let sliderItems;
-  
+  console.log(maxElements)
   sliderItems = document.querySelectorAll(`#${id} .card`);
   document.querySelector(`#${id} .left-slider`).addEventListener("click", () => {
     event.target.disabled=true;
@@ -182,7 +184,10 @@ function checkSlider(id,maxElements,slideJump) {
 function updateSlider(adjust, items,maxElements) {
   const realQuantiy = items.length-maxElements;
   let count = 0;
-  let maxShow = 4;
+
+  let maxShow = maxElements;
+
+
 
   showNumber += adjust;
   if(showNumber<0){
@@ -192,16 +197,16 @@ function updateSlider(adjust, items,maxElements) {
     showNumber-=realQuantiy;
   }
 
-  if(maxShow>=maxElements){
-    for (let i = 0; i < items.length; i++) {
-      items[i].classList.add("hidden-slider");
-      if(i > showNumber-1 && count<maxShow && count < maxElements){
-          items[i].classList.remove("hidden-slider");
-          
-          count++
-      }
-    }   
-  }
+
+  for (let i = 0; i < items.length; i++) {
+    items[i].classList.add("hidden-slider");
+    if(i > showNumber-1 && count<maxShow){
+        items[i].classList.remove("hidden-slider");
+        
+        count++
+    }
+  }   
+  
 }
 function addModalClick(item){ 
   item.forEach(element => {
@@ -308,12 +313,13 @@ function quickView(element) {
 }
 async function addBanner(id,target){
     let urlInfo
+    const displayQuantity = 20
     if(target[0]==="category"){
         urlInfo="category="+target[1]
     }
     const mainContainer = document.querySelector(`#${id}`)
-    const elements = await getApi(productsUrl,10,[urlInfo])
-    for(let i=0;i<10;i++){
+    const elements = await getApi(productsUrl,displayQuantity,[urlInfo])
+    for(let i=0;i<displayQuantity;i++){
         if(elements[i]){
         mainContainer.innerHTML+=bannerImageTemplate(elements[i],i)
         }

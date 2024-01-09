@@ -16,10 +16,12 @@ function quickViewTemplate (element){return `
             <div class="contain-image image grid1" style="background-image: url('${element.images[0].src}')">
             </div>
             <div class="grid2 flex-column" >
-            <h6>${element.name}</h6>
-            <span>${addAttributes("designers",element)}</span>
-            <span>${addAttributes("players",element)} </span>
-            <span>${addAttributes("time",element)} </span>
+              <h6>${element.name}</h6>
+              <div class="flex-row>
+                <span>${addAttributes("designers",element)}</span>
+                <span>${addAttributes("players",element)} </span>
+                <span>${addAttributes("time",element)} </span>
+              </div>
             </div>
         </div>
         <div class="flex-row">
@@ -49,8 +51,7 @@ return `
         <span>${addAttributes("time",element)} </span>
         <span>${element.prices.price} kr</span>
         <span>${addAttributes("age",element)}</span>
-        
-        
+        <span>${addStockLevel(element)}</span>
       </div>
     <div">
   <span>${addAttributes("sleeves",element,element.id)} </span>
@@ -102,7 +103,7 @@ return `
           <div class="sleevesContainer flex-row"></div>
 
       </div>
-      <div class="shift-rigth flex-column">
+      <div class="shift-right flex-column">
           <div>
               ${priceDisplay(quantity,element)}
           </div>

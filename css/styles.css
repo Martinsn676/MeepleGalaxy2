@@ -12,7 +12,7 @@
   --plainLinksColor: black;
   --blogCardHeight:200px;
   --blogCardWidth:150px;
-  --bodyMaxWidth:800px;
+  --bodyMaxWidth:1200px;
   --modalImageSize:500px;
 }
 h1, h2{
@@ -83,6 +83,39 @@ body{
 }
 .banner-image.number9 img {
   transform: rotate(-10deg);
+}
+.banner-image.number10 img {
+  transform: rotate(29deg);
+}
+.banner-image.number11 img {
+  transform: rotate(-10deg);
+}
+.banner-image.number12 img {
+  transform: rotate(8deg);
+}
+.banner-image.number13 img {
+  transform: rotate(-7deg);
+}
+.banner-image.number14 img {
+  transform: rotate(7deg);
+}
+.banner-image.number15 img {
+  transform: rotate(-10deg);
+}
+.banner-image.number16 img {
+  transform: rotate(14deg);
+}
+.banner-image.number17 img {
+  transform: rotate(20deg);
+}
+.banner-image.number18 img {
+  transform: rotate(10deg);
+}
+.banner-image.number19 img {
+  transform: rotate(-8deg);
+}
+.banner-image.number20 img {
+  transform: rotate(5deg);
 }
 
 
@@ -190,8 +223,8 @@ position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px;
   z-index: 3;
+  max-height: 400px;
 }
 #modal .contain-image{
   height: 100%;

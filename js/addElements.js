@@ -39,16 +39,27 @@ async function addChilds(place,children){
     target.innerHTML=reply
     return 
 }
+function addStockLevel(element){
+    const stock = element.is_in_stock
+    let reply = ""
+    if(stock){
+        reply="In stock"    
+    }else{
+        reply="No stock"
+    }
+    return reply
+}
 function addAttributes(type, mainElement, test) {
     let reply = "";
 
     for (const element of mainElement.attributes) {
-        if (element.name.includes(type)) {
+        if (element.name===type) {
             if (element.terms[0]) {
                 if (type === "year") {
                     reply = `(${element.terms[0].name})`;
                 }
                 if (type === "age") {
+            console.log(type,element.terms)
                     reply = `${element.terms[0].name}+ years`;
                 }
                 if(type === "parent"){
@@ -189,7 +200,7 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
         window.addEventListener("resize", ()=>resizeCheck(displaySize,window.innerWidth)); 
         mainContainer.classList.add("display-section","pc")
     }
-
+    
     let orderName = standardSort
     addEndUrl.forEach(element => {
         if(element[0]==="sort"){
@@ -214,6 +225,12 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
     }
     if(displaySize==="pc"){
         if(slider){
+            const minimumWidth = 200
+            if(type[2]*minimumWidth>window.innerWidth){
+                const newQuantity = Math.floor(window.innerWidth/minimumWidth)
+                type[2] = newQuantity
+                displayQuantity=newQuantity
+            }
             container.classList.add("slider")
         }
         if(loadMore){
@@ -381,36 +398,43 @@ async function createListContent(list,type,target,version){
     let normalCollection = []
     let sleevesCollection = []
     let accessorieCollection = []
+    if(!version){version=""}
     if(list && list.length>0){
-        allProducts = await getApi(productsUrl,100)
+        const tempList = await getList('tempCartLoad')
+        if(!tempList){
+            allProducts = await getApi(productsUrl,100)
+            localStorage.setItem('tempCartLoad', JSON.stringify(allProducts));
+        }else{
+            allProducts = tempList
+        }
         allProducts.forEach(element => {
             list.forEach(listContent => {
                 if(element.id===listContent[0]){
                     if(type==='cart'){ 
-                        console.log("a",listContent[0])
+                        if(version==="trace"){console.log("a",listContent[0])}
                         productCost = parseInt(element.prices.price, 10)
-                        if(version && version==="simple"){
+                        if(version==="simple"){
                              newHtml+=cartContentTemplate(element,listContent[1],"simple")
                             totalPrice+=productCost*listContent[1]
-                        console.log("b1")
+                        if(version==="trace"){console.log("b1")}
 
                         }else{
-                        console.log("b2")
+                        if(version==="trace"){console.log("b2")}
 
-                            if(productTypeCheck(listContent[0],sleevesIDs)){
+                            if(listContent[3]>0){
                                 sleevesCollection.push([element,listContent])
-                        console.log("c1")
+                        if(version==="trace"){console.log("c1")}
 
                             }else{
-                        console.log("c2")
+                        if(version==="trace"){console.log("c2")}
 
                                 totalPrice+=productCost*listContent[1]
                                 if(listContent[2]){
-                        console.log("d1")
+                        if(version==="trace"){console.log("d1")}
 
                                     accessorieCollection.push([element,listContent])
                                 }else{
-                        console.log("d2")
+                        if(version==="trace"){console.log("d2")}
 
                                     let children = addAttributes("child",element)
                                     if(children.length>0){
@@ -491,7 +515,6 @@ async function createListContent(list,type,target,version){
     if(!version){
         localStorage.setItem('finalCart', JSON.stringify(finalCartCollection));
     }
-    console.log(finalCartCollection)
     bottomPartCart(sleevesCollection,target,totalPrice)
 }
 function bottomPartCart(sleevesCollection,target,totalPrice){
@@ -509,18 +532,22 @@ function bottomPartCart(sleevesCollection,target,totalPrice){
             <div id="sleeve-list" class="flex-column">
                 <span>${element[0].name}</span>
                 <span> ${sleevesNeeded} sleeves (${leftoverMessage})</span>
-                <span class="shift-rigth">
+                <span class="shift-right">
                     ${priceDisplay(setsWanted,element[0])}
                 </span>
             </div>
             `
     });
-    target.innerHTML+=`<span class="shift-rigth">Total cost: ${totalPrice}</span>`
+    target.innerHTML+=`
+        <div class="flex-column shift-right">
+            <span>Total cost: ${totalPrice}</span>
+            <a class="checkoutLink" href="checkout.html">Checkout</a>
+        </div>
+    `
 
 }
 async function toggleList(id,type,forced){
     const list = await getList(type)
-    console.log(id,type,forced)
     if(!forced){
       forced=0
     }
@@ -621,8 +648,11 @@ async function updateTracker(type){
             counter.innerHTML=items.length
         }
         checkForButtons(items,type)
+        if(document.title!="Cart page"){
+
+        }
         if(document.title==="Cart page" && type==='cart'){
-           addListContent('cart')
+           addListContent('cart',)
         }
         if(document.title==="Favorites page" && type==='favs'){
 

@@ -1,6 +1,6 @@
 /* ==== Header ==== */
 function headerTemplate(){return `
-<div id="header" class="links-passive flex-row align-row">    
+<div id="header" class="links-passive flex-row align">    
   <div class="flex-row">
     <a href="index.html">
       <img class="link-logo" src="https://prototype.meeplegalaxy.com/wp-content/uploads/2023/11/logo_wide_b73121fc-20a9-4cbc-b723-f7f21b51c4ee.png">
@@ -11,7 +11,7 @@ function headerTemplate(){return `
     <a class="homeLink" href="index.html">Home</a>
     <a class="storeLink" href="store.html">Store</a>
     <a class="contactLink" href="contact.html">Contact</a>
-    <a class="checkoutLink" href="checkout.html">Checkout</a>
+
   </div>
   <a href='cartPage.html'>
     <span>Cart</cart>
