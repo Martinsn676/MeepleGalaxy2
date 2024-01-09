@@ -1,19 +1,16 @@
 let clickFlag
 let displaySize 
-async function testAddToCart(type){
-    let testingGames
+async function testAddToCart(){
+
 //[217,1],[214,1] [[225,1],[221,1],[214,1],[250,1,225,40],[248,1,225,50],[250,1,221,40],[248,1,221,50]]
-    if(type==='cart'){
-        testingGames = [[225,1],[217,1],[214,1],[250,1,225,40],[319,1,318],[318,1]]
 
-    }else{
-
-        testingGames = [[225,1],[217,1],[214,1]]
-
-    }
-    elements=testingGames
-    localStorage.setItem(type, JSON.stringify(elements));
-    updateTracker(type)
+    const cartTestingGames = [[225,1],[217,1],[214,1],[250,1,225,40],[319,1,318],[318,1]]
+    const favsTestingGames = [[225,1],[217,1],[214,1]]
+    localStorage.removeItem('tempCartLoad');
+    localStorage.removeItem('finalCart');
+    localStorage.setItem('cart', JSON.stringify(cartTestingGames));
+    localStorage.setItem('favs', JSON.stringify(favsTestingGames));
+    updateTracker()
 }
 function addOtherImages(element){
   const images = element.images
@@ -36,7 +33,7 @@ async function addChilds(place,children){
         reply+=`<div class="card small-card product-card flex-row">${productTemplate(child)}</div>`
     }
     const target = document.querySelector(`#${place} #childSection`)
-    target.innerHTML=reply
+    if(target){target.innerHTML=reply}
     return 
 }
 function addStockLevel(element){
@@ -53,7 +50,9 @@ function addAttributes(type, mainElement, test) {
     let reply = "";
 
     for (const element of mainElement.attributes) {
+console.log(mainElement.id,element.name,type)
         if (element.name===type) {
+
             if (element.terms[0]) {
                 if (type === "year") {
                     reply = `(${element.terms[0].name})`;
@@ -68,24 +67,17 @@ function addAttributes(type, mainElement, test) {
                     }
                 }
                 if (type === "child") {
-                    const children = [];
-                    for (const childElement of element.terms) {
-                        children.push(parseInt(childElement.name, 10));
-                    }
+                    const children = element.terms.map(childElement => parseInt(childElement.name, 10));
                     reply=children
                 }
-                if(type==="sleeves"){
-                    element.terms.forEach(element => {
-                        const splitted = element.name.split(' ');
-                        reply+=`<button id="${sleeveTransform(splitted[0])}" onclick="addSleeves('${splitted[0]}','${splitted[1]}',${mainElement.id})">${splitted[0]} (${splitted[1]})</button>`
-                    });
+                if (type === "sleeves") {
+                return element.terms.map(element => {
+                    const splitted = element.name.split(' ');
+                    return `<button id="${sleeveTransform(splitted[0])}" onclick="addSleeves('${splitted[0]}','${splitted[1]}',${mainElement.id})">${splitted[0]} (${splitted[1]})</button>`;
+                    }).join('');
                 }
                 if(type==="players"){
-                    if(!element.terms[1]){
-                        end = ` player`
-                    }else{
-                        end = `-${element.terms[1].name} players`
-                    }
+                    const end = !element.terms[1] ? " player" : `-${element.terms[1].name} players`;
                     reply+=`${element.terms[0].name+end}`
                 
                     

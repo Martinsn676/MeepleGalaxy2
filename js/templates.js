@@ -21,8 +21,7 @@ function headerTemplate(){return `
     <span>Favorites</cart>
     <span id='favsNumber'>0</span>
   </a>
-  <button onclick="testAddToCart('cart')">Cart</button>
-  <button onclick="testAddToCart('favs')">Favs</button>
+  <button onclick="testAddToCart()">Reset</button>
   <div class="headerLinks mobile hide flex-column align-column">
     <a class="homeLink" href="index.html">Home</a>
     <a class="storeLink" href="store.html">Store</a>

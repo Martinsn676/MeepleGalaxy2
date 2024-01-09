@@ -15,7 +15,7 @@ async function infoPageRender(place){
     document.title+=" - "+element.name
     template = productPageTemplate(element);
     renderPage(place,template)
-    addChilds(place,addAttributes("child",element))
+    //addChilds(place,addAttributes("child",element))
     function renderPage(place,template){
       document.querySelector(`#${place}`).innerHTML=`${template}`;
       updateTracker()

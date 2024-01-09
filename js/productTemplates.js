@@ -17,11 +17,7 @@ function quickViewTemplate (element){return `
             </div>
             <div class="grid2 flex-column" >
               <h6>${element.name}</h6>
-              <div class="flex-row>
-                <span>${addAttributes("designers",element)}</span>
-                <span>${addAttributes("players",element)} </span>
-                <span>${addAttributes("time",element)} </span>
-              </div>
+
             </div>
         </div>
         <div class="flex-row">
@@ -46,15 +42,20 @@ return `
       </div>  
       <div class="flex-column">
         <h1>${element.name} ${addAttributes("year",element)}</h1>
+        
+        <div class="flex-row">
+          <span>${addAttributes("players",element)} </span>
+          <span>${addAttributes("time",element)} </span>
+          <span>${addAttributes("age",element)}</span>
+        </div>
+        <span>${addAttributes("sleeves",element,element.id)} </span>
         <span>${addAttributes("designers",element)}</span>
-        <span>${addAttributes("players",element)} </span>
-        <span>${addAttributes("time",element)} </span>
         <span>${element.prices.price} kr</span>
-        <span>${addAttributes("age",element)}</span>
+        
         <span>${addStockLevel(element)}</span>
       </div>
     <div">
-  <span>${addAttributes("sleeves",element,element.id)} </span>
+  
     </section>
     <section class="flex-column middle-section">
       <div class="flex-row">
