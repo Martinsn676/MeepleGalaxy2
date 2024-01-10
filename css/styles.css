@@ -452,3 +452,6 @@ textarea{
     transform: rotate(360deg);
   }
 }
+.cart-element .top-part{
+  height: 160px;
+}

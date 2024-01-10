@@ -92,7 +92,7 @@ function cartContentTemplate(element,quantity,version){
   }
 return `
   <section id="productID${element.id}" class="cart-element flex-column">
-    <div class=" flex-row">
+    <div class="top-part flex-row">
     <a href="productPage.html?id=${element.id}">
         <div class="image contain-image" style="background-image: url('${element.images[0].src}')"></div>
     </a>  

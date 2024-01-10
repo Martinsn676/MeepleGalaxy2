@@ -48,87 +48,81 @@ function addStockLevel(element){
 }
 function addAttributes(type, mainElement, test) {
     let reply = "";
-
     for (const element of mainElement.attributes) {
-console.log(mainElement.id,element.name,type)
-        if (element.name===type) {
-
-            if (element.terms[0]) {
-                if (type === "year") {
-                    reply = `(${element.terms[0].name})`;
+        if (element.name===type && element.terms[0]) {
+            if (type === "year") {
+                reply = `(${element.terms[0].name})`;
+            }
+            if (type === "age") {
+        console.log(type,element.terms)
+                reply = `${element.terms[0].name}+ years`;
+            }
+            if(type === "parent"){
+                if(element.terms[0]){
+                    reply=element.terms[0].name
                 }
-                if (type === "age") {
-            console.log(type,element.terms)
-                    reply = `${element.terms[0].name}+ years`;
+            }
+            if (type === "child") {
+                const children = element.terms.map(childElement => parseInt(childElement.name, 10));
+                reply=children
+            }
+            if (type === "sleeves") {
+            return element.terms.map(element => {
+                const splitted = element.name.split(' ');
+                return `<button id="${sleeveTransform(splitted[0])}" onclick="addSleeves('${splitted[0]}','${splitted[1]}',${mainElement.id})">${splitted[0]} (${splitted[1]})</button>`;
+                }).join('');
+            }
+            if(type==="players"){
+                const end = !element.terms[1] ? " player" : `-${element.terms[1].name} players`;
+                reply+=`${element.terms[0].name+end}`                    
+            }
+            if(type==="time"){
+                if(!element.terms[1]){
+                    end = ` min`
+                }else{
+                    end = `-${element.terms[1].name} min`
                 }
-                if(type === "parent"){
-                    if(element.terms[0]){
-                        reply=element.terms[0].name
+                reply+=`${element.terms[0].name+end}`
+            }
+            if(type==="designers"){
+                reply="Designers: "
+                element.terms.forEach(element => {
+                    if(element.name!="David Digby"){
+                        DGname=element.name
+                        reply+=`<a href="#${DGname}">${DGname}</a> `
                     }
-                }
-                if (type === "child") {
-                    const children = element.terms.map(childElement => parseInt(childElement.name, 10));
-                    reply=children
-                }
-                if (type === "sleeves") {
-                return element.terms.map(element => {
-                    const splitted = element.name.split(' ');
-                    return `<button id="${sleeveTransform(splitted[0])}" onclick="addSleeves('${splitted[0]}','${splitted[1]}',${mainElement.id})">${splitted[0]} (${splitted[1]})</button>`;
-                    }).join('');
-                }
-                if(type==="players"){
-                    const end = !element.terms[1] ? " player" : `-${element.terms[1].name} players`;
-                    reply+=`${element.terms[0].name+end}`
-                
                     
-                }
-                if(type==="time"){
-                    if(!element.terms[1]){
-                        end = ` min`
-                    }else{
-                        end = `-${element.terms[1].name} min`
+                });
+            }
+            if(type==="publisher"){
+                reply="Designers: "
+                element.terms.forEach(element => {
+                    if(element.name!="David Digby"){
+                        DGname=element.name
+                        reply+=`<a href="#${DGname}">${DGname}</a> `
                     }
-                    reply+=`${element.terms[0].name+end}`
-                }
-                if(type==="designers"){
-                    reply="Designers: "
-                    element.terms.forEach(element => {
-                        if(element.name!="David Digby"){
-                            DGname=element.name
-                            reply+=`<a href="#${DGname}">${DGname}</a> `
-                        }
-                        
-                    });
-                }
-                if(type==="publisher"){
-                    reply="Designers: "
-                    element.terms.forEach(element => {
-                        if(element.name!="David Digby"){
-                            DGname=element.name
-                            reply+=`<a href="#${DGname}">${DGname}</a> `
-                        }
-                        
-                    });
-                }
-                if(type==="bgg"){
-                    reply= element.terms[0].name
-                }
-                if(type==="otherImages"){
-                    element.terms.forEach(element=>{
-                        reply+=`
-                            <img class="image" src='${element.name}'> 
-                        `
-                    });         
-                }
-                if(type==="mechanics"){
-                    let customStyle=""
+                    
+                });
+            }
+            if(type==="bgg"){
+                reply= element.terms[0].name
+            }
+            if(type==="otherImages"){
+                element.terms.forEach(element=>{
+                    reply+=`
+                        <img class="image" src='${element.name}'> 
+                    `
+                });         
+            }
+            if(type==="mechanics"){
+                let customStyle=""
                     // if(element.terms.length>9){
                     //     customStyle='font-size: 10px;'
                     // }
                     element.terms.forEach(element=>{
                         reply+=`<li style='${customStyle}'>${element.name} </li>`
                     });
-                }
+                
             }
         }
     }
