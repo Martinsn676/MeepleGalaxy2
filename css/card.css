@@ -165,35 +165,11 @@ button.posButton{
     padding:0px;
     background:none;
 }
-@media only screen and (min-width:700px){
-    .big-card .top-part{
-        height: 200px;
-        display: grid; 
-        gap:1rem;
-        grid-template-rows: 1fr 1fr 1fr;
-        grid-template-areas:
-        'grid1 grid2 grid3';
-    }  
-    .big-card .bottom-part .scroll{
-        height: 200px;
-    }
+.big-card .contain-image{
+width: 100px;
+margin: 10px;
 }
-@media only screen and (max-width:699px){
-    .grid3{
-        margin: 0 auto;
-    }
-    .big-card .top-part{
-        
-        display: grid; 
-        gap:1rem;
-        grid-template-areas:
-        'grid1 grid2'
-        'grid3 grid2';
-    }  
-     .big-card .bottom-part .scroll{
-        height: 100px;
-    }
-}
+
 /* ===== Blog cards ===== */
 .blog-card{
     height: var(--blogCardHeight);

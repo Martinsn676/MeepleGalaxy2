@@ -218,13 +218,15 @@ header a.active{
   z-index: 3;
 }
 
-#modal .image{
-position: fixed;
+#modal .image {
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
-  max-height: 400px;
+  max-width: 400px; /* Set maximum width */
+  width: 100%; /* Ensure it takes up the available width */
+  height: auto; /* Maintain aspect ratio */
 }
 #modal .contain-image{
   height: 100%;
@@ -454,4 +456,8 @@ textarea{
 }
 .cart-element .top-part{
   height: 160px;
+}
+.big-card .grid2 span{
+  margin-left: 10px;
+
 }

@@ -69,7 +69,7 @@ function addAttributes(type, mainElement, test) {
             if (type === "sleeves") {
             return element.terms.map(element => {
                 const splitted = element.name.split(' ');
-                return `<button id="${sleeveTransform(splitted[0])}" onclick="addSleeves('${splitted[0]}','${splitted[1]}',${mainElement.id})">${splitted[0]} (${splitted[1]})</button>`;
+                return `<button id="sleeveID${sleeveTransform(splitted[0])}" onclick="addSleeves('${splitted[0]}','${splitted[1]}',${mainElement.id})">${splitted[0]} (${splitted[1]})</button>`;
                 }).join('');
             }
             if(type==="players"){
@@ -87,21 +87,19 @@ function addAttributes(type, mainElement, test) {
             if(type==="designers"){
                 reply="Designers: "
                 element.terms.forEach(element => {
-                    if(element.name!="David Digby"){
-                        DGname=element.name
-                        reply+=`<a href="#${DGname}">${DGname}</a> `
-                    }
-                    
+                    reply+=`<a href="#${element.name}">${element.name}</a> `
                 });
             }
-            if(type==="publisher"){
-                reply="Designers: "
+            if(type==="publishers"){
+                reply="Publishers: "
                 element.terms.forEach(element => {
-                    if(element.name!="David Digby"){
-                        DGname=element.name
-                        reply+=`<a href="#${DGname}">${DGname}</a> `
-                    }
-                    
+                    reply+=`<a href="#${element.name}">${element.name}</a> `                    
+                });
+            }
+            if(type==="artists"){
+                reply="Artists: "
+                element.terms.forEach(element => {
+                    reply+=`<a href="#${element.name}">${element.name}</a> `
                 });
             }
             if(type==="bgg"){
@@ -479,6 +477,9 @@ async function createListContent(list,type,target,version){
     sleevesCollection.forEach(element => {
         let addToTarget = target.querySelector(`#productID${element[1][2]} .sleevesContainer`);
         if (addToTarget) {
+console.log(element[1][0])
+            button = target.querySelector(`#productID${element[1][2]} #sleeveID${element[1][0]}`)
+            button.classList.add('posButton')
             addToTarget.innerHTML += sleeveContentTemplate(element[0], element[1][3] * element[1][1]);
         }else{
             target.innerHTML+=cartContentTemplate(element[0], Math.ceil(element[1][3] * element[1][1] /55))

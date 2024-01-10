@@ -12,12 +12,23 @@ function productTemplate(element){return `
 ;}
 function quickViewTemplate (element){return `
     <div class="card big-card">
-        <div class="top-part">
-            <div class="contain-image image grid1" style="background-image: url('${element.images[0].src}')">
+        <div class="top-part flex-row">
+            <div class="contain-image image" style="background-image: url('${element.images[0].src}')">
             </div>
-            <div class="grid2 flex-column" >
-              <h6>${element.name}</h6>
+            <div class="flex-column" >
+        <h1>${element.name} ${addAttributes("year",element)}</h1>
 
+        <span>${addAttributes("players",element)} </span>
+        <span>${addAttributes("time",element)} </span>
+        <span>${addAttributes("age",element)}</span>
+
+        <span>${addAttributes("sleeves",element,element.id)} </span>
+        <span>${addAttributes("designers",element)}</span>
+        <span>${addAttributes("artists",element)}</span>
+        <span>${addAttributes("publishers",element)}</span>
+        <span>${element.prices.price} kr</span>
+        
+        <span>${addStockLevel(element)}</span>
             </div>
         </div>
         <div class="flex-row">
@@ -25,6 +36,9 @@ function quickViewTemplate (element){return `
             <button id="addToFavsButton" onclick="toggleList(${element.id},'favs')">Add to favorites</button>
             <a target="_blank" href='${addAttributes("bgg",element)};'"><button>BGG</button></a>
         </div>
+      <div id="imageContainer" class="flex-row">
+        ${addOtherImages(element)}
+      </div>
         <div class="bottom-part">
             <div class="scroll">
             ${element.description}  
@@ -50,6 +64,8 @@ return `
         </div>
         <span>${addAttributes("sleeves",element,element.id)} </span>
         <span>${addAttributes("designers",element)}</span>
+        <span>${addAttributes("artists",element)}</span>
+        <span>${addAttributes("publishers",element)}</span>
         <span>${element.prices.price} kr</span>
         
         <span>${addStockLevel(element)}</span>
