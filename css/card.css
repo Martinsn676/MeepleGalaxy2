@@ -165,11 +165,18 @@ button.posButton{
     padding:0px;
     background:none;
 }
-.big-card .contain-image{
-width: 100px;
-margin: 10px;
-}
+@media only screen and (min-width:700px){
 
+    .big-card .bottom-part .scroll{
+        height: 200px;
+    }
+}
+@media only screen and (max-width:699px){
+
+     .big-card .bottom-part .scroll{
+        height: 100px;
+    }
+}
 /* ===== Blog cards ===== */
 .blog-card{
     height: var(--blogCardHeight);
