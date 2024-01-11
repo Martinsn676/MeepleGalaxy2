@@ -3,11 +3,9 @@ let displaySize
 async function testAddToCart(){
 
 //[217,1],[214,1] [[225,1],[221,1],[214,1],[250,1,225,40],[248,1,225,50],[250,1,221,40],[248,1,221,50]]
-
+    localStorage.clear()
     const cartTestingGames = [[225,1],[217,1],[214,1],[250,1,225,40],[319,1,318],[318,1]]
     const favsTestingGames = [[225,1],[217,1],[214,1]]
-    localStorage.removeItem('tempCartLoad');
-    localStorage.removeItem('finalCart');
     localStorage.setItem('cart', JSON.stringify(cartTestingGames));
     localStorage.setItem('favs', JSON.stringify(favsTestingGames));
     updateTracker()
@@ -54,7 +52,6 @@ function addAttributes(type, mainElement, test) {
                 reply = `(${element.terms[0].name})`;
             }
             if (type === "age") {
-        console.log(type,element.terms)
                 reply = `${element.terms[0].name}+ years`;
             }
             if(type === "parent"){
@@ -351,19 +348,24 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
         allButons.forEach(element => {
             element.disabled=false;
         });
-         
+        
         if(searchField){
-            function updateSearch(allElements,search){
-                renderElements(allElements,allElements.length,search)
+            searchResultContainer = searchField.querySelector("#search-container")
+            searchAllElements = await getApi(productsUrl, 100, additionalUrl);
+            function updateSearch(searchAllElements,search){
+                if(search.length>1){
+                    renderElements(searchAllElements,searchAllElements.length,search)
+                }else{
+                    searchResultContainer.innerHTML=""
+                }
             }  
             document.querySelector("#search-input").addEventListener('keyup', function (){
                 const scrollPosition = window.scrollY;
-                updateSearch(allElements,this.value)
+                updateSearch(searchAllElements,this.value)
                 window.scrollTo(0, scrollPosition);
             });
         }
     }
-
 }
 async function addListContent(type){
     const list = await JSON.parse(localStorage.getItem(type))

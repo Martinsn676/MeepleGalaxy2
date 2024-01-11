@@ -19,8 +19,6 @@ h1, h2{
   color: var(--headerColor);
 }
 p{
-  font-family: 'Open Sans', sans-serif;
-  font-family: 'Salsa', cursive;
   color: var(--pColor);
 }
 
@@ -460,4 +458,7 @@ textarea{
 .big-card .grid2 span{
   margin-left: 10px;
 
+}
+.big-card .contain-image{
+  width: 200px;
 }
