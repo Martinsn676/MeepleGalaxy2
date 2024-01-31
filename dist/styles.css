@@ -110,7 +110,7 @@ button.posButton {
 }
 
 .bordered {
-  border: rgb(var(--borderColor));
+  border: rgb(78, 127, 255);
   border-style: solid;
   border-radius: 20px;
 }
