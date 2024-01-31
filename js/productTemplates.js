@@ -110,7 +110,7 @@ return `
     </div>
   </section>
   <section class="w-12 middle-section flex-row">
-    <div class="w-6 ">
+    <div class="w-6">
       <ul>
         Mechanics
           ${addAttributes("mechanics",element)}
