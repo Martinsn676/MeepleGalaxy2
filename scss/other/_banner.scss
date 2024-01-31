@@ -1,0 +1,86 @@
+/* ===== Banner ===== */
+#testBanner{
+  min-height: 207px;
+}
+.productBanner{
+  margin: 2px;
+}
+.banner-image,.banner-image img{
+  height: 100px;
+  position: relative;
+  font-size: 0px;
+}
+.banner-image .hover-box{
+  position: absolute;
+  z-index:2;
+  left: 5px;
+  background-color: beige;
+  display: none;
+  font-size: 10px;
+}
+.banner-image:hover .hover-box{
+  display: block;
+}
+.banner-image.number0 img {
+  transform: rotate(-8deg);
+}
+.banner-image.number1 img{
+  transform: rotate(7deg);
+}
+.banner-image.number2 img {
+  transform: rotate(20deg);
+}
+.banner-image.number3 img {
+  transform: rotate(-3deg);
+}
+.banner-image.number4 img {
+  transform: rotate(14deg);
+}
+.banner-image.number5 img {
+  transform: rotate(29deg);
+}
+.banner-image.number6 img {
+  transform: rotate(-7deg);
+}
+.banner-image.number7 img {
+  transform: rotate(-2deg);
+}
+.banner-image.number8 img {
+  transform: rotate(15deg);
+}
+.banner-image.number9 img {
+  transform: rotate(-10deg);
+}
+.banner-image.number10 img {
+  transform: rotate(29deg);
+}
+.banner-image.number11 img {
+  transform: rotate(-10deg);
+}
+.banner-image.number12 img {
+  transform: rotate(8deg);
+}
+.banner-image.number13 img {
+  transform: rotate(-7deg);
+}
+.banner-image.number14 img {
+  transform: rotate(7deg);
+}
+.banner-image.number15 img {
+  transform: rotate(-10deg);
+}
+.banner-image.number16 img {
+  transform: rotate(14deg);
+}
+.banner-image.number17 img {
+  transform: rotate(20deg);
+}
+.banner-image.number18 img {
+  transform: rotate(10deg);
+}
+.banner-image.number19 img {
+  transform: rotate(-8deg);
+}
+.banner-image.number20 img {
+  transform: rotate(5deg);
+}

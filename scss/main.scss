@@ -1,0 +1,26 @@
+// main.scss
+@import 'variables';
+@import 'unsorted';
+// Other files in the "other" folder
+@import 'other/search';
+@import 'other/modal';
+@import 'other/lazy';
+@import 'other/header';
+@import 'other/banner';
+@import 'other/actions';
+
+// Pages
+//@import 'pages/infoPage';
+@import 'pages/contactPage';
+@import 'pages/aboutPage';
+@import 'pages/cartPage';
+@import 'pages/productPage';
+
+// Cards
+@import 'cards/slider';
+@import 'cards/productCard';
+
+
+// Additional imports or global styles go here
+
+// Your main styles

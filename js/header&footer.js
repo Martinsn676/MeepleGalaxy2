@@ -1,23 +1,19 @@
 document.querySelector("header").innerHTML=`${headerTemplate()}`
 document.querySelector("footer").innerHTML=`${footerTemplate()}${modalTemplate()}`
-if(document.title==="Store"){
-    document.querySelector(".pc .storeLink").classList.add("active")
-    document.querySelector(".mobile .storeLink").classList.add("active")
-}
-if(document.title==="Meeple Galaxy"){
-    document.querySelector(".pc .homeLink").classList.add("active")
-    document.querySelector(".mobile .homeLink").classList.add("active")
-}
-if(document.title==="Blogs"){
-    document.querySelector(".pc .blogLink").classList.add("active")
-    document.querySelector(".mobile .blogLink").classList.add("active")
-}
-if(document.title==="Contact us"){
-    document.querySelector(".pc .contactLink").classList.add("active")
-    document.querySelector(".mobile .contactLink").classList.add("active")
-}
 
 
+const navItems = document.getElementById('header').querySelectorAll('.headerLinks a');
+const currentPath = window.location.pathname.toLowerCase();
+for (let i = 0; i < navItems.length; i++) {
+  const link = navItems[i];
+  const href = "/"+link.getAttribute('href').toLowerCase();
+  if (href === currentPath) {
+    link.setAttribute('aria-current', 'page');
+    link.classList.add("active")
+  } else {
+    link.removeAttribute('aria-current');
+  }
+}
 const searchField = document.querySelector('#search')
 if(searchField){
     searchField.innerHTML= `
@@ -27,7 +23,6 @@ if(searchField){
     </div>
     `;
 }
-
 document.querySelector("#headerLinkButton").addEventListener("click",()=>{
     document.querySelector("#header .mobile").classList.toggle("hide")
     document.querySelector(".headerLinks.mobile").scrollIntoView({
@@ -44,3 +39,4 @@ window.addEventListener("scroll",()=>{
 });
 
 updateTracker()
+removeList('newCart')

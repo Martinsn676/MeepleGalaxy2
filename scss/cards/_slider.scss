@@ -1,0 +1,52 @@
+/* ===== Slider card ===== */
+.slider{
+  width: 100%;
+  height: var(--blogCardHeight)+20px;
+  display: flex;
+  flex-wrap: nowrap;
+  position: relative;
+  .card{
+    width:150px;
+  }
+  .hidden-slider {
+    display: none;
+  }
+}
+.display-section{
+    padding:10px 0 40px 0;
+    position: relative;
+}
+.slider-buttons {
+  position: absolute;
+  cursor: pointer;
+  height: 55%;
+  width: 30px;
+  top: 20%
+}
+.slider {
+  .right-slider {
+    left: var(--bodyMaxWidth);
+    border-radius:0 100px 100px 0;
+  }
+  .left-slider {
+    border-radius: 100px 0 0 100px;
+    right: var(--bodyMaxWidth);
+  }
+}
+@media only screen and (max-width:899px){
+  .slider-buttons{
+    display: none;
+  }
+  .slider{
+    overflow: hidden;
+  }
+  #elements-container{
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media only screen and (min-width:900px){
+    .slider .card{
+        flex: 1 1 0;
+    }
+}

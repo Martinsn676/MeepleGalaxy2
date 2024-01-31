@@ -1,0 +1,16 @@
+{
+  "name": "meeplegalaxy2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "sass:compile": "sass scss/main.scss dist/styles.css",
+  "sass:watch": "npm run sass:compile -- --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.70.0"
+  }
+}

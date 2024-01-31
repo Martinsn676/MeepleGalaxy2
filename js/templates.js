@@ -7,21 +7,38 @@ function headerTemplate(){return `
     </a>
     <button id="headerLinkButton">Menu</button>
   </div>
-  <div class="headerLinks pc flex-row">
-    <a class="homeLink" href="index.html">Home</a>
-    <a class="storeLink" href="store.html">Store</a>
-    <a class="contactLink" href="contact.html">Contact</a>
 
-  </div>
-  <a href='cartPage.html'>
-    <span>Cart</cart>
-    <span id='cartNumber'>0</span>
-  </a>
-  <a href='favsPage.html'>
-    <span>Favorites</cart>
-    <span id='favsNumber'>0</span>
-  </a>
-  <button onclick="testAddToCart()">Reset</button>
+    <ul class="headerLinks pc flex-row">
+      <li>
+        <a class="homeLink" href="index.html">Home</a>
+      </li>
+      <li>
+        <a class="storeLink" href="store.html">Store</a>
+
+      </li>
+      <li>
+          <a class="contactLink" href="contact.html">Contact</a>
+      </li>
+      <li>
+        <a href='cartPage.html'>
+          <span>Cart</cart>
+          <span id='cartNumber'>0</span>
+        </a>
+      </li>
+      <li>
+        <a href='favsPage.html'>
+          <span>Favorites</cart>
+          <span id='favsNumber'>0</span>
+        </a>
+      </li>
+      <li>
+        <button onclick="testAddToCart()">Reset</button>
+      </li>
+    </ul>
+
+  
+  
+  
   <div class="headerLinks mobile hide flex-column align-column">
     <a class="homeLink" href="index.html">Home</a>
     <a class="storeLink" href="store.html">Store</a>
@@ -83,7 +100,7 @@ function modalTemplate(){return`
 function addSortButtonTemplate(log, order) {
     let output = "";
     order.forEach(element => {
-        output += `<button type="button" disabled="true" id='${element[0]}' onclick="sortButtonClick('${log[0]}', '${log[1]}', ${log[2]}, ['${log[3][0]}',${log[3][1]},${log[3][2]}], ['sort','${element[0]}'])">${element[1]}</button>`;
+        output += `<button type="button" class="bordered" disabled="true" id='${element[0]}' onclick="sortButtonClick('${log[0]}', '${log[1]}', ${log[2]}, ['${log[3][0]}',${log[3][1]},${log[3][2]}], ['sort','${element[0]}'])">${element[1]}</button>`;
     });
     return output;
 ;}

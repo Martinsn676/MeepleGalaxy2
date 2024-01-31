@@ -1,0 +1,93 @@
+
+:root {
+  --cardTextColor: white;
+  --borderColor:50,50,200;
+  --otherBGColor: rgb(120,120,120);
+  --headerColor: rgb(70,70,70);
+  --generalTextColor: rgb(70,70,70);
+
+  --buttonColor: 100,100,100;
+  --buttonHover: 70,70,70;
+  --buttonActive: 30,30,30;
+
+  --plainLinksColor: black;
+  --bodyMaxWidth:1200px;
+  --modalImageSize:500px;
+  --test:500px
+}
+h1, h2{
+  color: var(--headerColor);
+}
+p{
+  color: var(--pColor);
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+footer {
+  margin: 50px auto;
+}
+body{
+    max-width: var(--bodyMaxWidth);
+    margin: 0 auto;
+}
+
+/* ===== Menu for cards ===== */
+
+.sort-buttons .selected-sort{
+    background-color: rgb(var(--borderColor));
+  color: white;
+}
+.sort-buttons.hide{
+    display: none;
+}
+.sort-buttons{
+    right: 0px;
+}
+#elements-container{
+    width: 100%;
+}
+section{
+    position: relative;
+}
+button{
+    background-color:white;
+    margin: 5px;
+    padding: 5px;
+    color: black;
+    cursor: pointer;
+    border-color:rgb(100,100,100);
+}
+button:disabled {
+  cursor: default;
+}
+.fully-loaded .slider-buttons:hover, button:hover{
+background-color: rgba(var(--borderColor), 0.8);
+border-color:rgb(100,100,100);
+  color: white;
+}
+.fully-loaded .product-card:hover{
+  margin: 3px;
+  padding: 7px;
+}
+#elements-container .slider-buttons:active,button:active{
+  background-color:rgb(var(--borderColor),1);
+    color: white;
+}
+button.posButton{
+    background-color: green;
+    color: white;
+}
+#topLine h2{
+    margin: 0 10px;
+    
+}
+
+#bottomLine{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 2;
+}

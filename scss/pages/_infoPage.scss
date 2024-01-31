@@ -1,0 +1,65 @@
+/* ===== Info pages ===== */
+.info-page .mechanics{
+  margin: 5px;
+  min-width: 30%;
+  background-color: rgb(240,240,240);
+
+}
+.info-page .text{
+    margin: 5px;
+  background-color: rgb(240,240,240);
+}
+.info-page .text p{
+  margin: 5px;
+}
+.info-page .top-line{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+@media only screen and (max-width:500px){ 
+  .info-page .top-line{
+    flex-direction: column;
+  }
+}
+#show-button{
+  display: none;
+}
+.overflow-hidden #hide-button{
+  display: none;
+}
+.overflow-hidden #show-button{
+  display: block;
+}
+.info-page{
+  min-height: 400px;
+}
+#main-content{
+  margin: 10px;
+}
+.info-pasadasdge .main-image{
+  height: 200px;
+  width: 200px;
+}
+.info-page h1{
+  font-size: 20px;
+  margin: 10px;
+}
+.info-page span{
+  font-size:15px;
+  margin: 10px;
+}
+#imageContainer{
+  height: 100px;
+}
+#imageContainer img{
+  height: 80%;
+  margin: 10px;
+}
+
+
+.info-page .overflow-hidden .text{
+  overflow: hidden;
+  height: 200px;
+}

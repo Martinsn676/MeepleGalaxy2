@@ -1,0 +1,47 @@
+/* ===== Contact us page ===== */
+#contactForms{
+  display: grid;
+  gap: 5px;
+  grid-template-areas:
+  'grid1 grid2'
+  'grid3 .'
+  'grid4 grid4';
+}
+#contactPage{
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 600px;
+}
+#contactForms textarea{
+  width: calc(100% - 5px);
+  min-height: 80px;
+}
+textarea{
+  resize: vertical;
+}
+#contactPage .label-text{
+  
+  display: flex;
+  flex-direction: column;
+}
+#contactPage .label-text .message{
+  height: 20px;
+}
+@media only screen and (max-width:500px){ 
+  #contactForms{
+    display: flex;
+    flex-direction: column;
+  }
+  #contactForms .label-text{
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.message{
+  font-size: 0.7rem;
+  color: rgba(0,0,0,0.8);
+}
+.rough .message{
+  color: rgba(200,0,0,1);
+}

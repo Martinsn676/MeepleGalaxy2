@@ -1,0 +1,32 @@
+/* ===== Modal ===== */
+#modal-background{
+  position: fixed;
+  top:0px;
+  left: 0px;
+  width:100vw;
+  height:100vh;
+  display: block;
+  background-color: grey;
+  opacity: 0.5;
+  z-index: 3;
+}
+
+#modal .image {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  max-width: 400px; /* Set maximum width */
+  width: 100%; /* Ensure it takes up the available width */
+  height: auto; /* Maintain aspect ratio */
+}
+
+@media only screen and (max-width:600px){ 
+  #modal .image{
+    width: 80vw;
+  }
+}
+#modal.hide-modal{
+  display: none;
+}

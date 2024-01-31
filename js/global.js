@@ -10,11 +10,12 @@ let dateAsc = 'orderby=date&order=asc';
 let dateDesc = 'orderby=date&order=desc';
 let standardSort = `titleAsc`;
 let showNumber = 0;
-let sleevesIDs = [250,248,327,329,331,407]
-let accessorieID= [[258,225]]
 
+function getElementYPosition(element) {
+    var rect = element.getBoundingClientRect();
+    return rect.top + window.scrollY;
+}
 const productWidth = 180
-
 async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
   let endUrl = ""
 
@@ -31,6 +32,7 @@ async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
     }
   
   }
+
 
   // Create an AbortController and an AbortSignal.
   const controller = new AbortController();
@@ -85,12 +87,17 @@ function resizeCheck(changeFrom,width){
         location.reload();
     }
 }
-async function addSleeves(size,count,originID){
+async function addSleeves(id,count,originID){
     const numericCount = parseInt(count, 10);
-    toggleList([sleeveTransform(size),1,originID,numericCount],'cart',0)
+    if(document.title==='Cart page'){
+cartChange([id,originID])
+    }else{
+      toggleList([id,1,originID,numericCount],'cart',0)
+
+    }
 }
 function sleeveTransform(size){
-    let id = ""
+    let id = 0
 
     if(size==="41x63"){
         id=331
@@ -107,10 +114,11 @@ function sleeveTransform(size){
     if(size==="44x68" || size==="44x67"){
         id=250
     }
-    if(id===""){
+    if(id===0){
       console.log("Sleeve size "+size+" not found, using recplacement")
       id=250
     }
+
     return id
 }
 function compressAccessories(list){
@@ -130,6 +138,7 @@ function compressAccessories(list){
     return newList
 }
 function compressSleeves(list){
+console.log("list",list)
     let newList = []
     list.forEach(list => {
         let inList=false
@@ -137,15 +146,16 @@ function compressSleeves(list){
             if(newList[1][0]===list[1][0]){
                 inList=true
                 newList[1][3]+=list[1][3]*list[1][1]
-                newList[1][1]=Math.ceil(newList[1][3]/55)
+                //newList[1][1]=Math.ceil(newList[1][3]/55)
             }
         });
         if(!inList){
             list[1][3]=list[1][3]*list[1][1]
-            list[1][1]=Math.ceil(list[1][3]/55)
+            //list[1][1]=Math.ceil(list[1][3]/55)
             newList.push(list)
         }
     });
+console.log("newList",newList)
     return newList
 }
 function productTypeCheck(testObject,testCollection){
@@ -167,7 +177,7 @@ function checkSlider(id,maxElements,slideJump) {
 
   if(!slideJump){slideJump=1;}
   let sliderItems;
-  console.log(maxElements)
+
   sliderItems = document.querySelectorAll(`#${id} .card`);
   document.querySelector(`#${id} .left-slider`).addEventListener("click", () => {
     event.target.disabled=true;
@@ -227,7 +237,7 @@ function displayModal(element){
 function cleanData(data) {
   const div = document.createElement('div');
   div.innerHTML = data;
-  console.log(data)
+
   const cleanDataSpans = div.querySelectorAll("span");
   const cleanDataDivs = div.querySelectorAll("p");
   const cleanDataBreaks = div.querySelectorAll("br");
@@ -284,6 +294,13 @@ function getUrlId(){
 async function getList(type){
     list = await JSON.parse(localStorage.getItem(type))
     return list
+}
+async function saveList(name,items){
+  localStorage.setItem(name, JSON.stringify(items));
+
+}
+async function removeList(name){
+  localStorage.removeItem(name);
 }
 function quickView(element) {
     const quickViewContainer = document.querySelector(".quickView-container")
@@ -344,7 +361,4 @@ function compareByValue(a,b){
   }
   // If values are equal, no change in order
   return 0;
-}
-function changeSleeves(element,adjust){
-   toggleList([element[0],1,0,55],'cart',adjust,true)
 }
