@@ -1,9 +1,23 @@
 #productArea{
     margin: 5px;
+    h1{
+        margin: 0px;
+    }
     > section{
         margin-bottom: 10px;
     }
-    .game-specs{
+    .buttons button{
+        width: 50%;
+        margin: 5px auto 5px auto;
+
+    }
+    .info1{
+        padding-left: 5px;
+        span{
+            padding: 2px;
+        }
+    }
+    .info2{
         .details{
             margin: auto;
             img,span{
@@ -11,27 +25,27 @@
                 margin: 2px;
                 font-size: 15px;
     }   }   }
-    .game-information{
-        padding-left: 5px;
-        span{
-            padding: 2px;
-        }
+    .info3,.info4{
+        padding: 5px;
     }
     .bordered{
         padding: 5px;
     }
+    .gallery-button{
+        cursor: pointer;
+        .imageButton{
+            height: 30px;
+            width: 100%;
+            color: white;
+            background-color: rgb(78,127,255);
+            padding-top:10px;
 
-    .imageButton{
-        height: 30px;
-        width: 100%;
-        color: white;
-        background-color: rgb(var(--borderColor));
-        padding-top:10px;
-
-        margin-bottom: 10px;
-        border-radius: 0 0 45px 45px;
-        text-align: center;
+            margin-bottom: 10px;
+            border-radius: 0 0 45px 45px;
+            text-align: center;
+        }
     }
+    
     .image{
         width: 100%;
     }

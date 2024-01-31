@@ -29,30 +29,50 @@ async function infoPageRender(place){
       // opacityBlur = document.querySelector(".opacityBlur")
       //   if(opacityBlur){opacityBlur.addEventListener("click",()=>toggleText())}
 }
+// Define scrollListener outside of createGallery
+function scrollListener(compareY, modal) {
+    return function() {
+        var scrollY = window.scrollY;
+        console.log(scrollY, compareY);
+        if (scrollY > compareY) {
+            modal.classList.add("hide-gallery");
+            removeScrollListener(scrollListener);
+        }
+    }
+}
 
-function createGallery(images){
-  let html = ""
-  images.forEach(element => {
-    html += `<image src="${element.src}">`
-  });
-  const modal = document.querySelector("#modal-container")
-
-  const galleryButton = document.querySelector(".gallery-button")
-  let checkHeight = getElementYPosition(galleryButton);
-  
-  modal.innerHTML=html
-  modal.classList.add("hide-gallery")
-
-  galleryButton.addEventListener("click",()=>{
-    modal.scrollIntoView({
-          behavior: 'smooth'
-        });
-    modal.classList.remove("hide-gallery")
-    window.addEventListener('scroll', function() {
-      var scrollY = window.scrollY;
-      if(scrollY>checkHeight+window.innerHeight*2){
-        modal.classList.add("hide-gallery")
-      }
+function createGallery(images) {
+    let html = "";
+    images.forEach(element => {
+        html += `<image src="${element.src}">`;
     });
-  });
+
+    const modal = document.querySelector("#modal-container");
+    const galleryButton = document.querySelector(".gallery-button");
+    modal.innerHTML = html;
+    let compareY = getElementYPosition(galleryButton);
+    modal.classList.add("hide-gallery");
+
+    // Define the scrollListener function
+    const scrollListener = function() {
+        var scrollY = window.scrollY;
+        console.log(scrollY, compareY);
+        if (scrollY > compareY) {
+            modal.classList.add("hide-gallery");
+            removeScrollListener(scrollListener); // Pass the function reference
+        }
+    };
+
+    galleryButton.addEventListener("click", () => {
+        modal.scrollIntoView({
+            behavior: 'smooth'
+        });
+        modal.classList.remove("hide-gallery");
+        window.addEventListener('scroll', scrollListener); // Add the scroll listener
+    });
+
+    // Function to remove the event listener
+    function removeScrollListener(scrollListener) {
+        window.removeEventListener('scroll', scrollListener); // Remove the scroll listener
+    }
 }

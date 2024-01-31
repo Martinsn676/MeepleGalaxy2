@@ -695,31 +695,44 @@ textarea {
 #productArea {
   margin: 5px;
 }
+#productArea h1 {
+  margin: 0px;
+}
 #productArea > section {
   margin-bottom: 10px;
 }
-#productArea .game-specs .details {
+#productArea .buttons button {
+  width: 50%;
+  margin: 5px auto 5px auto;
+}
+#productArea .info1 {
+  padding-left: 5px;
+}
+#productArea .info1 span {
+  padding: 2px;
+}
+#productArea .info2 .details {
   margin: auto;
 }
-#productArea .game-specs .details img, #productArea .game-specs .details span {
+#productArea .info2 .details img, #productArea .info2 .details span {
   height: 20px;
   margin: 2px;
   font-size: 15px;
 }
-#productArea .game-information {
-  padding-left: 5px;
-}
-#productArea .game-information span {
-  padding: 2px;
+#productArea .info3, #productArea .info4 {
+  padding: 5px;
 }
 #productArea .bordered {
   padding: 5px;
 }
-#productArea .imageButton {
+#productArea .gallery-button {
+  cursor: pointer;
+}
+#productArea .gallery-button .imageButton {
   height: 30px;
   width: 100%;
   color: white;
-  background-color: rgb(var(--borderColor));
+  background-color: rgb(78, 127, 255);
   padding-top: 10px;
   margin-bottom: 10px;
   border-radius: 0 0 45px 45px;
@@ -884,33 +897,33 @@ textarea {
   }
 }
 
-.big-card .contain-image {
+.big-cardignore .contain-image {
   width: 200px;
   height: 100%;
 }
-.big-card h6 {
+.big-cardignore h6 {
   margin: 5px;
   font-size: large;
 }
-.big-card .top-part {
+.big-cardignore .top-part {
   width: 100%;
 }
-.big-card .scroll-box {
+.big-cardignore .scroll-box {
   width: 100%;
   height: 100%;
   border: 0;
   padding: 0;
   background: none;
 }
-.big-card .scroll {
+.big-cardignore .scroll {
   height: 200px;
 }
 @media only screen and (max-width: 699px) {
-  .big-card .scroll {
+  .big-cardignore .scroll {
     height: 100px;
   }
 }
-.big-card span {
+.big-cardignore span {
   margin-left: 10px;
 }
 

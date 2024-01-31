@@ -83,48 +83,50 @@ return `
     <div class="flex-row w-12">
       <div class="w-6 flex-column gallery-button">
         <image class="contain-image image" src="${element.images[0].src}">
-        <div class="imageButton">Image gallery</div>
+        <div class="imageButton">
+          Image gallery
+        </div>
       </div>
-      <div class="w-6 flex-column game-information">
+      <div class="w-6 flex-column info1">
         <h1>${element.name} ${addAttributes("year",element)}</h1>
         <span>${element.prices.price} kr</span>
+        <ul>
+          Mechanics
+            ${addAttributes("mechanics",element)}
+        </ul>
+      </div>
+    </div>
+    <div class="info2 flex-row">
+      <div class="details flex-row align-row">
+        <img src="/icons/players.png">
+        <span>${addAttributes("players",element)}</span>
+      </div>
+      <div class="details flex-row align-row">
+        <img src="/icons/time.png">
+        <span>${addAttributes("time",element)}</span>
+      </div>
+      <div class="details flex-row align-row">
+        <img src="/icons/age.png">
+        <span>${addAttributes("age",element)}</span>
+      </div>
+      </div>
+    </div>
+  </section>
+  <section class="w-12 middle-section flex-column">
+    <div class="info2 w-12 flex-column align-column buttons">
+      <button id="addToCartButton" class="bordered" onclick="toggleList([${element.id}],'cart',0)">Add to cart</button>
+      <button id="addToFavsButton" class="bordered" onclick="toggleList(${element.id},'favs',0)">Add to favorites</button>
+      <button class="bordered">Boardgamegeek</button>
+    </div>
+    <div class="info3 w-12 flex-column ">
         <span>Designers: ${addAttributes("designers",element)}</span>
         <span>Artists: ${addAttributes("artists",element)}</span>
         <span>Pubisher: ${addAttributes("publishers",element)}</span>
-      </div>
-    </div>
-    <div class="game-specs flex-row">
-      <div class="details flex-row align-row">
-          <img src="/icons/players.png">
-          <span>${addAttributes("players",element)}</span>
-        </div>
-        <div class="details flex-row align-row">
-          <img src="/icons/time.png">
-          <span>${addAttributes("time",element)}</span>
-        </div>
-        <div class="details flex-row align-row">
-          <img src="/icons/age.png">
-          <span>${addAttributes("age",element)}</span>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="w-12 middle-section flex-row">
-    <div class="w-6">
-      <ul>
-        Mechanics
-          ${addAttributes("mechanics",element)}
-      </ul>
-    </div>
-    <div class="w-6 flex-column align-column">
-      
-      <button id="addToCartButton" class="bordered" onclick="toggleList([${element.id}],'cart',0)">Add to cart</button>
-      <button id="addToFavsButton" class="bordered" onclick="toggleList(${element.id},'favs',0)">Add to favorites</button>
 
-      <button class="bordered">Boardgamegeek</button>
     </div>
+
   </section>
-  <div class="">
+  <div class="info4">
     ${element.description}
   </div>
 
