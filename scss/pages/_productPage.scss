@@ -6,6 +6,9 @@
     > section{
         margin-bottom: 10px;
     }
+    #mechanics{
+        margin-top:5px;
+    }
     .buttons{
         margin: auto;
         button{
@@ -66,6 +69,7 @@
     }
 }
 #productArea.pc{
+    padding: 20px;
     .buttons button{
         border: rgb(78,127,255);
         border-style: solid;
@@ -74,9 +78,12 @@
         padding: 5px;
 
     }
+    .description {
+        padding: 5px 20px;
+    }
     .top-section{
         #main-image{
-            margin: 20px;
+            margin-right: 20px;
             .image{
                 width: 100%;
             }

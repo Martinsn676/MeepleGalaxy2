@@ -4,10 +4,10 @@ function productMainClasses(){return `
 function productTemplate(element){
 return `
   <div class="left flex-row image-container">
-    <div class="w-6 image-container">
+    <div class="main-image-container">
       <image class="contain-image image" src="${element.images[0].src}">
     </div>
-    <div class="w-6 image-container">
+    <div class="secondary-image-container">
       ${checkForSecondaryImage(element)}
     </div>
     
@@ -81,12 +81,11 @@ return `
 <section id="gallery-container">
 </section>
   <section class="top-section flex-col w-12">
-  
     <div class="flex-row w-12">
       <div class="w-6 flex-column info1">
         <h1>${element.name} ${addAttributes("year",element)}</h1>
         <span>${element.prices.price} kr</span>
-        <ul>
+        <ul id="mechanics">
           Mechanics
             ${addAttributes("mechanics",element)}
         </ul>
@@ -97,9 +96,6 @@ return `
           Image gallery
         </div>
       </div>
-      
-    </div>
-    
     </div>
   </section>
   <section class="w-12 middle-section flex-column">
@@ -112,15 +108,11 @@ return `
         <span>Designers: ${addAttributes("designers",element)}</span>
         <span>Artists: ${addAttributes("artists",element)}</span>
         <span>Pubisher: ${addAttributes("publishers",element)}</span>
-
     </div>
-
   </section>
   <div class="info4">
     ${element.description}
   </div>
-
-
 `
 }
 function productPageTemplatePC(element){
@@ -167,7 +159,7 @@ return `
 </section>
 <section class="flex-row">
   <div class="w-3 mechanics bordered">
-    <ul>
+    <ul id="mechanics">
         Mechanics
       ${addAttributes("mechanics",element)}
     </ul>

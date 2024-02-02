@@ -701,6 +701,9 @@ textarea {
 #productArea.mobile > section {
   margin-bottom: 10px;
 }
+#productArea.mobile #mechanics {
+  margin-top: 5px;
+}
 #productArea.mobile .buttons {
   margin: auto;
 }
@@ -759,6 +762,9 @@ textarea {
   margin: auto;
 }
 
+#productArea.pc {
+  padding: 20px;
+}
 #productArea.pc .buttons button {
   border: rgb(78, 127, 255);
   border-style: solid;
@@ -766,8 +772,11 @@ textarea {
   margin: 5px;
   padding: 5px;
 }
+#productArea.pc .description {
+  padding: 5px 20px;
+}
 #productArea.pc .top-section #main-image {
-  margin: 20px;
+  margin-right: 20px;
 }
 #productArea.pc .top-section #main-image .image {
   width: 100%;
@@ -876,12 +885,12 @@ textarea {
   align-items: center;
   cursor: pointer;
 }
-.product-card .image-container {
+.product-card .image-container .main-image-container, .product-card .image-container .secondary-image-container {
   margin: 2px;
   overflow: hidden; /* Hide overflow */
   position: relative; /* Necessary for absolute positioning */
 }
-.product-card .image-container .image {
+.product-card .image-container .main-image-container .image, .product-card .image-container .secondary-image-container .image {
   /* Ensure the image fills its container */
   max-width: 100%;
   max-height: 100%;
@@ -895,10 +904,16 @@ textarea {
   height: 100%;
   width: 50%;
 }
-.product-card .left .secondary {
+.product-card .left .main-image-container {
+  width: 100%;
+}
+.product-card .left .secondary-image-container {
+  width: 50%;
+}
+.product-card .left .secondary-image-container img {
   display: none;
 }
-.product-card .left .img {
+.product-card .left .main-image {
   width: 100%;
 }
 .product-card .right {
@@ -906,10 +921,6 @@ textarea {
 }
 .product-card .info-text {
   margin-left: 10px;
-}
-.product-card .img {
-  margin: 5px;
-  height: 100%;
 }
 .product-card .title {
   font-size: 14px;
@@ -931,10 +942,13 @@ textarea {
   .product-card .left {
     width: 67%;
   }
-  .product-card .left .img {
+  .product-card .left .main-image-container {
     width: 50%;
   }
-  .product-card .left .secondary {
+  .product-card .left .secondary-image-container {
+    width: 50%;
+  }
+  .product-card .left .secondary-image-container img {
     display: inline;
   }
   .product-card .right {
