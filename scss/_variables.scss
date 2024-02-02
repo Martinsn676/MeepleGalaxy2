@@ -63,9 +63,9 @@ button{
 button:disabled {
   cursor: default;
 }
-.fully-loaded .slider-buttons:hover, button:hover{
+.fully-loaded .slider-buttons:hover,.fully-loaded button:hover{
 background-color: rgba(var(--borderColor), 0.8);
-border-color:rgb(100,100,100);
+border-color: rgba(var(--borderColor), 0.1);
   color: white;
 }
 .fully-loaded .product-card:hover{

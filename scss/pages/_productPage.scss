@@ -1,4 +1,4 @@
-#productArea{
+#productArea.mobile{
     margin: 5px;
     h1{
         margin: 0px;
@@ -6,10 +6,17 @@
     > section{
         margin-bottom: 10px;
     }
-    .buttons button{
-        width: 50%;
-        margin: 5px auto 5px auto;
-
+    .buttons{
+        margin: auto;
+        button{
+            width: 60%;
+            margin: 5px auto 5px auto;
+            border: rgb(78,127,255);
+            border-style: solid;
+            border-radius: 20px;
+            margin: 5px auto;
+            padding: 5px;
+        }
     }
     .info1{
         padding-left: 5px;
@@ -18,15 +25,18 @@
         }
     }
     .info2{
+        margin: 5px;
         .details{
             margin: auto;
             img,span{
                 height: 20px;
-                margin: 2px;
+                margin: auto 2px;
                 font-size: 15px;
-    }   }   }
+            }   
+        }
+    }
     .info3,.info4{
-        padding: 5px;
+        padding: 0 5px 0 5px;
     }
     .bordered{
         padding: 5px;
@@ -39,22 +49,63 @@
             color: white;
             background-color: rgb(78,127,255);
             padding-top:10px;
-
             margin-bottom: 10px;
             border-radius: 0 0 45px 45px;
             text-align: center;
         }
     }
-    
     .image{
-        width: 100%;
+        border-radius: 20px 20px 0 0;
+        border: rgb(78,127,255);
+        border-style: solid;
+
     }
     .specs{
         max-width: 500px;
         margin: auto;
     }
-    @media only screen and (max-width: 699px) {
+}
+#productArea.pc{
+    .buttons button{
+        border: rgb(78,127,255);
+        border-style: solid;
+        border-radius: 20px;
+        margin: 5px;
+        padding: 5px;
 
+    }
+    .top-section{
+        #main-image{
+            margin: 20px;
+            .image{
+                width: 100%;
+            }
+        }
+        .info2{
+            max-width: 300px;
+            margin: 20px 5px;
+            .details{
+                margin: auto;
+                img,span{
+                    height: 20px;
+                    margin: auto 2px;
+                    font-size: 15px;
+                }    
+            }   
+        }  
+        .info3{
+            
+            span{
+                margin-top: 5px;
+            }
+        }
+    }
+
+    #imageContainer{
+        .image{
+            width: 100px;
+            margin: 20px;
+        }
     }
 }
 #modal-container{
@@ -64,5 +115,17 @@
     }
     img{
         width: 100%;
+    }
+}
+#gallery-container{
+    width: 100%;
+    .gallery-image{
+        width: 100%;
+        margin: 3px 0;
+    }
+
+
+    &.hide-gallery{
+        display: none;
     }
 }

@@ -165,6 +165,7 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
   
     const functionLog = [place,headline,displayQuantity,type,addEndUrl]
     const  mainContainer = document.querySelector(`#${place}`)
+    mainContainer.classList.remove("fully-loaded")
     mainContainer.innerHTML = `${cardSection(functionLog)}`;
     const container = mainContainer.querySelector("#elements-container")
     mainContainer.querySelector("#sortButtonsID").innerHTML+=`
@@ -250,8 +251,7 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
         // add slider funcitons and load more button, including loading extra elements
         addFunctions()
 
-        // mark container as fully loaded
-        mainContainer.classList.add("fully-loaded")
+        
     }
     
     async function renderElements(elements,quantity,search){
@@ -373,6 +373,8 @@ async function addElements(place,headline,displayQuantity,type,addEndUrl) {
                 window.scrollTo(0, scrollPosition);
             });
         }
+// mark container as fully loaded
+        mainContainer.classList.add("fully-loaded")
     }
 }
 async function addListContent(type){
