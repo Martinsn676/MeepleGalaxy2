@@ -66,20 +66,19 @@ function createGallery(galleryButton,images) {
     const gallery = document.querySelector("#gallery-container");
 
     gallery.innerHTML = html;
-    let compareY = getElementYPosition(galleryButton);
 
+  const rect = galleryButton.getBoundingClientRect();
+  const compareY = rect.top 
     // Define the scrollListener function
     const scrollListener = function() {
-        var scrollY = window.scrollY;
-        console.log(scrollY, compareY);
-        if (scrollY > compareY) {
-     const scrollPosition = window.scrollY;
-            gallery.classList.add("hide-gallery");
-           
-
-                window.scrollTo(0, scrollPosition);
-            removeScrollListener(scrollListener); // Pass the function reference
-        }
+      var scrollY = window.scrollY;
+      console.log(scrollY, compareY);
+      if (scrollY > compareY) {
+        //const scrollPosition = window.scrollY;
+        gallery.classList.add("hide-gallery");
+        //window.scrollTo(0, scrollPosition);
+        removeScrollListener(scrollListener); // Pass the function reference
+      }
     };
     gallery.classList.add("hide-gallery");
 

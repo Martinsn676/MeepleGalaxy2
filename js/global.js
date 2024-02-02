@@ -11,10 +11,7 @@ let dateDesc = 'orderby=date&order=desc';
 let standardSort = `titleAsc`;
 let showNumber = 0;
 
-function getElementYPosition(element) {
-    var rect = element.getBoundingClientRect();
-    return rect.top + window.scrollY;
-}
+
 const productWidth = 180
 async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
   let endUrl = ""
