@@ -30,20 +30,20 @@ async function infoPageRender(place){
       if(window.innerWidth>900){
         const imagesAll = document.querySelectorAll(".image")
         addModalClick(imagesAll)
+      }else{
+        const galleryButton = document.querySelector(".gallery-button");
+        const descriptionBlock = document.getElementById('block')
+        if(galleryButton){
+          createGallery(galleryButton,element.images)
+        }
+        descriptionBlock.addEventListener('click',()=>toggleOverflow())
       }
-      
-      const galleryButton = document.querySelector(".gallery-button");
-      if(galleryButton){
-        createGallery(galleryButton,element.images)
-      }
-    
-
     }    
   }
-
-
-      // opacityBlur = document.querySelector(".opacityBlur")
-      //   if(opacityBlur){opacityBlur.addEventListener("click",()=>toggleText())}
+}
+function toggleOverflow(){
+  const descriptionBlock = document.getElementById('description')
+  descriptionBlock.classList.toggle('hide')
 }
 // Define scrollListener outside of createGallery
 function scrollListener(compareY, gallery) {
@@ -58,40 +58,36 @@ function scrollListener(compareY, gallery) {
 }
 
 function createGallery(galleryButton,images) {
-    let html = "";
-    images.forEach(element => {
-        html += `<image class="gallery-image" src="${element.src}">`;
-    });
+  let compareY = 0
+  let html = "";
+  images.forEach(element => {
+      html += `<image class="gallery-image" src="${element.src}">`;
+  });
 
+  const gallery = document.querySelector("#gallery-container");
+  gallery.innerHTML = html;
+
+  setTimeout(function() {
     const gallery = document.querySelector("#gallery-container");
-
-    gallery.innerHTML = html;
-
-  const rect = galleryButton.getBoundingClientRect();
-  const compareY = rect.top 
-    // Define the scrollListener function
-    const scrollListener = function() {
-      var scrollY = window.scrollY;
-      console.log(scrollY, compareY);
-      if (scrollY > compareY) {
-        //const scrollPosition = window.scrollY;
-        gallery.classList.add("hide-gallery");
-        //window.scrollTo(0, scrollPosition);
-        removeScrollListener(scrollListener); // Pass the function reference
-      }
-    };
+    compareY  = gallery.offsetHeight+55;
+    console.log("Gallery height:", compareY);
     gallery.classList.add("hide-gallery");
-
     galleryButton.addEventListener("click", () => {
-        gallery.scrollIntoView({
-            behavior: 'smooth'
-        });
-        gallery.classList.remove("hide-gallery");
-        window.addEventListener('scroll', scrollListener); // Add the scroll listener
+    gallery.scrollIntoView({
+        behavior: 'smooth'
     });
-
-    // Function to remove the event listener
-    function removeScrollListener(scrollListener) {
-        window.removeEventListener('scroll', scrollListener); // Remove the scroll listener
+    gallery.classList.remove("hide-gallery");
+    window.addEventListener('scroll', scrollListener);
+  });
+  const scrollListener = function() {
+    var scrollY = window.scrollY;
+    if (scrollY > compareY) {
+      gallery.classList.add("hide-gallery");
+      removeScrollListener(scrollListener); 
     }
+  };
+  function removeScrollListener(scrollListener) {
+      window.removeEventListener('scroll', scrollListener);
+  }
+}, 0);
 }

@@ -3,10 +3,23 @@ header{
   margin-top: 30px;
   min-height: 75px;
 }
-header a,footer a,.cart-element a{
+header li a{
+
     margin: 10px;
     text-decoration:none;
     color: var(--plainLinksColor);
+    img{
+    height: 40px;
+  }
+   
+}
+.cart-element a{
+    margin: 10px;
+    text-decoration:none;
+    color: var(--plainLinksColor);
+    img{
+    height: 40px;
+  }
 }
 
 .link-logo{

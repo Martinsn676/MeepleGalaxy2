@@ -5,10 +5,10 @@ function productTemplate(element){
 return `
   <div class="left flex-row image-container">
     <div class="main-image-container">
-      <image class="contain-image image" src="${element.images[0].src}">
+      ${addImage(element.images,0,"src")}
     </div>
     <div class="secondary-image-container">
-      ${checkForSecondaryImage(element)}
+      ${addImage(element.images,1,"src")}
     </div>
     
   </div>
@@ -38,8 +38,8 @@ return `
 function quickViewTemplate (element){return `
     <div class="card big-card">
       <div class="top-part flex-row">
-        <img class="contain-image image" src='${element.images[0].thumbnail}'> 
 
+      ${addImage(element.images,0,"thumbnail")}
         <div class="imformation flex-column" >
           <h1>${element.name} ${addAttributes("year",element)}</h1>
 
@@ -90,28 +90,34 @@ return `
             ${addAttributes("mechanics",element)}
         </ul>
       </div>
-      <div id="main-image" class="w-6 flex-column gallery-button">
-        <img class="contain-image image" src="${element.images[0].src}">
-        <div class="imageButton">
-          Image gallery
+      <div class="w-6 flex-column">
+        <div id="main-image" class="flex-column gallery-button">
+          ${addImage(element.images,0,"src")}
+          <div class="imageButton">
+            Image gallery
+          </div>
+        </div>
+        <div class="info2 w-12 flex-column align-column buttons">
+          <button id="addToCartButton" onclick="toggleList([${element.id}],'cart',0)">Add to cart</button>
+          <button id="addToFavsButton" onclick="toggleList(${element.id},'favs',0)">Add to favorites</button>
+          <button>Boardgamegeek</button>
         </div>
       </div>
     </div>
   </section>
   <section class="w-12 middle-section flex-column">
-    <div class="info2 w-12 flex-column align-column buttons">
-      <button id="addToCartButton" onclick="toggleList([${element.id}],'cart',0)">Add to cart</button>
-      <button id="addToFavsButton" onclick="toggleList(${element.id},'favs',0)">Add to favorites</button>
-      <button>Boardgamegeek</button>
-    </div>
     <div class="info3 w-12 flex-column ">
         <span>Designers: ${addAttributes("designers",element)}</span>
         <span>Artists: ${addAttributes("artists",element)}</span>
         <span>Pubisher: ${addAttributes("publishers",element)}</span>
     </div>
   </section>
-  <div class="info4">
+  <div id="description" class="hide">
+    <div id="text">
+
     ${element.description}
+  </div>
+  <div id="block">
   </div>
 `
 }
@@ -121,7 +127,7 @@ return `
 </section>
 <section class="top-section flex-row">
   <div id="main-image" class="w-4">
-    <image class="contain-image image" src="${element.images[0].src}">
+    ${addImage(element.images,0,"src")}
   </div>
   <div class="w-8">
     <h1>${element.name} ${addAttributes("year",element)}</h1>
@@ -144,6 +150,9 @@ return `
       <span>Designers: ${addAttributes("designers",element)}</span>
       <span>Artists: ${addAttributes("artists",element)}</span>
       <span>Pubisher: ${addAttributes("publishers",element)}</span>
+    </div>
+    <div>
+      ${addSleeveButtons(addAttributes("sleeves",element),element.id)}
     </div>
   </div>
 </section>
@@ -329,7 +338,11 @@ function addSleeveButtons(element,id){
   if(element){
     element.forEach(slv => {
       html+=`
-        <button id="sleeveID${slv[0]}" onclick="addSleeves(${slv[0]},'${slv[2]}',${id})">(${slv[1]})</button>
+        <button 
+          id="sleeveID${slv[0]}" 
+          class="bordered" 
+          onclick="addSleeves(${slv[0]},'${slv[2]}',${id})">${slv[2]} x (${slv[1]})
+        </button>
       `;
     });
   }

@@ -39,7 +39,6 @@ async function getApi(url, pageCount,endUrlInfo, maxRetries = 1) {
     controller.abort();
   });
   let retryCount = 0;
-  console.log(url + endUrl)
   while (retryCount <= maxRetries) {
     try {
       // Make the fetch request with the signal option.

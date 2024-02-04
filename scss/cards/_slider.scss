@@ -25,12 +25,12 @@
 }
 .slider {
   .right-slider {
-    left: var(--bodyMaxWidth);
+    right: -40px;
     border-radius:0 100px 100px 0;
   }
   .left-slider {
+    left:-40px;
     border-radius: 100px 0 0 100px;
-    right: var(--bodyMaxWidth);
   }
 }
 @media only screen and (max-width:899px){

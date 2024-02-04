@@ -8,7 +8,7 @@ function headerTemplate(){return `
     <button id="headerLinkButton">Menu</button>
   </div>
 
-    <ul class="headerLinks pc flex-row">
+    <ul class="headerLinks pc flex-row align">
       <li>
         <a class="homeLink" href="index.html">Home</a>
       </li>
@@ -20,14 +20,14 @@ function headerTemplate(){return `
           <a class="contactLink" href="contact.html">Contact</a>
       </li>
       <li>
-        <a href='cartPage.html'>
-          <span>Cart</cart>
+        <a class="flex-row align" href='cartPage.html'>
+          <img src="/icons/basket.png">
           <span id='cartNumber'>0</span>
         </a>
       </li>
       <li>
-        <a href='favsPage.html'>
-          <span>Favorites</cart>
+        <a class="flex-row align" href='favsPage.html'>
+          <img src="/icons/favorites.png">
           <span id='favsNumber'>0</span>
         </a>
       </li>

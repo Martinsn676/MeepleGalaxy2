@@ -9,10 +9,39 @@
     #mechanics{
         margin-top:5px;
     }
+    #description {
+        position: relative;
+        #text {
+
+            p {
+                margin: 0 0 16px 0;
+            }
+        }
+        #block {    
+            display: none;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+            height: 100px;
+        }
+    }
+    #description.hide {
+        #block {    
+            display: block;
+        }
+        #text {
+            overflow:hidden;
+            max-height: 200px;
+            p {
+                margin: 0 0 16px 0;
+            }
+        }
+    }
     .buttons{
         margin: auto;
         button{
-            width: 60%;
+            width: 100%;
             margin: 5px auto 5px auto;
             border: rgb(78,127,255);
             border-style: solid;
@@ -38,7 +67,7 @@
             }   
         }
     }
-    .info3,.info4{
+    .info3,.description{
         padding: 0 5px 0 5px;
     }
     .bordered{
@@ -69,7 +98,7 @@
     }
 }
 #productArea.pc{
-    padding: 20px;
+    
     .buttons button{
         border: rgb(78,127,255);
         border-style: solid;
@@ -78,8 +107,15 @@
         padding: 5px;
 
     }
-    .description {
-        padding: 5px 20px;
+    .mechanics,.description{
+        padding: 20px;
+    }
+    .description{
+        overflow: hidden;
+        max-height: 100px;
+         p{
+        margin: 0 0 16px 0;
+        }
     }
     .top-section{
         #main-image{
@@ -135,4 +171,7 @@
     &.hide-gallery{
         display: none;
     }
+}
+main{
+    padding: 20px;
 }

@@ -129,12 +129,19 @@ function addAttributes(type, mainElement, action) {
     }
     return reply;
 }
-function checkForSecondaryImage(element){
-    if(element.images[1]){
-        return `<img class="contain-image secondary image" src="${element.images[1].src}">
-`
+function addImage(src,number,end){
+    let url = src[number]
+    if(url){
+        if(end==="src"){
+            url = url.src
+        }else{
+            url = url.thumbnail
+        }
+        return `
+        <image class="contain-image image" src="${url}"></image>
+        `
     }else{
-        return ""
+        return ''
     }
     
 }

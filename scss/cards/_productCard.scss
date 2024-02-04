@@ -4,10 +4,16 @@
     width: 250px;
     height: 130px; 
     padding: 5px;
-    
     margin: 5px;
     align-items: center;
+    @media only screen and (max-width: 699px) {
+        width: 100%;
+        margin: 5px 0px;
+    }  
     .image-container{
+        height: 100%;
+        width: 50%;
+        cursor: pointer;
         .main-image-container,.secondary-image-container{
             margin: 2px;
             overflow: hidden; /* Hide overflow */
@@ -22,115 +28,45 @@
                 left: 50%;
                 transform: translate(-50%, -50%);       
             }   
-
         }
-    }
-        
-    .left{
-        height: 100%;
-        width: 50%;
+        .secondary-image-container{
+            width: 50%;
+            display: none;
+        }
         .main-image-container{
             width: 100%;
         }
-
-        .secondary-image-container{
-            width: 50%;
-            img{
-                display: none;
-            }
-        }
-        .main-image{
-            width: 100%;
-        }
-    }
-    .right{
-        width: 50%;
-    }
-    
-    cursor: pointer;
-    .info-text{
-        margin-left: 10px;
-
-    }
-    .title{
-        font-size: 14px;
-    }
-    .details{
-        img,span{
-            height: 10px;
-            margin: 1px;
-            font-size: 8px;
-        }
-    }
-    h6{
-        font-size: 0.8rem;
-        margin-top:0;
-        margin-bottom:5px;
-    }
-    @media only screen and (max-width: 699px) {
-        width: 100%;
-        .left{
+        @media only screen and (max-width: 699px) {
             width: 67%;
             .main-image-container{
                 width: 50%;
             }
             .secondary-image-container{
                 width: 50%;
-                img{    
-                    display: inline;
-                }
-
+                display: inline;
             }
-        }
-        .right{
-            width: 33%;
-            .title{
-                font-size: 14px;
-            }
-            .details{
-                img,span{
-                    height: 15px;
-                    margin: 1px;
-                    font-size: 12px;
-                }
-            }
-            h6{
-                font-size: 0.8rem;
-                margin-top:0;
-                margin-bottom:5px;
-            }
-        }
-    }
-}
-.big-cardignore {
-    .contain-image{
-        width: 200px;
-        height: 100%;
-    }
-    h6 {
-        margin: 5px;
-        font-size: large;
-    }
-    .top-part {
-        width: 100%;
-    }
-    .scroll-box {
-        width: 100%;
-        height: 100%;
-        border: 0;
-        padding: 0;
-        background: none;
-    }
-    .scroll {
-        height: 200px;
-    }
-    @media only screen and (max-width: 699px) {
-        .scroll {
-            height: 100px;
-        }
-    }
-    span{
+        }      
+    }    
+    .right{
+        width: 50%;
         margin-left: 10px;
-    }
+        .title{
+            font-size: 14px;
+        }
+        .details{
+            img,span{
+                height: 15px;
+                margin: 1px;
+                font-size: 12px;
+            }
+        }
+        h6{
+            font-size: 0.8rem;
+            margin-top:0;
+            margin-bottom:5px;
+        }
+        @media only screen and (max-width: 699px) {
+            width: 33%;
+        }   
+    }    
 }
-
