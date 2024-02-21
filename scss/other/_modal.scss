@@ -11,13 +11,14 @@
   z-index: 3;
 }
 
-#modal .image {
+#modal-container .image {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 3;
   height: auto; /* Maintain aspect ratio */
+  max-width: 70vw;
 }
 
 @media only screen and (max-width:600px){ 
@@ -25,6 +26,6 @@
     width: 80vw;
   }
 }
-#modal.hide-modal{
+#modal-container.hide-modal{
   display: none;
 }

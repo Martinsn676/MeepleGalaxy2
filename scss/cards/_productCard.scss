@@ -6,6 +6,8 @@
     padding: 5px;
     margin: 5px;
     align-items: center;
+    cursor: pointer;
+    background-color: white;
     @media only screen and (max-width: 699px) {
         width: 100%;
         margin: 5px 0px;
@@ -13,7 +15,7 @@
     .image-container{
         height: 100%;
         width: 50%;
-        cursor: pointer;
+        
         .main-image-container,.secondary-image-container{
             margin: 2px;
             overflow: hidden; /* Hide overflow */
@@ -37,7 +39,7 @@
             width: 100%;
         }
         @media only screen and (max-width: 699px) {
-            width: 67%;
+            width: 80%;
             .main-image-container{
                 width: 50%;
             }
@@ -66,7 +68,7 @@
             margin-bottom:5px;
         }
         @media only screen and (max-width: 699px) {
-            width: 33%;
+            width: 20%;
         }   
     }    
 }

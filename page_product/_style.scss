@@ -1,0 +1,174 @@
+#productArea.mobile{
+    margin: 5px;
+    h1{
+        margin: 0px;
+    }
+    > section{
+        margin-bottom: 10px;
+    }
+    #mechanics{
+        margin-top:5px;
+    }
+    #description {
+        position: relative;
+        #text {
+            p {
+                margin: 0 0 16px 0;
+            }
+        }
+        #block {    
+            display: none;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+            height: 100px;
+        }
+    }
+    #description.hide {
+        #block {    
+            display: block;
+        }
+        #text {
+            overflow:hidden;
+            max-height: 200px;
+            p {
+                margin: 0 0 16px 0;
+            }
+        }
+    }
+    .buttons{
+        margin: auto;
+        button{
+            width: 100%;
+            margin: 5px auto 5px auto;
+            border: rgb(78,127,255);
+            border-style: solid;
+            border-radius: 20px;
+            margin: 5px auto;
+            padding: 5px;
+        }
+    }
+    .info1{
+        padding-left: 5px;
+
+    }
+    .info2{
+        margin: 5px;
+        .details{
+            margin: auto;
+            img,span{
+                height: 20px;
+                margin: auto 2px;
+                font-size: 15px;
+            }   
+        }
+    }
+    .info3,.description{
+        padding: 0 5px 0 5px;
+    }
+    .bordered{
+        padding: 5px;
+    }
+    .gallery-button{
+        cursor: pointer;
+        .imageButton{
+            height: 30px;
+            width: 100%;
+            color: white;
+            background-color: rgb(78,127,255);
+            padding-top:10px;
+            margin-bottom: 10px;
+            border-radius: 0 0 45px 45px;
+            text-align: center;
+        }
+    }
+    .image{
+        border-radius: 20px 20px 0 0;
+        border: rgb(78,127,255);
+        border-style: solid;
+
+    }
+    .specs{
+        max-width: 500px;
+        margin: auto;
+    }
+}
+#productArea.pc{
+    
+    .buttons button{
+        border: rgb(78,127,255);
+        border-style: solid;
+        border-radius: 20px;
+        margin: 5px;
+        padding: 5px;
+
+    }
+    .mechanics,.description{
+        padding: 20px;
+    }
+    .description{
+        overflow: hidden;
+        max-height: 100px;
+         p{
+        margin: 0 0 16px 0;
+        }
+    }
+    .top-section{
+        #main-image{
+            margin-right: 20px;
+            .image{
+                width: 100%;
+            }
+        }
+        .info2{
+            max-width: 300px;
+            margin: 20px 5px;
+            .details{
+                margin: auto;
+                img,span{
+                    height: 20px;
+                    margin: auto 2px;
+                    font-size: 15px;
+                }    
+            }   
+        }  
+        .info3{
+            
+            span{
+                margin-top: 5px;
+            }
+        }
+    }
+
+    #imageContainer{
+        .image{
+            width: 100px;
+            margin: 20px;
+        }
+    }
+}
+#modal-container{
+    padding: 10px;
+    &.hide-gallery{
+        display: none;
+    }
+    img{
+        width: 100%;
+    }
+}
+#gallery-container{
+    width: 100%;
+    .gallery-image{
+        width: 100%;
+        margin: 3px 0;
+    }
+
+
+    &.hide-gallery{
+        display: none;
+    }
+}
+main{
+    padding: 20px;
+}

@@ -11,10 +11,10 @@
 
 // Pages
 //@import 'pages/infoPage';
-@import 'pages/contactPage';
-@import 'pages/aboutPage';
-@import 'pages/cartPage';
-@import 'pages/productPage';
+@import '../page_contact/_style';
+@import '../page_about/_style';
+@import '../page_cart/_style';
+@import '../page_product/_style';
 
 // Cards
 @import 'cards/slider';

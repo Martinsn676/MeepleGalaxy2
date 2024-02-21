@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "sass:compile": "sass scss/main.scss dist/styles.css",
-  "sass:watch": "npm run sass:compile -- --watch"
+    "sass:compile": "sass scss/main.scss dist/styles.css",
+    "sass:watch": "npm run sass:compile -- --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "sass": "^1.70.0"
+  },
+  "dependencies": {
+    "oauth-1.0a": "^2.2.6"
   }
 }

@@ -1,25 +1,26 @@
 /* ===== Banner ===== */
 #testBanner{
   min-height: 207px;
-}
-.productBanner{
-  margin: 2px;
-}
-.banner-image,.banner-image img{
-  height: 100px;
-  position: relative;
-  font-size: 0px;
-}
-.banner-image .hover-box{
-  position: absolute;
-  z-index:2;
-  left: 5px;
-  background-color: beige;
-  display: none;
-  font-size: 10px;
-}
-.banner-image:hover .hover-box{
-  display: block;
+
+  .productBanner{
+    margin: 2px;
+  }
+  .banner-image,.banner-image img{
+    height: 100px;
+    position: relative;
+    font-size: 0px;
+  }
+  .banner-image .hover-box{
+    position: absolute;
+    z-index:2;
+    left: 5px;
+    background-color: beige;
+    display: none;
+    font-size: 10px;
+  }
+  .banner-image:hover .hover-box{
+    display: block;
+  }
 }
 .banner-image.number0 img {
   transform: rotate(-8deg);
