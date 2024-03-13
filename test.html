@@ -1,0 +1,64 @@
+  <div id="pc-product-page">
+    <!-- Gallery for mobile -->
+    <div id="gallery-container">
+    </div>
+    <div class="top-section flex-row">
+        <!-- Main image container -->
+        <div id="main-image" class="w-4">
+            ${addImage(images,0,"src")}
+        </div>
+        <!-- Section for details about item -->
+        <div class="w-8">
+            <h1>${name} (${getAttribute("year",element)})</h1>
+            <span>${regular_price} kr</span>
+            <div class="info2 flex-row align-row">
+                <div class="details flex-row align">
+                    <img src="/icons/players.png">
+                    <span>${getAttribute("players",element)}</span>
+                </div>
+                <div class="details flex-row align">
+                    <img src="/icons/time.png">
+                    <span>${getAttribute("time",element)}</span>
+                </div>
+                <div class="details flex-row align">
+                    <img src="/icons/age.png">
+                    <span>${getAttribute("age",element)}</span>
+                </div>
+            </div>
+            <!-- Section for crator details -->
+            <div class="info3 w-12 flex-column ">
+                <span>Designers: ${getAttribute("designers",element)}</span>
+                <span>Artists: ${getAttribute("artists",element)}</span>
+                <span>Pubisher: ${getAttribute("publishers",element)}</span>
+            </div>
+            <!-- Section for sleeves -->
+            <div>
+                ${addSleeveButtons(getAttribute("sleeves",element),id)}
+            </div>
+        </div>
+    </div>
+    <!-- Section for buttons -->
+    <div class="w-12 flex-row align-row buttons">
+        <button id="addToCartButton" class="button">Add to cart</button>
+        <button id="addToFavsButton" class="button">Add to favorites</button>
+        <a href='${getAttribute("publishers",element)}'>
+            <div class="button">Boardgamegeek</div>
+        </a>
+    </div>
+    <!-- Section for other images -->
+    <div id="imageContainer" class="flex-row">
+        ${addOtherImages(element)}
+    </div>
+    <div class="flex-row">
+        <div class="w-3 mechanics bordered">
+            <ul id="mechanics">
+                Mechanics
+                ${getAttribute("mechanics",element)}
+            </ul>
+        </div>
+        <div class="description w-9 bordered">
+            ${element.description}
+        </div>
+    </div>
+  </div>
+</div>

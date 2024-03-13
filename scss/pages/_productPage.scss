@@ -1,4 +1,4 @@
-#productArea.mobile{
+#mobile-product-page{
     margin: 5px;
     h1{
         margin: 0px;
@@ -97,16 +97,49 @@
         margin: auto;
     }
 }
-#productArea.pc{
-    
-    .buttons button{
+#mobile-product-page,#pc-product-page{
+    .button{
         border: rgb(78,127,255);
         border-style: solid;
         border-radius: 20px;
         margin: 5px;
         padding: 5px;
+        text-decoration: none;
+        text-align: center;
+        color: black;
+        &.pos{
+            background-color: green;
+        }
+    }
+    #mechanics{
+        margin-top: 50px;
+        li{
+            color: white;
+            background-color: rgb(78,127,255);
+            margin: 2px 20px 2px 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            width: auto;
+        }
 
     }
+    #description{
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+    }
+
+}
+
+#pc-product-page{
+    
+
     .mechanics,.description{
         padding: 20px;
     }
@@ -144,20 +177,32 @@
         }
     }
 
+
+}
     #imageContainer{
         .image{
-            width: 100px;
-            margin: 20px;
+            height: 150px;
+            padding: 20px;
         }
     }
-}
 #modal-container{
     padding: 10px;
     &.hide-gallery{
         display: none;
     }
-    img{
-        width: 100%;
+    #modal-image{
+        img{
+            width: 100%;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+
+            @media only screen and (max-width: 600px) {
+                width: 80vw;
+            }
+        }
     }
 }
 #gallery-container{

@@ -8,9 +8,10 @@
   display: block;
   background-color: grey;
   opacity: 0.5;
-  z-index: 3;
+  z-index: 2;
 }
 
+<<<<<<< Updated upstream
 #modal .image {
   position: fixed;
   top: 50%;
@@ -26,5 +27,8 @@
   }
 }
 #modal.hide-modal{
+=======
+#modal-container.hide-modal{
+>>>>>>> Stashed changes
   display: none;
 }

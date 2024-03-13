@@ -63,31 +63,9 @@ button{
 button:disabled {
   cursor: default;
 }
-.fully-loaded .slider-buttons:hover,.fully-loaded button:hover{
-background-color: rgba(var(--borderColor), 0.8);
-border-color: rgba(var(--borderColor), 0.1);
-  color: white;
-}
-.fully-loaded .product-card:hover{
-  margin: 3px;
-  padding: 7px;
-}
-#elements-container .slider-buttons:active,button:active{
-  background-color:rgb(var(--borderColor),1);
-    color: white;
-}
+
+
 button.posButton{
     background-color: green;
     color: white;
-}
-#topLine h2{
-    margin: 0 10px;
-    
-}
-
-#bottomLine{
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    z-index: 2;
 }

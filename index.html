@@ -6,12 +6,8 @@
     <title>Meeple Galaxy</title>
     <link href="dist/styles.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="js/global.js"></script>
-    <script src="js/templates.js"></script>
-    <script src="js/productTemplates.js"></script>
-    <script src="js/addElements.js"></script>
-    <script defer src="js/header&footer.js"></script>
-
+    <script type="module" src="./js/main.mjs"></script>
+    <script type="module" src="./index.mjs"></script>
 </head>
 <body>
 <header>
@@ -28,13 +24,6 @@
 </main>
 <footer>
 </footer>
-<script>
-    //addElements("pc","Latest Titles",3,["slider",15,3],[["sort","dateDesc","hide"]])
-    addElements("pc2","Hot Titles",7,["slider",15,7],[["sort","dateAsc","hide"]])
-    //addElements("pc3","All games",12,["loadMore",50,8],[["sort","titleDesc"]])
-    addElements("pc4","Even more games",12,["loadMore",50,8])
-    //addBanner("testBanner",["category","24"])
 
-</script>
 </body>
 </html>

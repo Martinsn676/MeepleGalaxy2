@@ -92,7 +92,7 @@ cartChange([id,originID])
 
     }
 }
-function sleeveTransform(size){
+export function sleeveTransform(size){
     let id = 0
 
     if(size==="41x63"){

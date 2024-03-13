@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="module" src="./workFile.mjs"></script>
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+</head>
+<header>
+</header>
+<body>
+<main>
+<div class="flex-row">
+    <section id="modMenuContainer" class="flex-column w-6"> 
+
+        <div id="modMenu">
+            <div id="importName" class="">Loading..</div>
+            <div class="flex-row">
+                <button id="prevButton" class="w-6">Previous</button>
+                <button id="nextButton" class="w-6">Next</button>
+                <div id="completedCount"></div>
+            </div>
+            <div class="m-3">
+                <label for="bggLink" class="form-label">Bgg Link</label>
+                <div id="bggContainer" class="flex-row">
+                    <input required type="text" class="form-control" id="bggInput" name="bggLink" value="">
+                    <button id="scriptButton">run script</button>
+                </div>
+            </div>
+            
+            <div class="m-3">
+                <label for="ean" class="form-label">Ean code</label>
+                <input required type="text" class="form-control" id="eanInput" name="ean" value="">
+            </div>
+            <div class="m-3">
+                <label for="publisher" class="form-label">publisher</label>
+                <input required type="text" class="form-control" id="publisherInput" name="publisher" value="">
+            </div> 
+            <div id="shortcutPublishers" class="flex-row flex-wrap"></div>
+
+            <section id="imageContainer"></section>
+
+        </div>
+        </section>
+        
+    </section>
+    <section class="w-6">
+
+            <div class="w-12">
+                <label for="batch" class="form-label">Batch</label>
+                <input required type="Number" class="form-control" id="batchInput" name="batch" value="">
+            </div>
+            <div id="checkFilter" class="w-12 m-3 flex-row">
+            </div>
+        
+        <div id="batchFeedback"class="m-2">Loading...</div>
+        <section id="productsContainer" class="flex-column">
+
+        </section>
+    </section>
+</div>
+</main>
+</body>
+</html>

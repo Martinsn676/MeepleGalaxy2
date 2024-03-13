@@ -1,0 +1,34 @@
+
+/* ===== Cart page ===== */
+#main-section{
+  .cart-element{
+    margin: 5px;
+    .top-part{
+      .image{
+        width: 100px;
+        height: auto;
+        margin-right: 10px;
+      }
+    }
+    .bottom-part{
+      .accessorie{
+        margin: 10px;
+        width: 120px;
+        .image-container{
+          min-height: 100px;
+          width: 100%;
+          .image{
+            height: 100%;
+          }
+        }
+        .name{
+          text-align: center;
+        }
+      }
+      .shaded{
+        opacity: 0.3;
+      }
+    }
+  }
+
+}
